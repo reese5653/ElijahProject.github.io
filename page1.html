@@ -5,14 +5,252 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page 1 - Elijah Project</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+        
+        .quiz-question h4 {
+            color: #202124;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .quiz-option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .quiz-button {
+            padding: 0.75rem 2rem;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+        }
+        
+        .quiz-button:hover {
+            background-color: #1557b0;
+        }
+        
+        .results {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            background-color: #f0f8ff;
+            border-left: 4px solid #1a73e8;
+        }
+        
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #202124;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="page-content">
-            <h2>Page 1</h2>
-            <p>Welcome to Page 1! This is the first page in the Elijah Project navigation system.</p>
-            <a href="index.html" class="back-button">← Back to Home</a>
+            <h2>Module 1: How to Study the Bible</h2>
+            
+            <iframe src="Module 13.pdf" width="100%" height="600px" style="margin: 2rem 0; border-radius: 8px;"></iframe>
+            
+            <div class="quiz-container">
+                <h3>Module 13 Quiz</h3>
+                <form id="quizForm">
+                    <div class="quiz-question">
+                        <h4>Question 1: Why Should we study the Bible? (Select all that apply)</h4>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q1" value="a" id="q1a">
+                            <label for="q1a">Scripture reveals to us God's Character</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q1" value="b" id="q1b">
+                            <label for="q1b">Our minds are meant to be thoughtful about who God is</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q1" value="c" id="q1c">
+                            <label for="q1c">We should all be able in some manner to teach God's Word</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q1" value="d" id="q1d">
+                            <label for="q1d">We are responsible for what we personally know about God</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Question 2: Theology means the study of God.</h4>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" value="true" id="q2true">
+                            <label for="q2true">True (Theo = God, Ology = study)</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q2" value="false" id="q2false">
+                            <label for="q2false">False</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Question 3: To love God with all of our minds is to use our intellect to further our knowledge about God through his Word.</h4>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" value="true" id="q3true">
+                            <label for="q3true">True</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="radio" name="q3" value="false" id="q3false">
+                            <label for="q3false">False</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Question 4: What does context to scripture provide? (Select all that apply)</h4>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q4" value="a" id="q4a">
+                            <label for="q4a">Literal meaning</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q4" value="b" id="q4b">
+                            <label for="q4b">Synthesis</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q4" value="c" id="q4c">
+                            <label for="q4c">Historical setting</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q4" value="d" id="q4d">
+                            <label for="q4d">Grammar</label>
+                        </div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>Question 5: Why is taking a verse out of context dangerous? (Select all that apply)</h4>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q5" value="a" id="q5a">
+                            <label for="q5a">It can misrepresent the author's intended meaning</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q5" value="b" id="q5b">
+                            <label for="q5b">It ignores the historical setting</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q5" value="c" id="q5c">
+                            <label for="q5c">It can lead to false doctrine</label>
+                        </div>
+                        <div class="quiz-option">
+                            <input type="checkbox" name="q5" value="d" id="q5d">
+                            <label for="q5d">All the above</label>
+                        </div>
+                    </div>
+
+                    <button type="button" class="quiz-button" onclick="submitQuiz()">Submit Quiz</button>
+                </form>
+
+                <div id="results" class="results">
+                    <div class="score" id="scoreText"></div>
+                    <p id="feedback" style="margin-top: 1rem; color: #5f6368;"></p>
+                </div>
+            </div>
+            
+            <a href="courses.html" class="back-button">← Back to Home</a>
         </div>
     </div>
+
+    <script>
+        function submitQuiz() {
+            const correctAnswers = {
+                q1: ['a', 'b', 'c', 'd'],  // All options correct
+                q2: 'true',                 // True
+                q3: 'true',                 // True
+                q4: ['a', 'b', 'c', 'd'],  // All options correct
+                q5: ['d']                   // All the above
+            };
+
+            let score = 0;
+            let totalQuestions = 5;
+
+            // Check Q1 (multiple select)
+            const q1Checked = Array.from(document.querySelectorAll('input[name="q1"]:checked')).map(el => el.value);
+            if (JSON.stringify(q1Checked.sort()) === JSON.stringify(correctAnswers.q1.sort())) {
+                score++;
+            }
+
+            // Check Q2 (true/false)
+            const q2Answer = document.querySelector('input[name="q2"]:checked')?.value;
+            if (q2Answer === correctAnswers.q2) {
+                score++;
+            }
+
+            // Check Q3 (true/false)
+            const q3Answer = document.querySelector('input[name="q3"]:checked')?.value;
+            if (q3Answer === correctAnswers.q3) {
+                score++;
+            }
+
+            // Check Q4 (multiple select)
+            const q4Checked = Array.from(document.querySelectorAll('input[name="q4"]:checked')).map(el => el.value);
+            if (JSON.stringify(q4Checked.sort()) === JSON.stringify(correctAnswers.q4.sort())) {
+                score++;
+            }
+
+            // Check Q5 (multiple select)
+            const q5Checked = Array.from(document.querySelectorAll('input[name="q5"]:checked')).map(el => el.value);
+            if (JSON.stringify(q5Checked.sort()) === JSON.stringify(correctAnswers.q5.sort())) {
+                score++;
+            }
+
+            const resultsDiv = document.getElementById('results');
+            const scoreText = document.getElementById('scoreText');
+            const feedback = document.getElementById('feedback');
+
+            const percentage = Math.round((score / totalQuestions) * 100);
+            scoreText.textContent = `Your Score: ${score} / ${totalQuestions} (${percentage}%)`;
+            
+            if (score === 5) {
+                feedback.textContent = 'Excellent! You have mastered this module! 🎉';
+            } else if (score === 4) {
+                feedback.textContent = 'Great job! You understand most of the concepts. Review the material for the area you missed.';
+            } else if (score === 3) {
+                feedback.textContent = 'Good progress! Review the module material to strengthen your understanding.';
+            } else if (score === 2) {
+                feedback.textContent = 'You are on the right track. Review the module material more carefully.';
+            } else {
+                feedback.textContent = 'Please review the module material and try again.';
+            }
+
+            resultsDiv.classList.add('show');
+        }
+    </script>
 </body>
 </html>

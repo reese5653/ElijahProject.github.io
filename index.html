@@ -3,32 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elijah Project - Navigation</title>
+    <title>Welcome - Elijah Project</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .welcome-container {
+            text-align: center;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .enroll-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.25rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .enroll-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
+            background: linear-gradient(135deg, #1557b0 0%, #0a3d91 100%);
+        }
+
+        .enroll-button:active {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .welcome-container {
+                padding: 2rem 1rem;
+            }
+
+            .enroll-button {
+                font-size: 1rem;
+                padding: 0.875rem 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Elijah Project</h1>
-        <p class="subtitle">Choose a page to explore</p>
-        
-        <div class="button-grid">
-            <a href="page1.html" class="button">Page 1</a>
-            <a href="page2.html" class="button">Page 2</a>
-            <a href="page3.html" class="button">Page 3</a>
-            <a href="page4.html" class="button">Page 4</a>
-            <a href="page5.html" class="button">Page 5</a>
-            <a href="page6.html" class="button">Page 6</a>
-            <a href="page7.html" class="button">Page 7</a>
-            <a href="page8.html" class="button">Page 8</a>
-            <a href="page9.html" class="button">Page 9</a>
-            <a href="page10.html" class="button">Page 10</a>
-            <a href="page11.html" class="button">Page 11</a>
-            <a href="page12.html" class="button">Page 12</a>
-            <a href="page13.html" class="button">Page 13</a>
-            <a href="page14.html" class="button">Page 14</a>
-            <a href="page15.html" class="button">Page 15</a>
-            <a href="page16.html" class="button">Page 16</a>
+    <div class="welcome-container">
+        <div class="logo-container">
+            <img src="Jointhe school.png" alt="Join the School - Elijah Project">
         </div>
+        <a href="signup.html" class="enroll-button">Enroll Now</a>
     </div>
 </body>
 </html>
