@@ -157,9 +157,12 @@ main {
 }
 
 .course-org {
-    font-size: 0.875rem;
-    color: #5f6368;
-    margin-bottom: 0.25rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    letter-spacing: 0.3px;
 }
 
 .course-number {
