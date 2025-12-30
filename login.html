@@ -159,7 +159,7 @@
 
             try {
                 await signIn(email, password);
-                window.location.href = 'dashboard.html';
+                window.location.href = 'courses.html';
             } catch (error) {
                 errorMessage.textContent = error.message;
                 errorMessage.classList.add('show');
