@@ -6,19 +6,19 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
+    background-color: #ffffff;
+    color: #1a1a1a;
     line-height: 1.6;
 }
 
 /* Header & Navigation */
 header {
-    background-color: #fff;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #c41e3a;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .top-nav {
@@ -33,7 +33,7 @@ header {
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #1a73e8;
+    color: #c41e3a;
     text-decoration: none;
 }
 
@@ -43,14 +43,14 @@ header {
 }
 
 .nav-links a {
-    color: #5f6368;
+    color: #ffffff;
     text-decoration: none;
     font-size: 0.95rem;
     transition: color 0.2s;
 }
 
 .nav-links a:hover {
-    color: #1a73e8;
+    color: #c41e3a;
 }
 
 /* Main Content */
@@ -69,13 +69,13 @@ main {
 .hero h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #202124;
+    color: #1a1a1a;
     margin-bottom: 1rem;
 }
 
 .tagline {
     font-size: 1.125rem;
-    color: #5f6368;
+    color: #4a4a4a;
     max-width: 700px;
     margin: 0 auto 2rem;
     line-height: 1.6;
@@ -104,12 +104,12 @@ main {
 }
 
 .search-input:focus {
-    border-color: #1a73e8;
+    border-color: #c41e3a;
 }
 
 .search-button {
     padding: 0.75rem 2rem;
-    background-color: #1a73e8;
+    background-color: #c41e3a;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -120,7 +120,7 @@ main {
 }
 
 .search-button:hover {
-    background-color: #1557b0;
+    background-color: #a01729;
 }
 
 /* Course Grid */
@@ -216,7 +216,7 @@ footer p {
 }
 
 .footer-links a:hover {
-    color: #1a73e8;
+    color: #c41e3a;
 }
 
 /* Page Content (for individual pages) */
@@ -250,7 +250,7 @@ footer p {
 .back-button {
     display: inline-block;
     padding: 0.75rem 2rem;
-    background-color: #1a73e8;
+    background-color: #c41e3a;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -261,7 +261,7 @@ footer p {
 }
 
 .back-button:hover {
-    background-color: #1557b0;
+    background-color: #a01729;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
