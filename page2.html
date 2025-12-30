@@ -5,6 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 2: From Genesis to the Cross - Elijah Project</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .module-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .lesson-sidebar {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+
+        .lesson-sidebar h4 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            color: #202124;
+        }
+
+        .lesson-select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #d0d7de;
+            font-size: 1rem;
+            background: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .lesson-go {
+            width: 100%;
+            padding: 0.75rem;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .lesson-go:hover {
+            background: #1557b0;
+        }
+
+        .lesson-list {
+            margin: 1rem 0 0;
+            padding-left: 1.1rem;
+            color: #5f6368;
+        }
+
+        @media (max-width: 900px) {
+            .module-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -23,23 +82,62 @@
             <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">← Back to Courses</a>
         </div>
 
-        <div class="container" style="max-width: 100%;">
+        <div class="module-layout">
             <div class="page-content" style="text-align: left;">
                 <h2>Module 2: From Genesis to the Cross</h2>
                 <p style="color: #5f6368; margin-bottom: 2rem;">Explore the biblical narrative from creation through the redemptive work of Christ.</p>
                 
                 <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="margin-bottom: 1rem; color: #202124;">Course Content</h3>
-                    <p>Content for this module is coming soon. Check back later for study materials, videos, and assessments.</p>
+                    <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Lesson 1: Creation to Covenant</h3>
+                    <p>Overview of the foundational narratives, highlighting key themes and promises that set the stage for redemption.</p>
                 </div>
+
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <h3 id="lesson2" style="margin-bottom: 1rem; color: #202124;">Lesson 2: Prophets and Promise</h3>
+                    <p>Tracing the prophetic voices and the unfolding promise of a coming Messiah throughout Israel's history.</p>
+                </div>
+
+                    <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3 id="lesson3" style="margin-bottom: 1rem; color: #202124;">Lesson 3: From Cross to Resurrection</h3>
+                        <p>Examining the climactic work of Christ and its implications for redemption and restoration.</p>
+                    </div>
 
                 <a href="courses.html" class="back-button">← Back to Courses</a>
             </div>
+
+            <aside class="lesson-sidebar">
+                <h4>Jump to a Lesson</h4>
+                <select class="lesson-select" id="lessonSelect">
+                    <option value="#lesson1">Lesson 1: Creation to Covenant</option>
+                    <option value="#lesson2">Lesson 2: Prophets and Promise</option>
+                    <option value="#lesson3">Lesson 3: From Cross to Resurrection</option>
+                </select>
+                <button class="lesson-go" id="lessonGo">Go</button>
+                <ul class="lesson-list">
+                    <li>Quick navigation for this module.</li>
+                    <li>More lessons can be added later.</li>
+                </ul>
+            </aside>
         </div>
     </main>
 
     <footer style="background-color: #f8f9fa; border-top: 1px solid #e0e0e0; margin-top: 4rem; padding: 2rem; text-align: center;">
         <p style="color: #5f6368; margin-bottom: 1rem; font-size: 0.875rem;">Copyrights ©2025. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        const lessonSelect = document.getElementById('lessonSelect');
+        const lessonGo = document.getElementById('lessonGo');
+
+        function jumpToLesson() {
+            const target = lessonSelect.value;
+            if (target) {
+                window.location.hash = target;
+            }
+        }
+
+        lessonGo.addEventListener('click', jumpToLesson);
+        lessonSelect.addEventListener('change', jumpToLesson);
+    </script>
 </body>
 </html>
