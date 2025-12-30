@@ -16,131 +16,23 @@
             padding: 2rem;
         }
 
-        .dashboard-header {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .user-greeting {
-            flex: 1;
-        }
-
-        .user-greeting h2 {
-            color: #202124;
-            margin-bottom: 0.5rem;
-        }
-
-        .user-email {
-            color: #5f6368;
-            font-size: 0.95rem;
-        }
-
-        .logout-button {
-            padding: 0.75rem 1.5rem;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .logout-button:hover {
-            background: #b71c1c;
-        }
-
-        .courses-section {
+        .card {
             background: white;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
-        .courses-section h3 {
-            color: #202124;
-            margin-bottom: 1.5rem;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .course-item {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s;
-            border: 1px solid #e0e0e0;
-        }
-
-        .course-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-color: #1a73e8;
-        }
-
-        .course-thumb {
-            height: 160px;
-            border-radius: 8px;
-            background-size: cover;
-            background-position: center;
-            margin: -1.5rem -1.5rem 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .course-thumb::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.35) 100%);
-        }
-
-        .course-thumb.placeholder {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-        }
-
-        .course-item h4 {
-            color: #202124;
-            margin-bottom: 0.5rem;
-        }
-
-        .course-item p {
-            color: #5f6368;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .course-button {
+        .primary-button {
             display: inline-block;
-            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
             background: #1a73e8;
             color: white;
-            border-radius: 4px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9rem;
             font-weight: 600;
-        }
-
-        .course-button:hover {
-            background: #1557b0;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #5f6368;
         }
     </style>
 </head>
@@ -158,84 +50,22 @@
 
     <main>
         <div class="dashboard-container">
-            <div class="dashboard-header">
-                <div class="user-greeting">
-                    <h2 id="userGreeting">Welcome!</h2>
-                    <p class="user-email" id="userEmail"></p>
-                </div>
-                <button class="logout-button" onclick="handleLogout()">Logout</button>
-            </div>
-
-            <div class="courses-section">
-                <h3>Your Courses</h3>
-                <div class="courses-grid" id="coursesGrid">
-                    <div class="loading">Loading your courses...</div>
-                </div>
+            <div class="card">
+                <h2>Welcome to Elijah Project</h2>
+                <p>Your dashboard is being prepared.</p>
+                <a class="primary-button" href="courses.html">View Courses</a>
             </div>
         </div>
     </main>
 
     <script type="module">
-        import { onAuthChange, logout } from './auth.js';
+        import { onAuthChange } from './auth.js';
 
         onAuthChange((user) => {
             if (!user) {
                 window.location.href = 'login.html';
-                return;
             }
-
-            document.getElementById('userGreeting').textContent = `Welcome, ${user.email.split('@')[0]}!`;
-            document.getElementById('userEmail').textContent = user.email;
-
-            loadCourses();
         });
-
-        function loadCourses() {
-            const coursesData = [
-                { id: 1, title: 'Module 1: How to Study the Bible', desc: 'Learn effective Bible study techniques', image: null },
-                { id: 2, title: 'Module 2: From Genesis to the Cross', desc: 'Explore the biblical narrative', image: 'Genesis to the Cross.png' },
-                { id: 3, title: 'Biblical Worldview', desc: 'Develop a biblical framework', image: 'Biblical Worldview.png' },
-                { id: 4, title: 'Module 4: Creation', desc: "Understanding God's design", image: 'Creation.png' },
-                { id: 5, title: 'Module 5: The Divine Council', desc: 'Coming soon', image: null },
-                { id: 6, title: 'Module 6: Doctrines, Creeds & The Early Church', desc: 'Coming soon', image: null },
-                { id: 7, title: 'Module 7: Calvinism vs Arminiasm', desc: 'Coming soon', image: null },
-                { id: 8, title: 'Module 8: The Kingdom of God', desc: 'Coming soon', image: null },
-                { id: 9, title: 'Module 9: The Local and Universal Body of Christ', desc: 'Coming soon', image: null },
-                { id: 10, title: 'Module 10:The Person of the Holy Spirit', desc: 'Coming soon', image: null },
-                { id: 11, title: 'Module 11: The Gifts of the Spirit', desc: 'Coming soon', image: null },
-                { id: 12, title: 'Module 12: Divine Healing & Divine Health', desc: 'Coming soon', image: null },
-                { id: 13, title: 'Module 13: Deliverance', desc: 'Coming soon', image: null },
-                { id: 14, title: 'Module 14: Inner Healing & Sanctification', desc: 'Coming soon', image: null },
-                { id: 15, title: 'Module 15: Finding Healing in the 12 steps', desc: 'Coming soon', image: null },
-                { id: 16, title: 'Module 16: Fruit of the Spirit', desc: 'Coming soon', image: null },
-            ];
-
-            const coursesGrid = document.getElementById('coursesGrid');
-            coursesGrid.innerHTML = coursesData.map(course => {
-                const thumbUrl = course.image ? encodeURI(course.image) : '';
-                const thumbStyle = course.image ? `style="background-image: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.35)), url('${thumbUrl}')"` : '';
-                const thumbClass = course.image ? 'course-thumb' : 'course-thumb placeholder';
-
-                return `
-                <a href="page${course.id}.html" class="course-item">
-                    <div class="${thumbClass}" ${thumbStyle}></div>
-                    <h4>${course.title}</h4>
-                    <p>${course.desc}</p>
-                    <span class="course-button">View Course</span>
-                </a>
-                `;
-            }).join('');
-        }
-
-        window.handleLogout = async function() {
-            try {
-                await logout();
-                window.location.href = 'login.html';
-            } catch (error) {
-                alert('Error logging out: ' + error.message);
-            }
-        };
     </script>
 </body>
 </html>
-                        <h3>Your Courses</h3>
