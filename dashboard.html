@@ -16,110 +16,23 @@
             padding: 2rem;
         }
 
-        .dashboard-header {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .user-greeting {
-            flex: 1;
-        }
-
-        .user-greeting h2 {
-            color: #202124;
-            margin-bottom: 0.5rem;
-        }
-
-        .user-email {
-            color: #5f6368;
-            font-size: 0.95rem;
-        }
-
-        .logout-button {
-            padding: 0.75rem 1.5rem;
-            background: #d32f2f;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background 0.3s;
-        }
-
-        .logout-button:hover {
-            background: #b71c1c;
-        }
-
-        .courses-section {
+        .card {
             background: white;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
-        .courses-section h3 {
-            color: #202124;
-            margin-bottom: 1.5rem;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .course-item {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s;
-            border: 1px solid #e0e0e0;
-        }
-
-        .course-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-color: #1a73e8;
-        }
-
-        .course-item h4 {
-            color: #202124;
-            margin-bottom: 0.5rem;
-        }
-
-        .course-item p {
-            color: #5f6368;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .course-button {
+        .primary-button {
             display: inline-block;
-            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
             background: #1a73e8;
             color: white;
-            border-radius: 4px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9rem;
             font-weight: 600;
-        }
-
-        .course-button:hover {
-            background: #1557b0;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 2rem;
-            color: #5f6368;
         }
     </style>
 </head>
@@ -137,69 +50,25 @@
 
     <main>
         <div class="dashboard-container">
-            <div class="dashboard-header">
-                <div class="user-greeting">
-                    <h2 id="userGreeting">Welcome!</h2>
-                    <p class="user-email" id="userEmail"></p>
-                </div>
-                <button class="logout-button" onclick="handleLogout()">Logout</button>
-            </div>
-
-            <div class="courses-section">
-                <h3>Your Courses</h3>
-                <div class="courses-grid" id="coursesGrid">
-                    <div class="loading">Loading your courses...</div>
-                </div>
+            <div class="card">
+                <h2>Redirecting to your course dashboard...</h2>
+                <p>Click below if you are not redirected automatically.</p>
+                <a class="primary-button" href="index.html">Go to Dashboard</a>
             </div>
         </div>
     </main>
 
     <script type="module">
-        import { onAuthChange, logout, getCurrentUser } from './auth.js';
+        import { onAuthChange } from './auth.js';
 
         onAuthChange((user) => {
             if (!user) {
-                // Redirect to login if not authenticated
                 window.location.href = 'login.html';
                 return;
             }
 
-            // Update greeting
-            document.getElementById('userGreeting').textContent = `Welcome, ${user.email.split('@')[0]}!`;
-            document.getElementById('userEmail').textContent = user.email;
-
-            // Load courses
-            loadCourses();
+            window.location.href = 'index.html';
         });
-
-        function loadCourses() {
-            const coursesData = [
-                { id: 1, title: 'Module 1: How to Study the Bible', desc: 'Learn effective Bible study techniques' },
-                { id: 2, title: 'Module 2: From Genesis to the Cross', desc: 'Explore the biblical narrative' },
-                { id: 3, title: 'Module 3: Biblical Worldview', desc: 'Develop a biblical framework' },
-                { id: 4, title: 'Module 4: Creation', desc: "Understanding God's design" },
-                { id: 5, title: 'Module 5', desc: 'Coming soon' },
-                { id: 6, title: 'Module 6', desc: 'Coming soon' },
-            ];
-
-            const coursesGrid = document.getElementById('coursesGrid');
-            coursesGrid.innerHTML = coursesData.map(course => `
-                <a href="page${course.id}.html" class="course-item">
-                    <h4>${course.title}</h4>
-                    <p>${course.desc}</p>
-                    <span class="course-button">View Course</span>
-                </a>
-            `).join('');
-        }
-
-        window.handleLogout = async function() {
-            try {
-                await logout();
-                window.location.href = 'login.html';
-            } catch (error) {
-                alert('Error logging out: ' + error.message);
-            }
-        };
     </script>
 </body>
 </html>
