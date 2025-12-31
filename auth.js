@@ -34,13 +34,15 @@ export async function signUp(email, password, username) {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
   
-  // Store username in Firestore
-  await setDoc(doc(db, "users", user.uid), {
+  // Store username in Firestore (fire-and-forget so UI doesn't wait)
+  setDoc(doc(db, "users", user.uid), {
     email: user.email,
     username: username,
     createdAt: new Date().toISOString(),
     isAdmin: false
-  }, { merge: true });
+  }, { merge: true }).catch((error) => {
+    console.error("Error storing user profile:", error);
+  });
   
   return userCredential;
 }
