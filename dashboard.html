@@ -125,6 +125,7 @@
             <div class="nav-links">
                 <a href="courses.html">Courses</a>
                 <a href="dashboard.html">Dashboard</a>
+                <a href="admin.html" id="adminLink" style="display: none;">Admin</a>
                 <a href="about.html">About Us</a>
                 <a href="contact.html">Contact</a>
                 <a href="#help">Help</a>
@@ -174,11 +175,12 @@
     </footer>
 
     <script type="module">
-        import { onAuthChange, logout, getUserCompletionData } from './auth.js';
+        import { onAuthChange, logout, getUserCompletionData, isAdmin } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
         const logoutBtn = document.getElementById('logoutBtn');
+        const adminLink = document.getElementById('adminLink');
         const completedGrid = document.getElementById('completedGrid');
         const completedCountBig = document.getElementById('completedCountBig');
         const remainingCount = document.getElementById('remainingCount');
@@ -233,11 +235,16 @@
             `).join('');
         }
 
-        onAuthChange((user) => {
+        onAuthChange(async (user) => {
             if (user) {
                 userEmail.textContent = user.email;
                 userInfo.style.display = 'flex';
                 displayCompletedCourses();
+                
+                const adminStatus = await isAdmin();
+                if (adminStatus) {
+                    adminLink.style.display = 'inline';
+                }
             } else {
                 userInfo.style.display = 'none';
                 window.location.href = 'login.html';

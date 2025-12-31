@@ -1,7 +1,8 @@
 // Firebase Authentication Module
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXZdoFnEmRbb62c2LwxgCjH6LJ1WhfB1c",
@@ -17,11 +18,13 @@ const firebaseConfig = {
 let app;
 let auth;
 let db;
+let storage;
 
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
   db = getFirestore(app);
+  storage = getStorage(app);
 } catch (error) {
   console.error("Firebase initialization error:", error);
 }
@@ -125,4 +128,135 @@ export async function getCompletionCount() {
   }
   
   return count;
+}
+
+// ===== ADMIN FUNCTIONS =====
+
+// List of admin emails (you can modify this)
+const ADMIN_EMAILS = [
+  "admin@elijahprojectschoolofministry.com",
+  // Add more admin emails here
+];
+
+// Check if current user is admin
+export async function isAdmin() {
+  const user = getCurrentUser();
+  if (!user) return false;
+  
+  // Check if user email is in admin list
+  if (ADMIN_EMAILS.includes(user.email)) {
+    return true;
+  }
+  
+  // Check database for admin role
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+      return userDoc.data().isAdmin === true;
+    }
+  } catch (error) {
+    console.error("Error checking admin status:", error);
+  }
+  
+  return false;
+}
+
+// Get all users (admin only)
+export async function getAllUsers() {
+  const usersRef = collection(db, "users");
+  const usersSnapshot = await getDocs(usersRef);
+  const usersList = [];
+  
+  usersSnapshot.forEach((doc) => {
+    usersList.push({
+      uid: doc.id,
+      ...doc.data()
+    });
+  });
+  
+  return usersList;
+}
+
+// Update user data (admin only)
+export async function updateUserData(userId, data) {
+  const userRef = doc(db, "users", userId);
+  await updateDoc(userRef, data);
+}
+
+// Delete user data (admin only)
+export async function deleteUser(userId) {
+  const userRef = doc(db, "users", userId);
+  await deleteDoc(userRef);
+}
+
+// Get course data
+export async function getCourseData(courseId) {
+  const courseRef = doc(db, "courses", courseId);
+  const courseDoc = await getDoc(courseRef);
+  return courseDoc.exists() ? courseDoc.data() : null;
+}
+
+// Get all courses
+export async function getAllCourses() {
+  const coursesRef = collection(db, "courses");
+  const coursesSnapshot = await getDocs(coursesRef);
+  const coursesList = [];
+  
+  coursesSnapshot.forEach((doc) => {
+    coursesList.push({
+      id: doc.id,
+      ...doc.data()
+    });
+  });
+  
+  return coursesList;
+}
+
+// Update course data (admin only)
+export async function updateCourse(courseId, data) {
+  const courseRef = doc(db, "courses", courseId);
+  await setDoc(courseRef, data, { merge: true });
+}
+
+// Upload file to Firebase Storage (admin only)
+export async function uploadFile(file, path) {
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+  return url;
+}
+
+// Get analytics data (admin only)
+export async function getAnalyticsData() {
+  const users = await getAllUsers();
+  const totalUsers = users.length;
+  let totalCompletions = 0;
+  const moduleCompletions = {};
+  
+  for (let i = 1; i <= 16; i++) {
+    moduleCompletions[`module_${i}`] = 0;
+  }
+  
+  users.forEach(user => {
+    for (let i = 1; i <= 16; i++) {
+      if (user[`module_${i}`] === true) {
+        totalCompletions++;
+        moduleCompletions[`module_${i}`]++;
+      }
+    }
+  });
+  
+  return {
+    totalUsers,
+    totalCompletions,
+    moduleCompletions,
+    averageCompletionRate: totalUsers > 0 ? (totalCompletions / (totalUsers * 16) * 100).toFixed(2) : 0
+  };
+}
+
+// Mark user as admin (super admin only)
+export async function setAdminRole(userId, isAdmin) {
+  const userRef = doc(db, "users", userId);
+  await updateDoc(userRef, { isAdmin });
 }

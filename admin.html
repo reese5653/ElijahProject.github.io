@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Elijah Project</title>
+    <link rel="icon" href="2026.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .admin-tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #5f6368;
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: #1a73e8;
+            border-bottom-color: #1a73e8;
+        }
+
+        .admin-tab:hover {
+            color: #1a73e8;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #c41e3a 0%, #1a73e8 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .data-table {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            background: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #202124;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1557b0;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-success {
+            background: #34a853;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2d8e47;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .course-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .file-upload {
+            border: 2px dashed #e0e0e0;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #1a73e8;
+            background: #f8f9fa;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .access-denied h2 {
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar-container {
+            background: #e0e0e0;
+            height: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #c41e3a 0%, #1a73e8 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            <div class="logo"><img src="2026.png" alt="Elijah Project"></div>
+            <div class="nav-links">
+                <a href="courses.html">Courses</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="admin.html">Admin</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userEmail"></span>
+                <button id="logoutBtn" style="padding: 0.5rem 1rem; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div id="accessDenied" class="access-denied" style="display: none;">
+            <h2>⚠️ Access Denied</h2>
+            <p>You do not have permission to access the admin dashboard.</p>
+            <a href="courses.html" class="btn btn-primary">Go to Courses</a>
+        </div>
+
+        <div id="adminDashboard" class="admin-container" style="display: none;">
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <span class="badge badge-info">Administrator</span>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="analytics">📊 Analytics</button>
+                <button class="admin-tab" data-tab="users">👥 Users</button>
+                <button class="admin-tab" data-tab="courses">📚 Courses</button>
+                <button class="admin-tab" data-tab="content">📝 Content</button>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics-tab" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <div class="stat-number" id="totalUsers">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Completions</h3>
+                        <div class="stat-number" id="totalCompletions">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Avg Completion Rate</h3>
+                        <div class="stat-number" id="avgCompletionRate">0%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Courses</h3>
+                        <div class="stat-number">16</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Module Completion Statistics</h3>
+                    <div id="moduleStats"></div>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users-tab" class="tab-content">
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Completed Modules</th>
+                                <th>Admin</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 2rem;">Loading users...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Courses Tab -->
+            <div id="courses-tab" class="tab-content">
+                <div class="course-form">
+                    <h3>Edit Course</h3>
+                    <div class="form-group">
+                        <label>Select Module</label>
+                        <select id="courseSelect">
+                            <option value="">-- Select a module --</option>
+                        </select>
+                    </div>
+                    <div id="courseEditForm" style="display: none;">
+                        <div class="form-group">
+                            <label>Course Title</label>
+                            <input type="text" id="courseTitle" placeholder="Module 1: How to study the Bible">
+                        </div>
+                        <div class="form-group">
+                            <label>Course Description</label>
+                            <textarea id="courseDescription" placeholder="Enter course description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>YouTube Video URL</label>
+                            <input type="text" id="courseVideo" placeholder="https://www.youtube.com/watch?v=...">
+                        </div>
+                        <div class="form-group">
+                            <label>PDF URL</label>
+                            <input type="text" id="coursePDF" placeholder="URL or filename">
+                        </div>
+                        <div class="form-group">
+                            <label>Course Image URL</label>
+                            <input type="text" id="courseImage" placeholder="Image filename">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="courseEnabled"> Course Enabled
+                            </label>
+                        </div>
+                        <button class="btn btn-success" onclick="saveCourse()">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Tab -->
+            <div id="content-tab" class="tab-content">
+                <div class="course-form">
+                    <h3>Upload Files</h3>
+                    <div class="form-group">
+                        <label>Upload Course Image</label>
+                        <div class="file-upload" onclick="document.getElementById('imageUpload').click()">
+                            <input type="file" id="imageUpload" accept="image/*">
+                            <p>📷 Click to upload course image</p>
+                            <small>PNG, JPG up to 5MB</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Course PDF</label>
+                        <div class="file-upload" onclick="document.getElementById('pdfUpload').click()">
+                            <input type="file" id="pdfUpload" accept=".pdf">
+                            <p>📄 Click to upload PDF</p>
+                            <small>PDF up to 50MB</small>
+                        </div>
+                    </div>
+                    <div id="uploadProgress" style="display: none;">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="uploadBar" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div id="uploadMessage"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { onAuthChange, logout, isAdmin, getAllUsers, updateUserData, deleteUser, 
+                 getAnalyticsData, getAllCourses, updateCourse, getCourseData, uploadFile, setAdminRole } from './auth.js';
+
+        const userInfo = document.getElementById('userInfo');
+        const userEmail = document.getElementById('userEmail');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const accessDenied = document.getElementById('accessDenied');
+        const adminDashboard = document.getElementById('adminDashboard');
+
+        let currentAdminStatus = false;
+
+        // Tab switching
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
+            });
+        });
+
+        async function loadAnalytics() {
+            const data = await getAnalyticsData();
+            document.getElementById('totalUsers').textContent = data.totalUsers;
+            document.getElementById('totalCompletions').textContent = data.totalCompletions;
+            document.getElementById('avgCompletionRate').textContent = data.averageCompletionRate + '%';
+
+            const moduleStats = document.getElementById('moduleStats');
+            moduleStats.innerHTML = '';
+            
+            for (let i = 1; i <= 16; i++) {
+                const count = data.moduleCompletions[`module_${i}`] || 0;
+                const percentage = data.totalUsers > 0 ? (count / data.totalUsers * 100).toFixed(1) : 0;
+                
+                moduleStats.innerHTML += `
+                    <div style="margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                            <span>Module ${i}</span>
+                            <span>${count} / ${data.totalUsers} (${percentage}%)</span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadUsers() {
+            const users = await getAllUsers();
+            const tbody = document.getElementById('usersTableBody');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 2rem;">No users found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => {
+                let completedCount = 0;
+                for (let i = 1; i <= 16; i++) {
+                    if (user[`module_${i}`] === true) completedCount++;
+                }
+                
+                return `
+                    <tr>
+                        <td>${user.email || user.uid}</td>
+                        <td>${completedCount} / 16</td>
+                        <td>${user.isAdmin ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-danger">No</span>'}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="viewUser('${user.uid}')">View</button>
+                            ${!user.isAdmin ? `<button class="btn btn-danger" onclick="confirmDeleteUser('${user.uid}')">Delete</button>` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function loadCourses() {
+            const select = document.getElementById('courseSelect');
+            for (let i = 1; i <= 16; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = `Module ${i}`;
+                select.appendChild(option);
+            }
+
+            select.addEventListener('change', async (e) => {
+                if (e.target.value) {
+                    const courseData = await getCourseData(`module_${e.target.value}`);
+                    document.getElementById('courseEditForm').style.display = 'block';
+                    
+                    if (courseData) {
+                        document.getElementById('courseTitle').value = courseData.title || '';
+                        document.getElementById('courseDescription').value = courseData.description || '';
+                        document.getElementById('courseVideo').value = courseData.videoUrl || '';
+                        document.getElementById('coursePDF').value = courseData.pdfUrl || '';
+                        document.getElementById('courseImage').value = courseData.imageUrl || '';
+                        document.getElementById('courseEnabled').checked = courseData.enabled !== false;
+                    }
+                }
+            });
+        }
+
+        window.saveCourse = async function() {
+            const moduleNum = document.getElementById('courseSelect').value;
+            if (!moduleNum) {
+                alert('Please select a module');
+                return;
+            }
+
+            const courseData = {
+                title: document.getElementById('courseTitle').value,
+                description: document.getElementById('courseDescription').value,
+                videoUrl: document.getElementById('courseVideo').value,
+                pdfUrl: document.getElementById('coursePDF').value,
+                imageUrl: document.getElementById('courseImage').value,
+                enabled: document.getElementById('courseEnabled').checked
+            };
+
+            try {
+                await updateCourse(`module_${moduleNum}`, courseData);
+                alert('Course updated successfully!');
+            } catch (error) {
+                alert('Error updating course: ' + error.message);
+            }
+        };
+
+        window.viewUser = function(userId) {
+            alert('User details for: ' + userId);
+            // You can implement a detailed view modal here
+        };
+
+        window.confirmDeleteUser = async function(userId) {
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                try {
+                    await deleteUser(userId);
+                    alert('User deleted successfully');
+                    loadUsers();
+                } catch (error) {
+                    alert('Error deleting user: ' + error.message);
+                }
+            }
+        };
+
+        // File uploads
+        document.getElementById('imageUpload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            try {
+                document.getElementById('uploadProgress').style.display = 'block';
+                document.getElementById('uploadBar').style.width = '50%';
+                document.getElementById('uploadBar').textContent = '50%';
+                
+                const url = await uploadFile(file, `images/${file.name}`);
+                
+                document.getElementById('uploadBar').style.width = '100%';
+                document.getElementById('uploadBar').textContent = '100%';
+                document.getElementById('uploadMessage').innerHTML = `<p style="color: #34a853; margin-top: 1rem;">✓ Image uploaded successfully!<br>URL: ${url}</p>`;
+                
+                setTimeout(() => {
+                    document.getElementById('uploadProgress').style.display = 'none';
+                }, 2000);
+            } catch (error) {
+                document.getElementById('uploadMessage').innerHTML = `<p style="color: #dc3545; margin-top: 1rem;">✗ Upload failed: ${error.message}</p>`;
+            }
+        });
+
+        document.getElementById('pdfUpload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            try {
+                document.getElementById('uploadProgress').style.display = 'block';
+                document.getElementById('uploadBar').style.width = '50%';
+                document.getElementById('uploadBar').textContent = '50%';
+                
+                const url = await uploadFile(file, `pdfs/${file.name}`);
+                
+                document.getElementById('uploadBar').style.width = '100%';
+                document.getElementById('uploadBar').textContent = '100%';
+                document.getElementById('uploadMessage').innerHTML = `<p style="color: #34a853; margin-top: 1rem;">✓ PDF uploaded successfully!<br>URL: ${url}</p>`;
+                
+                setTimeout(() => {
+                    document.getElementById('uploadProgress').style.display = 'none';
+                }, 2000);
+            } catch (error) {
+                document.getElementById('uploadMessage').innerHTML = `<p style="color: #dc3545; margin-top: 1rem;">✗ Upload failed: ${error.message}</p>`;
+            }
+        });
+
+        onAuthChange(async (user) => {
+            if (user) {
+                userEmail.textContent = user.email;
+                userInfo.style.display = 'flex';
+                
+                currentAdminStatus = await isAdmin();
+                
+                if (currentAdminStatus) {
+                    accessDenied.style.display = 'none';
+                    adminDashboard.style.display = 'block';
+                    
+                    loadAnalytics();
+                    loadUsers();
+                    loadCourses();
+                } else {
+                    accessDenied.style.display = 'block';
+                    adminDashboard.style.display = 'none';
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            logout().then(() => {
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

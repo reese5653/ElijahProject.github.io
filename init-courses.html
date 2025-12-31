@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Initialize Course Data - Elijah Project</title>
+</head>
+<body>
+    <h1>Initialize Course Data</h1>
+    <p>This page will initialize the Firebase courses collection with default module data.</p>
+    <button id="initBtn" style="padding: 1rem 2rem; background: #1a73e8; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;">Initialize Course Data</button>
+    <div id="status" style="margin-top: 1rem;"></div>
+
+    <script type="module">
+        import { updateCourse } from './auth.js';
+
+        const courses = [
+            { id: 1, title: "Module 1: How to study the Bible", description: "Learn essential methods for studying God's Word effectively", pdfUrl: "Module13.pdf", imageUrl: "How to study the Bible.png", enabled: true },
+            { id: 2, title: "Module 2: From Genesis to Creation", description: "Understanding the foundations of creation", pdfUrl: "", imageUrl: "From Genesis to Creation.png", enabled: true },
+            { id: 3, title: "Module 3: Identity in Christ", description: "Discover who you are in Christ", pdfUrl: "", imageUrl: "Identity in Christ.png", enabled: true },
+            { id: 4, title: "Module 4: Biblical Worldview", description: "Developing a biblical perspective on life", pdfUrl: "", imageUrl: "Biblical Worldview.png", enabled: true },
+            { id: 5, title: "Module 5: Genesis & Creation", description: "Deep dive into Genesis and creation theology", pdfUrl: "", imageUrl: "Creation.png", enabled: true },
+            { id: 6, title: "Module 6: Divine Council", description: "Understanding the divine council worldview", pdfUrl: "", imageUrl: "Sethite view.png", enabled: true },
+            { id: 7, title: "Module 7: Noah, Shem, Abraham", description: "Tracing God's covenant through the patriarchs", pdfUrl: "", imageUrl: "Noah.png", enabled: true },
+            { id: 8, title: "Module 8: Missional People", description: "Learning to be on mission with God", pdfUrl: "", imageUrl: "Abraham.png", enabled: true },
+            { id: 9, title: "Module 9: Moses & the Exodus", description: "Deliverance and the formation of Israel", pdfUrl: "", imageUrl: "Moses.png", enabled: true },
+            { id: 10, title: "Module 10: Conquest and Judges", description: "Israel's conquest and the period of judges", pdfUrl: "", imageUrl: "Conquest.png", enabled: true },
+            { id: 11, title: "Module 11: Kings and Prophets", description: "The monarchy and prophetic voices in Israel", pdfUrl: "", imageUrl: "Kings and Prophets.png", enabled: true },
+            { id: 12, title: "Module 12: Exile and Return", description: "Israel's exile and restoration", pdfUrl: "", imageUrl: "Exile and Return.png", enabled: true },
+            { id: 13, title: "Module 13: Intertestamental Period", description: "The 400 years between the testaments", pdfUrl: "", imageUrl: "Intertestamental Period.png", enabled: true },
+            { id: 14, title: "Module 14: Life of Jesus", description: "Following the life and ministry of Jesus", pdfUrl: "", imageUrl: "Life of Jesus.png", enabled: true },
+            { id: 15, title: "Module 15: Early Church", description: "The birth and growth of the church", pdfUrl: "", imageUrl: "Early Church.png", enabled: true },
+            { id: 16, title: "Module 16: Revelation", description: "Understanding the end times and Christ's return", pdfUrl: "", imageUrl: "Revelation.png", enabled: true }
+        ];
+
+        document.getElementById('initBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('initBtn');
+            const status = document.getElementById('status');
+            
+            btn.disabled = true;
+            btn.textContent = 'Initializing...';
+            status.innerHTML = '<p>Starting initialization...</p>';
+
+            try {
+                for (const course of courses) {
+                    status.innerHTML += `<p>Adding Module ${course.id}...</p>`;
+                    await updateCourse(`module_${course.id}`, {
+                        title: course.title,
+                        description: course.description,
+                        pdfUrl: course.pdfUrl,
+                        imageUrl: course.imageUrl,
+                        videoUrl: "",
+                        enabled: course.enabled,
+                        moduleNumber: course.id
+                    });
+                }
+
+                status.innerHTML += '<p style="color: green; font-weight: bold;">✓ All courses initialized successfully!</p>';
+                btn.textContent = 'Initialization Complete';
+            } catch (error) {
+                status.innerHTML += `<p style="color: red;">✗ Error: ${error.message}</p>`;
+                btn.disabled = false;
+                btn.textContent = 'Try Again';
+            }
+        });
+    </script>
+</body>
+</html>
