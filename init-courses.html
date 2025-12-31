@@ -44,21 +44,28 @@
             try {
                 for (const course of courses) {
                     status.innerHTML += `<p>Adding Module ${course.id}...</p>`;
-                    await updateCourse(`module_${course.id}`, {
-                        title: course.title,
-                        description: course.description,
-                        pdfUrl: course.pdfUrl,
-                        imageUrl: course.imageUrl,
-                        videoUrl: "",
-                        enabled: course.enabled,
-                        moduleNumber: course.id
-                    });
+                    try {
+                        await updateCourse(`module_${course.id}`, {
+                            title: course.title,
+                            description: course.description,
+                            pdfUrl: course.pdfUrl,
+                            imageUrl: course.imageUrl,
+                            videoUrl: "",
+                            enabled: course.enabled,
+                            moduleNumber: course.id
+                        });
+                        status.innerHTML += `<p style="color: green;">✓ Module ${course.id} added</p>`;
+                    } catch (err) {
+                        status.innerHTML += `<p style="color: orange;">⚠ Module ${course.id} error: ${err.message}</p>`;
+                        console.error('Module error:', err);
+                    }
                 }
 
-                status.innerHTML += '<p style="color: green; font-weight: bold;">✓ All courses initialized successfully!</p>';
-                btn.textContent = 'Initialization Complete';
+                status.innerHTML += '<p style="color: green; font-weight: bold;">✓ Initialization complete!</p>';
+                btn.textContent = 'Done';
             } catch (error) {
-                status.innerHTML += `<p style="color: red;">✗ Error: ${error.message}</p>`;
+                status.innerHTML += `<p style="color: red;">✗ Fatal Error: ${error.message}</p>`;
+                console.error('Full error:', error);
                 btn.disabled = false;
                 btn.textContent = 'Try Again';
             }
