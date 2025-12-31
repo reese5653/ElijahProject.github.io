@@ -45,9 +45,19 @@ export async function signUp(email, password, username) {
   return userCredential;
 }
 
-// Sign In
-export function signIn(email, password) {
-  return signInWithEmailAndPassword(auth, email, password);
+// Sign In (also ensure Firestore user doc exists)
+export async function signIn(email, password) {
+  const credential = await signInWithEmailAndPassword(auth, email, password);
+  const user = credential.user;
+  try {
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email || "",
+      lastLoginAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (error) {
+    console.error("Error ensuring user doc on sign in:", error);
+  }
+  return credential;
 }
 
 // Sign Out
