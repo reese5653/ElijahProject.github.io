@@ -30,8 +30,19 @@ try {
 }
 
 // Sign Up
-export function signUp(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password);
+export async function signUp(email, password, username) {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const user = userCredential.user;
+  
+  // Store username in Firestore
+  await setDoc(doc(db, "users", user.uid), {
+    email: user.email,
+    username: username,
+    createdAt: new Date().toISOString(),
+    isAdmin: false
+  }, { merge: true });
+  
+  return userCredential;
 }
 
 // Sign In

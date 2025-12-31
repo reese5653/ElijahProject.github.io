@@ -122,6 +122,12 @@
 
         <form id="registerForm">
             <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <small style="color: #5f6368;">This will be displayed on your profile</small>
+            </div>
+
+            <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" required>
             </div>
@@ -158,6 +164,7 @@
 
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
@@ -178,7 +185,7 @@
             errorMessage.classList.remove('show');
 
             try {
-                await signUp(email, password);
+                await signUp(email, password, username);
                 window.location.href = 'courses.html';
             } catch (error) {
                 errorMessage.textContent = error.message;
