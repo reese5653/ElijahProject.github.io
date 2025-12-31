@@ -74,6 +74,19 @@
             display: block;
         }
 
+        .reset-link {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: #1a73e8;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .reset-link:hover {
+            text-decoration: underline;
+        }
+
         .submit-button {
             width: 100%;
             padding: 1rem;
@@ -131,7 +144,10 @@
                 <input type="password" id="password" name="password" required>
             </div>
 
+            <a id="forgotPassword" class="reset-link">Forgot password?</a>
+
             <div id="errorMessage" class="error-message"></div>
+            <div id="resetMessage" class="error-message"></div>
 
             <div id="loading" class="loading">Logging in...</div>
 
@@ -144,11 +160,13 @@
     </div>
 
     <script type="module">
-        import { signIn } from './auth.js';
+        import { signIn, resetPassword } from './auth.js';
 
         const loginForm = document.getElementById('loginForm');
         const errorMessage = document.getElementById('errorMessage');
         const loading = document.getElementById('loading');
+        const resetMessage = document.getElementById('resetMessage');
+        const forgotPassword = document.getElementById('forgotPassword');
 
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -165,6 +183,28 @@
                 errorMessage.textContent = error.message;
                 errorMessage.classList.add('show');
                 loading.style.display = 'none';
+            }
+        });
+
+        forgotPassword.addEventListener('click', async () => {
+            const emailInput = document.getElementById('email').value.trim();
+            resetMessage.classList.remove('show');
+            errorMessage.classList.remove('show');
+
+            if (!emailInput) {
+                resetMessage.textContent = 'Please enter your email above first.';
+                resetMessage.classList.add('show');
+                return;
+            }
+
+            resetMessage.textContent = 'Sending reset email...';
+            resetMessage.classList.add('show');
+
+            try {
+                await resetPassword(emailInput);
+                resetMessage.textContent = 'Reset link sent. Check your inbox.';
+            } catch (error) {
+                resetMessage.textContent = error.message;
             }
         });
     </script>
