@@ -148,26 +148,12 @@
     <script type="module">
         import { markModuleComplete } from './auth.js';
 
-        window.handleModuleComplete = async function(event, moduleNumber) {
+        window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
-            
-            const btnText = document.getElementById('btnText');
-            const btnLoading = document.getElementById('btnLoading');
-            const continueBtn = document.getElementById('continueBtn');
-            
-            // Show loading state
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline';
-            continueBtn.style.pointerEvents = 'none';
-            continueBtn.style.opacity = '0.7';
-            
-            try {
-                await markModuleComplete(moduleNumber);
-                window.location.href = event.target.href || event.currentTarget.href;
-            } catch (error) {
-                console.error('Error marking complete:', error);
-                window.location.href = event.target.href || event.currentTarget.href;
-            }
+            const target = event.currentTarget.href || event.target.href;
+            // Fire-and-forget completion; don't block navigation
+            markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
+            window.location.href = target;
         };
     </script>
 </body>
