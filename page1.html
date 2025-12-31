@@ -186,7 +186,7 @@
                 </div>
             </div>
             
-            <a href="page2.html" class="back-button" style="background-color: #34a853; margin-bottom: 1rem;">Complete and Continue →</a>
+            <a href="page2.html" class="back-button" style="background-color: #34a853; margin-bottom: 1rem;" onclick="handleModuleComplete(event, 1)">Complete and Continue →</a>
             <a href="courses.html" class="back-button">← Back to Home</a>
         </div>
     </div>
@@ -255,6 +255,16 @@
 
             resultsDiv.classList.add('show');
         }
+    </script>
+
+    <script type="module">
+        import { markModuleComplete } from './auth.js';
+
+        window.handleModuleComplete = async function(event, moduleNumber) {
+            event.preventDefault();
+            await markModuleComplete(moduleNumber);
+            window.location.href = event.target.href;
+        };
     </script>
 </body>
 </html>

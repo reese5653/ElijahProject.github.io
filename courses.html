@@ -33,6 +33,17 @@
                 <input type="text" class="search-input" placeholder="Search for a course">
                 <button class="search-button">Search</button>
             </div>
+
+            <div id="progressSection" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 600px; text-align: center;">
+                <h3 style="margin: 0 0 1rem 0;">Your Progress</h3>
+                <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">
+                    <span id="completedCount">0</span> / 16
+                </div>
+                <div style="font-size: 0.9rem; margin-bottom: 1.5rem; opacity: 0.9;">Modules Completed</div>
+                <div style="background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div id="progressBar" style="background: #4ade80; height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 4px;"></div>
+                </div>
+            </div>
         </div>
 
         <div class="course-grid">
@@ -196,16 +207,73 @@
     </footer>
 
     <script type="module">
-        import { onAuthChange, logout } from './auth.js';
+        import { onAuthChange, logout, getUserCompletionData, markModuleComplete, markModuleIncomplete, getCompletionCount } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
         const logoutBtn = document.getElementById('logoutBtn');
+        const completedCount = document.getElementById('completedCount');
+        const progressBar = document.getElementById('progressBar');
+
+        async function updateProgressDisplay() {
+            const count = await getCompletionCount();
+            completedCount.textContent = count;
+            const percentage = (count / 16) * 100;
+            progressBar.style.width = percentage + '%';
+        }
+
+        async function updateCourseCards() {
+            const data = await getUserCompletionData();
+            const cards = document.querySelectorAll('.course-card');
+            
+            cards.forEach((card, index) => {
+                const moduleNum = index + 1;
+                const isCompleted = data[`module_${moduleNum}`] === true;
+                
+                if (isCompleted) {
+                    card.style.opacity = '0.8';
+                    card.style.borderTop = '3px solid #4ade80';
+                }
+                
+                const toggleBtn = document.createElement('button');
+                toggleBtn.textContent = isCompleted ? '✓ Completed' : 'Mark Complete';
+                toggleBtn.style.cssText = `
+                    background-color: ${isCompleted ? '#4ade80' : '#e0e0e0'};
+                    color: ${isCompleted ? 'white' : '#333'};
+                    border: none;
+                    padding: 0.5rem 1rem;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    margin-top: 0.5rem;
+                    width: 100%;
+                    transition: all 0.2s;
+                `;
+                
+                toggleBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    if (isCompleted) {
+                        await markModuleIncomplete(moduleNum);
+                    } else {
+                        await markModuleComplete(moduleNum);
+                    }
+                    updateCourseCards();
+                    updateProgressDisplay();
+                });
+                
+                const courseLink = card.querySelector('.course-link');
+                if (courseLink && courseLink.parentNode.lastChild !== toggleBtn) {
+                    card.appendChild(toggleBtn);
+                }
+            });
+        }
 
         onAuthChange((user) => {
             if (user) {
                 userEmail.textContent = user.email;
                 userInfo.style.display = 'flex';
+                updateProgressDisplay();
+                updateCourseCards();
             } else {
                 userInfo.style.display = 'none';
                 window.location.href = 'login.html';
