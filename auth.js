@@ -51,14 +51,13 @@ export async function signUp(email, password, username) {
 export async function signIn(email, password) {
   const credential = await signInWithEmailAndPassword(auth, email, password);
   const user = credential.user;
-  try {
-    await setDoc(doc(db, "users", user.uid), {
-      email: user.email || "",
-      lastLoginAt: new Date().toISOString()
-    }, { merge: true });
-  } catch (error) {
+  // Fire-and-forget the profile write so login UI never waits
+  setDoc(doc(db, "users", user.uid), {
+    email: user.email || "",
+    lastLoginAt: new Date().toISOString()
+  }, { merge: true }).catch((error) => {
     console.error("Error ensuring user doc on sign in:", error);
-  }
+  });
   return credential;
 }
 
