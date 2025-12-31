@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Elijah Project</title>
+    <link rel="icon" href="2026.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-header h1 {
+            color: #202124;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #c41e3a 0%, #1a73e8 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .completed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .completed-course-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 4px solid #34a853;
+        }
+
+        .completed-course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .completed-course-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .completed-course-info {
+            padding: 1.5rem;
+        }
+
+        .completed-course-info h3 {
+            color: #202124;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .completed-date {
+            color: #5f6368;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .completion-badge {
+            display: inline-block;
+            background: #34a853;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .no-completed {
+            text-align: center;
+            padding: 3rem;
+            color: #5f6368;
+        }
+
+        .no-completed h2 {
+            color: #202124;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            <div class="logo"><img src="2026.png" alt="Elijah Project"></div>
+            <div class="nav-links">
+                <a href="courses.html">Courses</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="#help">Help</a>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userEmail"></span>
+                <button id="logoutBtn" style="padding: 0.5rem 1rem; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <h1>My Dashboard</h1>
+                <p style="color: #5f6368; font-size: 1.1rem;">View your completed courses</p>
+            </div>
+
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="completedCountBig">0</div>
+                    <div class="stat-label">Courses Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="remainingCount">16</div>
+                    <div class="stat-label">Courses Remaining</div>
+                </div>
+            </div>
+
+            <div id="completedCoursesContainer">
+                <div class="completed-grid" id="completedGrid"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyrights ©2025. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="#blog">Blog</a>
+            <a href="#donate">Donate</a>
+            <a href="#tos">Terms of Service</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#help">Help</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { onAuthChange, logout, getUserCompletionData } from './auth.js';
+
+        const userInfo = document.getElementById('userInfo');
+        const userEmail = document.getElementById('userEmail');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const completedGrid = document.getElementById('completedGrid');
+        const completedCountBig = document.getElementById('completedCountBig');
+        const remainingCount = document.getElementById('remainingCount');
+
+        const courses = [
+            { id: 1, name: "How to study the Bible", image: "Bible.png", page: "page1.html" },
+            { id: 2, name: "From Genesis to Creation", image: "Genesis to the Cross.png", page: "page2.html" },
+            { id: 3, name: "Identity in Christ", image: "identity in Christ.png", page: "page3.html" },
+            { id: 4, name: "Biblical Worldview", image: "Biblical Worldview.png", page: "page4.html" },
+            { id: 5, name: "Genesis & Creation", image: "Creation.png", page: "page5.html" },
+            { id: 6, name: "Divine Council", image: "Sethite view.png", page: "page6.html" },
+            { id: 7, name: "Doctrines, Creeds, & The Early Church", image: "early church fathers.png", page: "page7.html" },
+            { id: 8, name: "Calvinism versus Arminianism", image: "Calvinism.png", page: "page8.html" },
+            { id: 9, name: "Module 9", image: "2026.png", page: "page9.html" },
+            { id: 10, name: "Module 10", image: "2026.png", page: "page10.html" },
+            { id: 11, name: "Module 11", image: "2026.png", page: "page11.html" },
+            { id: 12, name: "Module 12", image: "2026.png", page: "page12.html" },
+            { id: 13, name: "Module 13", image: "2026.png", page: "page13.html" },
+            { id: 14, name: "Module 14", image: "2026.png", page: "page14.html" },
+            { id: 15, name: "Module 15", image: "2026.png", page: "page15.html" },
+            { id: 16, name: "Module 16", image: "2026.png", page: "page16.html" }
+        ];
+
+        async function displayCompletedCourses() {
+            const data = await getUserCompletionData();
+            const completedCourses = courses.filter(course => data[`module_${course.id}`] === true);
+            
+            completedCountBig.textContent = completedCourses.length;
+            remainingCount.textContent = 16 - completedCourses.length;
+
+            if (completedCourses.length === 0) {
+                completedGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1;">
+                        <div class="no-completed">
+                            <h2>No Completed Courses Yet</h2>
+                            <p>Start learning by visiting the <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">Courses</a> page!</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            completedGrid.innerHTML = completedCourses.map(course => `
+                <div class="completed-course-card" onclick="window.location.href='${course.page}'">
+                    <img src="${course.image}" alt="${course.name}">
+                    <div class="completed-course-info">
+                        <h3>${course.name}</h3>
+                        <div class="completed-date">${data[`module_${course.id}_date`] ? new Date(data[`module_${course.id}_date`]).toLocaleDateString() : 'Recently completed'}</div>
+                        <span class="completion-badge">✓ Completed</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        onAuthChange((user) => {
+            if (user) {
+                userEmail.textContent = user.email;
+                userInfo.style.display = 'flex';
+                displayCompletedCourses();
+            } else {
+                userInfo.style.display = 'none';
+                window.location.href = 'login.html';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            logout().then(() => {
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>
