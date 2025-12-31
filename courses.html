@@ -190,5 +190,54 @@
             <a href="contact.html">Contact Us</a>
         </div>
     </footer>
+
+    <script>
+        const courses = [
+            { name: "How to study the Bible", module: "Module 1", page: "page1.html" },
+            { name: "From Genesis to Creation", module: "Module 2", page: "page2.html" },
+            { name: "Identity in Christ", module: "Module 3", page: "page3.html" },
+            { name: "Biblical Worldview", module: "Module 4", page: "page4.html" },
+            { name: "Genesis & Creation", module: "Module 5", page: "page5.html" },
+            { name: "Divine Council", module: "Module 6", page: "page6.html" },
+            { name: "Doctrines, Creeds, & The Early Church", module: "Module 7", page: "page7.html" },
+            { name: "Calvinism versus Arminianism", module: "Module 8", page: "page8.html" },
+            { name: "Module 9", module: "Module 9", page: "page9.html" },
+            { name: "Module 10", module: "Module 10", page: "page10.html" },
+            { name: "Module 11", module: "Module 11", page: "page11.html" },
+            { name: "Module 12", module: "Module 12", page: "page12.html" },
+            { name: "Module 13", module: "Module 13", page: "page13.html" },
+            { name: "Module 14", module: "Module 14", page: "page14.html" },
+            { name: "Module 15", module: "Module 15", page: "page15.html" },
+            { name: "Module 16", module: "Module 16", page: "page16.html" }
+        ];
+
+        const searchInput = document.querySelector('.search-input');
+        const searchButton = document.querySelector('.search-button');
+
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            if (!query) {
+                alert('Please enter a course name or module number');
+                return;
+            }
+
+            const foundCourse = courses.find(course =>
+                course.name.toLowerCase().includes(query) ||
+                course.module.toLowerCase().includes(query)
+            );
+
+            if (foundCourse) {
+                window.location.href = foundCourse.page;
+            } else {
+                alert('Course not found. Please try searching for a module number or course name.');
+            }
+        }
+
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
+        });
+    </script>
 </body>
 </html>
