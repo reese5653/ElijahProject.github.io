@@ -425,7 +425,7 @@
 
     <script type="module">
         import { onAuthChange, logout, isAdmin, getAllUsers, updateUserData, deleteUser, 
-                 getAnalyticsData, getAllCourses, updateCourse, getCourseData, uploadFile, setAdminRole } from './auth.js';
+             getAnalyticsData, getAllCourses, updateCourse, getCourseData, uploadFile, setAdminRole, ensureUserDocument } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
@@ -620,6 +620,7 @@
             if (user) {
                 userEmail.textContent = user.email;
                 userInfo.style.display = 'flex';
+                await ensureUserDocument();
                 
                 currentAdminStatus = await isAdmin();
                 

@@ -175,7 +175,7 @@
     </footer>
 
     <script type="module">
-        import { onAuthChange, logout, getUserCompletionData, isAdmin } from './auth.js';
+        import { onAuthChange, logout, getUserCompletionData, isAdmin, ensureUserDocument } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
@@ -239,6 +239,7 @@
             if (user) {
                 userEmail.textContent = user.email;
                 userInfo.style.display = 'flex';
+                await ensureUserDocument();
                 displayCompletedCourses();
                 
                 const adminStatus = await isAdmin();

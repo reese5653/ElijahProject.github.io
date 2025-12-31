@@ -65,6 +65,22 @@ export function getCurrentUser() {
   return auth.currentUser;
 }
 
+// Ensure Firestore user document exists (runs on login)
+export async function ensureUserDocument() {
+  const user = getCurrentUser();
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+  try {
+    await setDoc(userRef, {
+      email: user.email || "",
+      createdAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (error) {
+    console.error("Error ensuring user document:", error);
+  }
+}
+
 // Mark module as completed
 export async function markModuleComplete(moduleNumber) {
   const user = getCurrentUser();
