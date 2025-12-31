@@ -5,55 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Elijah Project</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            background-color: #f5f5f5;
-        }
-
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .primary-button {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.75rem 1.5rem;
-            background: #1a73e8;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-    </style>
 </head>
-<body>
+<body class="landing-body">
     <header>
         <nav class="top-nav">
-            <div class="logo">Elijah Project</div>
+            <div class="logo"><img src="2026.png" alt="Elijah Project"></div>
             <div class="nav-links">
-                <a href="index.html">Dashboard</a>
-                <a href="#profile">Profile</a>
+                <a href="courses.html">Courses</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
                 <a href="#help">Help</a>
             </div>
         </nav>
     </header>
 
-    <main>
-        <div class="dashboard-container">
-            <div class="card">
-                <img src="2026.png" alt="Join the School" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 1.5rem;">
-                <a class="primary-button" href="courses.html">View Courses</a>
-            </div>
+    <main class="landing-hero">
+        <div class="hero-card">
+            <img class="hero-image" src="2026.png" alt="Join the School">
+            <p class="hero-subtext">Start your 2026 journey with the Elijah Project School of Ministry.</p>
+            <a class="primary-button" href="courses.html">View Courses</a>
         </div>
     </main>
 
