@@ -34,7 +34,10 @@
                     <p>Content for this module is coming soon. Check back later for study materials, videos, and assessments.</p>
                 </div>
 
-                <a href="page6.html" class="back-button" style="background-color: #34a853; margin-bottom: 1rem;" onclick="handleModuleComplete(event, 5)">Complete and Continue →</a>
+                <a href="page6.html" class="back-button" id="continueBtn" style="background-color: #34a853; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 5)">
+                    <span id="btnText">Complete and Continue →</span>
+                    <span id="btnLoading" style="display: none;">Saving... ⏳</span>
+                </a>
                 <a href="courses.html" class="back-button">← Back to Courses</a>
             </div>
         </div>
@@ -49,8 +52,24 @@
 
         window.handleModuleComplete = async function(event, moduleNumber) {
             event.preventDefault();
-            await markModuleComplete(moduleNumber);
-            window.location.href = event.target.href;
+            
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            // Show loading state
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            continueBtn.style.pointerEvents = 'none';
+            continueBtn.style.opacity = '0.7';
+            
+            try {
+                await markModuleComplete(moduleNumber);
+                window.location.href = event.target.href || event.currentTarget.href;
+            } catch (error) {
+                console.error('Error marking complete:', error);
+                window.location.href = event.target.href || event.currentTarget.href;
+            }
         };
     </script>
 </body>
