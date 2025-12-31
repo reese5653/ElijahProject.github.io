@@ -134,7 +134,7 @@ export async function getCompletionCount() {
 
 // List of admin emails (you can modify this)
 const ADMIN_EMAILS = [
-  "admin@elijahprojectschoolofministry.com",
+  "shortcreekimpact@gmail.com",
   // Add more admin emails here
 ];
 
