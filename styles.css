@@ -46,18 +46,19 @@ header {
 .nav-links {
     display: flex;
     gap: 2rem;
+    flex: 1;
+    justify-content: center;
 }
 
 .user-info {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-left: auto;
 }
 
 #userEmail {
-    color: #202124;
-    font-weight: 500;
+    color: #ffffff;
+    font-weight: 600;
 }
 
 .nav-links a {
