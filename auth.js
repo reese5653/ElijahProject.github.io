@@ -74,18 +74,11 @@ export async function markModuleComplete(moduleNumber) {
   const completedKey = `module_${moduleNumber}`;
   
   try {
-    const userDoc = await getDoc(userRef);
-    if (userDoc.exists()) {
-      await updateDoc(userRef, {
-        [completedKey]: true,
-        [`${completedKey}_date`]: new Date().toISOString()
-      });
-    } else {
-      await setDoc(userRef, {
-        [completedKey]: true,
-        [`${completedKey}_date`]: new Date().toISOString()
-      });
-    }
+    // Use merge to update or create in one operation - much faster!
+    await setDoc(userRef, {
+      [completedKey]: true,
+      [`${completedKey}_date`]: new Date().toISOString()
+    }, { merge: true });
   } catch (error) {
     console.error("Error marking module complete:", error);
   }
