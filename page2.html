@@ -67,8 +67,33 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
+        .quiz-header {
+            margin-bottom: 1.5rem;
+            color: #5f6368;
+            font-size: 0.95rem;
+        }
+        
+        .quiz-progress {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-bar {
+            background: #1a73e8;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
         .quiz-question {
             margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .quiz-question.active {
+            display: block;
         }
         
         .quiz-question h4 {
@@ -108,10 +133,22 @@
             cursor: pointer;
             transition: background-color 0.2s;
             margin-top: 1rem;
+            margin-right: 0.5rem;
         }
         
         .quiz-button:hover {
             background-color: #1557b0;
+        }
+        
+        .quiz-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .quiz-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
         }
         
         .results {
@@ -180,6 +217,10 @@
 
                     <div class="quiz-container">
                         <h3>Lesson 1 Quiz: Creation to Covenant</h3>
+                        <div class="quiz-header" id="progressText">Question 1 of 6</div>
+                        <div class="quiz-progress">
+                            <div class="quiz-progress-bar" id="progressBar" style="width: 16.67%;"></div>
+                        </div>
                         <form id="quizForm">
                             <div class="quiz-question">
                                 <h4>Question 1: What does it mean to be made in God's image?</h4>
@@ -281,7 +322,10 @@
                                 </div>
                             </div>
 
-                            <button type="button" class="quiz-button" onclick="submitQuiz()">Submit Quiz</button>
+                            <div class="quiz-nav">
+                                <button type="button" class="quiz-button" id="prevBtn" onclick="previousQuestion()" style="background-color: #888;">← Previous</button>
+                                <button type="button" class="quiz-button" id="nextBtn" onclick="nextQuestion()">Next →</button>
+                            </div>
                         </form>
 
                         <div id="results" class="results">
@@ -329,20 +373,50 @@
     </footer>
 
     <script>
+        let currentQuestion = 0;
+        const totalQuestions = 6;
+        const correctAnswers = {
+            q1: 'c',
+            q2: 'true',
+            q3: 'd',
+            q4: 'd',
+            q5: 'true',
+            q6: 'd'
+        };
+
+        function showQuestion(index) {
+            const questions = document.querySelectorAll('.quiz-question');
+            questions.forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+            });
+            
+            const progressPercent = ((index + 1) / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = `Question ${index + 1} of ${totalQuestions}`;
+            
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').textContent = index === totalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                submitQuiz();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
         function submitQuiz() {
-            const correctAnswers = {
-                q1: 'c',      // To reflect his moral characteristics
-                q2: 'true',   // True
-                q3: 'd',      // All the Above
-                q4: 'd',      // All the Above
-                q5: 'true',   // True
-                q6: 'd'       // All the Above
-            };
-
             let score = 0;
-            let totalQuestions = 6;
 
-            // Check each question
             for (let i = 1; i <= totalQuestions; i++) {
                 const answer = document.querySelector(`input[name="q${i}"]:checked`)?.value;
                 if (answer === correctAnswers[`q${i}`]) {
@@ -371,8 +445,13 @@
                 feedback.textContent = 'Please review the lesson material and try again.';
             }
 
+            document.getElementById('quizForm').style.display = 'none';
             resultsDiv.classList.add('show');
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showQuestion(0);
+        });
     </script>
 
     <script>

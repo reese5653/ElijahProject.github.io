@@ -15,8 +15,33 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
+        .quiz-header {
+            margin-bottom: 1.5rem;
+            color: #5f6368;
+            font-size: 0.95rem;
+        }
+        
+        .quiz-progress {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .quiz-progress-bar {
+            background: #1a73e8;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
         .quiz-question {
             margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .quiz-question.active {
+            display: block;
         }
         
         .quiz-question h4 {
@@ -39,7 +64,8 @@
             background-color: #f0f0f0;
         }
         
-        .quiz-option input[type="radio"] {
+        .quiz-option input[type="radio"],
+        .quiz-option input[type="checkbox"] {
             margin-right: 0.75rem;
             cursor: pointer;
         }
@@ -55,10 +81,22 @@
             cursor: pointer;
             transition: background-color 0.2s;
             margin-top: 1rem;
+            margin-right: 0.5rem;
         }
         
         .quiz-button:hover {
             background-color: #1557b0;
+        }
+        
+        .quiz-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .quiz-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
         }
         
         .results {
@@ -97,6 +135,10 @@
             
             <div class="quiz-container">
                 <h3>Module 13 Quiz</h3>
+                <div class="quiz-header" id="progressText">Question 1 of 5</div>
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar" id="progressBar" style="width: 20%;"></div>
+                </div>
                 <form id="quizForm">
                     <div class="quiz-question">
                         <h4>Question 1: Why Should we study the Bible? (Select all that apply)</h4>
@@ -182,7 +224,10 @@
                         </div>
                     </div>
 
-                    <button type="button" class="quiz-button" onclick="submitQuiz()">Submit Quiz</button>
+                    <div class="quiz-nav">
+                        <button type="button" class="quiz-button" id="prevBtn" onclick="previousQuestion()" style="background-color: #888;">← Previous</button>
+                        <button type="button" class="quiz-button" id="nextBtn" onclick="nextQuestion()">Next →</button>
+                    </div>
                 </form>
 
                 <div id="results" class="results">
@@ -227,47 +272,63 @@
             lessonSelect.addEventListener('change', jumpToLesson);
         }
 
+        let currentQuestion = 0;
+        const totalQuestions = 5;
+        const correctAnswers = {
+            q1: ['a', 'b', 'c', 'd'],
+            q2: 'true',
+            q3: 'true',
+            q4: ['a', 'b', 'c', 'd'],
+            q5: ['d']
+        };
+
+        function showQuestion(index) {
+            const questions = document.querySelectorAll('.quiz-question');
+            questions.forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+            });
+            
+            const progressPercent = ((index + 1) / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = `Question ${index + 1} of ${totalQuestions}`;
+            
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').textContent = index === totalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions - 1) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                submitQuiz();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion(currentQuestion);
+            }
+        }
+
         function submitQuiz() {
-            const correctAnswers = {
-                q1: ['a', 'b', 'c', 'd'],  // All options correct
-                q2: 'true',                 // True
-                q3: 'true',                 // True
-                q4: ['a', 'b', 'c', 'd'],  // All options correct
-                q5: ['d']                   // All the above
-            };
-
             let score = 0;
-            let totalQuestions = 5;
 
-            // Check Q1 (multiple select)
             const q1Checked = Array.from(document.querySelectorAll('input[name="q1"]:checked')).map(el => el.value);
-            if (JSON.stringify(q1Checked.sort()) === JSON.stringify(correctAnswers.q1.sort())) {
-                score++;
-            }
+            if (JSON.stringify(q1Checked.sort()) === JSON.stringify(correctAnswers.q1.sort())) score++;
 
-            // Check Q2 (true/false)
             const q2Answer = document.querySelector('input[name="q2"]:checked')?.value;
-            if (q2Answer === correctAnswers.q2) {
-                score++;
-            }
+            if (q2Answer === correctAnswers.q2) score++;
 
-            // Check Q3 (true/false)
             const q3Answer = document.querySelector('input[name="q3"]:checked')?.value;
-            if (q3Answer === correctAnswers.q3) {
-                score++;
-            }
+            if (q3Answer === correctAnswers.q3) score++;
 
-            // Check Q4 (multiple select)
             const q4Checked = Array.from(document.querySelectorAll('input[name="q4"]:checked')).map(el => el.value);
-            if (JSON.stringify(q4Checked.sort()) === JSON.stringify(correctAnswers.q4.sort())) {
-                score++;
-            }
+            if (JSON.stringify(q4Checked.sort()) === JSON.stringify(correctAnswers.q4.sort())) score++;
 
-            // Check Q5 (multiple select)
             const q5Checked = Array.from(document.querySelectorAll('input[name="q5"]:checked')).map(el => el.value);
-            if (JSON.stringify(q5Checked.sort()) === JSON.stringify(correctAnswers.q5.sort())) {
-                score++;
-            }
+            if (JSON.stringify(q5Checked.sort()) === JSON.stringify(correctAnswers.q5.sort())) score++;
 
             const resultsDiv = document.getElementById('results');
             const scoreText = document.getElementById('scoreText');
@@ -288,8 +349,13 @@
                 feedback.textContent = 'Please review the module material and try again.';
             }
 
+            document.getElementById('quizForm').style.display = 'none';
             resultsDiv.classList.add('show');
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showQuestion(0);
+        });
     </script>
 
     <script type="module">
