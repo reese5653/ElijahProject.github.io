@@ -82,8 +82,8 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="page-content">
+    <div class="module-layout" style="padding: 2rem;">
+        <div class="page-content" style="text-align: left;">
             <h2>Module 1: How to Study the Bible</h2>
             
             <div style="margin: 2rem auto; max-width: 1200px; background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
@@ -197,9 +197,36 @@
             </a>
             <a href="courses.html" class="back-button">← Back to Home</a>
         </div>
+
+        <aside class="lesson-sidebar">
+            <h4>Jump to a Lesson</h4>
+            <select class="lesson-select" id="lessonSelect">
+                <option value="#lesson1">Lesson 1: PDF + Quiz</option>
+            </select>
+            <button class="lesson-go" id="lessonGo">Go</button>
+            <ul class="lesson-list">
+                <li>Single lesson for this module.</li>
+                <li>Navigation kept consistent across pages.</li>
+            </ul>
+        </aside>
     </div>
 
     <script>
+        const lessonSelect = document.getElementById('lessonSelect');
+        const lessonGo = document.getElementById('lessonGo');
+
+        function jumpToLesson() {
+            const target = lessonSelect?.value;
+            if (target) {
+                window.location.hash = target;
+            }
+        }
+
+        if (lessonGo && lessonSelect) {
+            lessonGo.addEventListener('click', jumpToLesson);
+            lessonSelect.addEventListener('change', jumpToLesson);
+        }
+
         function submitQuiz() {
             const correctAnswers = {
                 q1: ['a', 'b', 'c', 'd'],  // All options correct
