@@ -374,7 +374,7 @@ footer p {
 .lesson-go {
     width: 100%;
     padding: 0.75rem;
-    background: #1a73e8;
+    background: #c41e3a;
     color: white;
     border: none;
     border-radius: 8px;
@@ -383,7 +383,7 @@ footer p {
 }
 
 .lesson-go:hover {
-    background: #1557b0;
+    background: #a01729;
 }
 
 .lesson-list {
