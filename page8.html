@@ -24,13 +24,13 @@
             <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">← Back to Courses</a>
         </div>
 
-        <div class="container" style="max-width: 100%;">
+        <div class="module-layout">
             <div class="page-content" style="text-align: left;">
                 <h2>Module 8</h2>
                 <p style="color: #5f6368; margin-bottom: 2rem;">Explore the foundations and principles of this module.</p>
                 
                 <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 style="margin-bottom: 1rem; color: #202124;">Course Content</h3>
+                    <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Course Content</h3>
                     <p>Content for this module is coming soon. Check back later for study materials, videos, and assessments.</p>
                 </div>
 
@@ -40,12 +40,39 @@
                 </a>
                 <a href="courses.html" class="back-button">← Back to Courses</a>
             </div>
+
+            <aside class="lesson-sidebar">
+                <h4>Jump to a Lesson</h4>
+                <select class="lesson-select" id="lessonSelect">
+                    <option value="#lesson1">Lesson 1: Course Content</option>
+                </select>
+                <button class="lesson-go" id="lessonGo">Go</button>
+                <ul class="lesson-list">
+                    <li>Quick navigation for this module.</li>
+                    <li>More lessons can be added later.</li>
+                </ul>
+            </aside>
         </div>
     </main>
 
     <footer style="background-color: #f8f9fa; border-top: 1px solid #e0e0e0; margin-top: 4rem; padding: 2rem; text-align: center;">
         <p style="color: #5f6368; margin-bottom: 1rem; font-size: 0.875rem;">Copyrights ©2025. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        const lessonSelect = document.getElementById('lessonSelect');
+        const lessonGo = document.getElementById('lessonGo');
+
+        function jumpToLesson() {
+            const target = lessonSelect.value;
+            if (target) {
+                window.location.hash = target;
+            }
+        }
+
+        lessonGo.addEventListener('click', jumpToLesson);
+        lessonSelect.addEventListener('change', jumpToLesson);
+    </script>
 
     <script type="module">
         import { markModuleComplete } from './auth.js';
