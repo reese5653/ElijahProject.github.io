@@ -59,6 +59,80 @@
             color: #5f6368;
         }
 
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+        
+        .quiz-question h4 {
+            color: #202124;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .quiz-option input[type="radio"],
+        .quiz-option input[type="checkbox"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+        
+        .quiz-button {
+            padding: 0.75rem 2rem;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+        }
+        
+        .quiz-button:hover {
+            background-color: #1557b0;
+        }
+        
+        .results {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .results.show {
+            display: block;
+            background-color: #f0f8ff;
+            border-left: 4px solid #1a73e8;
+        }
+        
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #202124;
+        }
+
         @media (max-width: 900px) {
             .module-layout {
                 grid-template-columns: 1fr;
@@ -103,6 +177,118 @@
                             <a href="Study Guide week 1.pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab ↗</a>
                         </div>
                     </div>
+
+                    <div class="quiz-container">
+                        <h3>Lesson 1 Quiz: Creation to Covenant</h3>
+                        <form id="quizForm">
+                            <div class="quiz-question">
+                                <h4>Question 1: What does it mean to be made in God's image?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q1" value="a" id="q1a">
+                                    <label for="q1a">To look like God physically.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q1" value="b" id="q1b">
+                                    <label for="q1b">To be little gods</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q1" value="c" id="q1c">
+                                    <label for="q1c">To reflect his moral characteristics, and attributes being a representative figure.</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 2: God is sovereign in the heavens but men have dominion over the earth</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q2" value="true" id="q2true">
+                                    <label for="q2true">True</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q2" value="false" id="q2false">
+                                    <label for="q2false">False</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 3: What was mankind's assignment?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q3" value="a" id="q3a">
+                                    <label for="q3a">To be Fruitful and Multiply.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q3" value="b" id="q3b">
+                                    <label for="q3b">To be representative figures and image bearers of God on the earth.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q3" value="c" id="q3c">
+                                    <label for="q3c">To spread Eden over the uncultivated earth.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q3" value="d" id="q3d">
+                                    <label for="q3d">All the Above</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 4: What is Sin?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q4" value="a" id="q4a">
+                                    <label for="q4a">Rebellion against the known will of God.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q4" value="b" id="q4b">
+                                    <label for="q4b">Transgression of the Law.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q4" value="c" id="q4c">
+                                    <label for="q4c">Whatever is not of faith.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q4" value="d" id="q4d">
+                                    <label for="q4d">All the Above</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 5: Spiritual death is the separation of your God from your spirit.</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q5" value="true" id="q5true">
+                                    <label for="q5true">True</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q5" value="false" id="q5false">
+                                    <label for="q5false">False</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 6: What are the results of the fall?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q6" value="a" id="q6a">
+                                    <label for="q6a">Lost Knowledge of God.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q6" value="b" id="q6b">
+                                    <label for="q6b">Dominant Negative Emotions.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q6" value="c" id="q6c">
+                                    <label for="q6c">Spiritual Death.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="q6" value="d" id="q6d">
+                                    <label for="q6d">All the Above</label>
+                                </div>
+                            </div>
+
+                            <button type="button" class="quiz-button" onclick="submitQuiz()">Submit Quiz</button>
+                        </form>
+
+                        <div id="results" class="results">
+                            <div class="score" id="scoreText"></div>
+                            <p id="feedback" style="margin-top: 1rem; color: #5f6368;"></p>
+                        </div>
+                    </div>
                 </div>
 
                 <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
@@ -141,6 +327,53 @@
     <footer style="background-color: #f8f9fa; border-top: 1px solid #e0e0e0; margin-top: 4rem; padding: 2rem; text-align: center;">
         <p style="color: #5f6368; margin-bottom: 1rem; font-size: 0.875rem;">Copyrights ©2025. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        function submitQuiz() {
+            const correctAnswers = {
+                q1: 'c',      // To reflect his moral characteristics
+                q2: 'true',   // True
+                q3: 'd',      // All the Above
+                q4: 'd',      // All the Above
+                q5: 'true',   // True
+                q6: 'd'       // All the Above
+            };
+
+            let score = 0;
+            let totalQuestions = 6;
+
+            // Check each question
+            for (let i = 1; i <= totalQuestions; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`)?.value;
+                if (answer === correctAnswers[`q${i}`]) {
+                    score++;
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            const scoreText = document.getElementById('scoreText');
+            const feedback = document.getElementById('feedback');
+
+            const percentage = Math.round((score / totalQuestions) * 100);
+            scoreText.textContent = `Your Score: ${score} / ${totalQuestions} (${percentage}%)`;
+            
+            if (score === 6) {
+                feedback.textContent = 'Perfect! You have mastered this lesson! 🎉';
+            } else if (score === 5) {
+                feedback.textContent = 'Excellent! You understand the material very well. Review the one question you missed.';
+            } else if (score === 4) {
+                feedback.textContent = 'Great job! Review the material for the areas you missed.';
+            } else if (score === 3) {
+                feedback.textContent = 'Good progress! Review the lesson material to strengthen your understanding.';
+            } else if (score === 2) {
+                feedback.textContent = 'You are on the right track. Review the lesson material more carefully.';
+            } else {
+                feedback.textContent = 'Please review the lesson material and try again.';
+            }
+
+            resultsDiv.classList.add('show');
+        }
+    </script>
 
     <script>
         const lessonSelect = document.getElementById('lessonSelect');
