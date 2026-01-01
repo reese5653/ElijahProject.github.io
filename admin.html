@@ -617,26 +617,34 @@
         });
 
         onAuthChange(async (user) => {
-            if (user) {
-                userEmail.textContent = user.email;
-                userInfo.style.display = 'flex';
-                await ensureUserDocument();
-                
-                currentAdminStatus = await isAdmin();
-                
-                if (currentAdminStatus) {
-                    accessDenied.style.display = 'none';
-                    adminDashboard.style.display = 'block';
+            try {
+                if (user) {
+                    userEmail.textContent = user.email;
+                    userInfo.style.display = 'flex';
+                    await ensureUserDocument();
                     
-                    loadAnalytics();
-                    loadUsers();
-                    loadCourses();
-                } else {
-                    accessDenied.style.display = 'block';
-                    adminDashboard.style.display = 'none';
+                    currentAdminStatus = await isAdmin();
+                    
+                    if (currentAdminStatus) {
+                        accessDenied.style.display = 'none';
+                        adminDashboard.style.display = 'block';
+                        
+                        loadAnalytics();
+                        loadUsers();
+                        loadCourses();
+                        return;
+                    }
                 }
-            } else {
-                window.location.href = 'login.html';
+                // Not admin or no user
+                accessDenied.style.display = 'block';
+                adminDashboard.style.display = 'none';
+                if (!user) {
+                    window.location.href = 'login.html';
+                }
+            } catch (err) {
+                console.error('Admin init error:', err);
+                accessDenied.style.display = 'block';
+                adminDashboard.style.display = 'none';
             }
         });
 
