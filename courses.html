@@ -193,7 +193,7 @@
     </footer>
 
     <script type="module">
-        import { onAuthChange, logout, getUserCompletionData, markModuleComplete, markModuleIncomplete, getCompletionCount, isAdmin, ensureUserDocument } from './auth.js';
+        import { onAuthChange, logout, getUserCompletionData, markModuleComplete, markModuleIncomplete, getCompletionCount, isAdmin, ensureUserDocument, getUserUsername } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
@@ -257,7 +257,8 @@
 
         onAuthChange(async (user) => {
             if (user) {
-                userEmail.textContent = user.email;
+                const username = await getUserUsername();
+                userEmail.textContent = username || user.email;
                 userInfo.style.display = 'flex';
                 await ensureUserDocument();
                 updateProgressDisplay();

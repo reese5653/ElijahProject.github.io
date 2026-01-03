@@ -35,7 +35,7 @@
     </main>
 
     <script type="module">
-        import { onAuthChange, logout, isAdmin } from './auth.js';
+        import { onAuthChange, logout, isAdmin, getUserUsername } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
@@ -44,7 +44,8 @@
 
         onAuthChange(async (user) => {
             if (user) {
-                userEmail.textContent = user.email;
+                const username = await getUserUsername();
+                userEmail.textContent = username || user.email;
                 userInfo.style.display = 'flex';
                 
                 // Check if admin and show admin link

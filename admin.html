@@ -425,7 +425,7 @@
 
     <script type="module">
         import { onAuthChange, logout, isAdmin, getAllUsers, updateUserData, deleteUser, 
-             getAnalyticsData, getAllCourses, updateCourse, getCourseData, uploadFile, setAdminRole, ensureUserDocument } from './auth.js';
+             getAnalyticsData, getAllCourses, updateCourse, getCourseData, uploadFile, setAdminRole, ensureUserDocument, getUserUsername } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
@@ -619,7 +619,8 @@
         onAuthChange(async (user) => {
             try {
                 if (user) {
-                    userEmail.textContent = user.email;
+                    const username = await getUserUsername();
+                    userEmail.textContent = username || user.email;
                     userInfo.style.display = 'flex';
                     await ensureUserDocument();
                     

@@ -81,6 +81,24 @@ export function getCurrentUser() {
   return auth.currentUser;
 }
 
+// Get user's username from Firestore
+export async function getUserUsername() {
+  const user = getCurrentUser();
+  if (!user) return null;
+  
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      return userSnap.data().username || user.email;
+    }
+    return user.email;
+  } catch (error) {
+    console.error("Error fetching username:", error);
+    return user.email;
+  }
+}
+
 // Ensure Firestore user document exists (runs on login)
 export async function ensureUserDocument() {
   const user = getCurrentUser();
