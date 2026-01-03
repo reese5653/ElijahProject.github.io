@@ -6,6 +6,50 @@
     <title>About Us - Elijah Project</title>
     <link rel="icon" href="2026.png">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .about-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .about-photo {
+            flex-shrink: 0;
+            max-width: 320px;
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .about-layout {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .about-text {
+                text-align: left;
+            }
+
+            .about-photo {
+                max-width: 240px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -28,9 +72,9 @@
 
     <main>
         <div class="container">
-            <div class="page-content" style="display: flex; gap: 2rem; align-items: flex-start;">
-                <img src="Ron and Mare.png" alt="Ron and Mare" style="flex-shrink: 0; max-width: 300px; width: 100%; height: auto; border-radius: 50%; object-fit: cover;">
-                <div>
+            <div class="page-content about-layout">
+                <img src="Ron and Mare.png" alt="Ron and Mare" class="about-photo">
+                <div class="about-text">
                     <h2>About Elijah Project School of Ministry</h2>
                     <p>Welcome to Elijah Project School of Ministry - a place dedicated to training and equipping laborers for God's harvest field.</p>
                     
