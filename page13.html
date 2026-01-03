@@ -29,7 +29,7 @@
                 <h2>Module 13</h2>
                 <p style="color: #5f6368; margin-bottom: 2rem;">Explore the foundations and principles of this module.</p>
                 
-                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <div class="lesson-content active" id="lesson1-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
                     <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Course Content</h3>
                     <p>Content for this module is coming soon. Check back later for study materials, videos, and assessments.</p>
                 </div>
@@ -63,10 +63,22 @@
         const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
 
+        function showLesson(lessonId) {
+            document.querySelectorAll('.lesson-content').forEach(lesson => {
+                lesson.classList.remove('active');
+            });
+            const selectedLesson = document.getElementById(lessonId + '-content');
+            if (selectedLesson) {
+                selectedLesson.classList.add('active');
+                selectedLesson.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
         function jumpToLesson() {
             const target = lessonSelect.value;
             if (target) {
-                window.location.hash = target;
+                const lessonId = target.substring(1);
+                showLesson(lessonId);
             }
         }
 

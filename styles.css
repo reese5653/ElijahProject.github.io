@@ -393,6 +393,14 @@ footer p {
     color: #5f6368;
 }
 
+.lesson-content {
+    display: none;
+}
+
+.lesson-content.active {
+    display: block;
+}
+
 .back-button:hover {
     background-color: #a01729;
     transform: translateY(-2px);
