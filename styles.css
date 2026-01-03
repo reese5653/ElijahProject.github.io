@@ -48,6 +48,7 @@ header {
     gap: 2rem;
     flex: 1;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .user-info {
@@ -434,6 +435,28 @@ footer p {
     .footer-links {
         flex-direction: column;
         gap: 0.75rem;
+    }
+
+    .module-layout {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .lesson-sidebar {
+        order: -1;
+    }
+
+    .page-content {
+        padding: 24px 18px;
+    }
+
+    .page-content h2 {
+        font-size: 1.6rem;
+    }
+
+    .module-layout iframe {
+        height: 70vh;
+        min-height: 380px !important;
     }
 }
 
