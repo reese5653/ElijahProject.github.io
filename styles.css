@@ -348,6 +348,16 @@ footer p {
     align-items: start;
 }
 
+/* PDF/iframe responsive styling */
+.module-layout iframe {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 600px;
+    border-radius: 8px;
+    border: none;
+    background: white;
+}
+
 .lesson-sidebar {
     background: #f8f9fa;
     border: 1px solid #e0e0e0;
@@ -463,8 +473,7 @@ footer p {
     }
 
     .module-layout iframe {
-        height: 70vh;
-        min-height: 380px !important;
+        min-height: 400px;
     }
 }
 
