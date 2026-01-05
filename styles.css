@@ -349,13 +349,19 @@ footer p {
 }
 
 /* PDF/iframe responsive styling */
+.pdf-container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .module-layout iframe {
     width: 100% !important;
-    height: auto !important;
-    min-height: 600px;
+    height: 600px;
     border-radius: 8px;
     border: none;
     background: white;
+    display: block;
 }
 
 .lesson-sidebar {
@@ -418,6 +424,12 @@ footer p {
 }
 
 /* Responsive Design */
+@media (max-width: 600px) {
+    .module-layout iframe {
+        height: 350px;
+    }
+}
+
 @media (max-width: 768px) {
     .top-nav {
         flex-direction: column;
@@ -473,7 +485,7 @@ footer p {
     }
 
     .module-layout iframe {
-        min-height: 400px;
+        height: 450px;
     }
 }
 
