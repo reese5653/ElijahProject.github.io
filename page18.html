@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 16 - Elijah Project</title>
+    <title>Module 18 - Elijah Project</title>
     <link rel="icon" href="2026.png">
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -26,17 +26,15 @@
 
         <div class="module-layout">
             <div class="page-content" style="text-align: left;">
-                <h2>Module 16: 12 Steps to Discipleship</h2>
-                <p style="color: #5f6368; margin-bottom: 2rem;">A practical guide to growing as a disciple of Christ through 12 essential steps.</p>
+                <h2>Module 18: False Prophets and False Teachers</h2>
+                <p style="color: #5f6368; margin-bottom: 2rem;">Discerning truth from error and identifying false teachings in the modern church.</p>
                 
                 <div class="lesson-content active" id="lesson1-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">12 Steps to Discipleship</h3>
-                    <div style="margin-top: 1.25rem; background: #0f172a; padding: 1rem; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.15);">
-                        <img src="12 steps.png" alt="12 Steps to Discipleship" style="width: 100%; height: auto; border-radius: 8px; display: block;">
-                    </div>
+                    <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Course Content</h3>
+                    <p>Content for this module is coming soon. Check back later for study materials, videos, and assessments.</p>
                 </div>
 
-                <a href="page17.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 16)">
+                <a href="page19.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 18)">
                     <span id="btnText">Complete and Continue →</span>
                     <span id="btnLoading" style="display: none;">Saving... ⏳</span>
                 </a>
@@ -46,46 +44,42 @@
             <aside class="lesson-sidebar">
                 <h4>Jump to a Lesson</h4>
                 <select class="lesson-select" id="lessonSelect">
-                    <option value="#lesson1">Lesson 1: 12 Steps to Discipleship</option>
+                    <option value="#lesson1">Lesson 1: Course Content</option>
                 </select>
                 <button class="lesson-go" id="lessonGo">Go</button>
                 <ul class="lesson-list">
                     <li>Quick navigation for this module.</li>
-                    <li>More lessons can be added later.</li>
                 </ul>
             </aside>
         </div>
     </main>
 
-    <footer style="background-color: #f8f9fa; border-top: 1px solid #e0e0e0; margin-top: 4rem; padding: 2rem; text-align: center;">
-        <p style="color: #5f6368; margin-bottom: 1rem; font-size: 0.875rem;">Copyrights ©2025. All Rights Reserved.</p>
+    <footer>
+        <p>Copyrights ©2025. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="#blog">Blog</a>
+            <a href="#donate">Donate</a>
+            <a href="#tos">Terms of Service</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#help">Help</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
     </footer>
 
     <script>
-        const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
+        const lessonSelect = document.getElementById('lessonSelect');
 
-        function showLesson(lessonId) {
-            document.querySelectorAll('.lesson-content').forEach(lesson => {
-                lesson.classList.remove('active');
-            });
-            const selectedLesson = document.getElementById(lessonId + '-content');
+        lessonGo.addEventListener('click', () => {
+            const selectedLesson = lessonSelect.value;
             if (selectedLesson) {
-                selectedLesson.classList.add('active');
-                selectedLesson.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const lessonElement = document.querySelector(selectedLesson);
+                if (lessonElement) {
+                    lessonElement.scrollIntoView({ behavior: 'smooth' });
+                }
             }
-        }
-
-        function jumpToLesson() {
-            const target = lessonSelect.value;
-            if (target) {
-                const lessonId = target.substring(1);
-                showLesson(lessonId);
-            }
-        }
-
-        lessonGo.addEventListener('click', jumpToLesson);
-        lessonSelect.addEventListener('change', jumpToLesson);
+        });
     </script>
 
     <script type="module">
@@ -99,3 +93,5 @@
             setTimeout(() => window.location.href = target, 300);
         };
     </script>
+</body>
+</html>

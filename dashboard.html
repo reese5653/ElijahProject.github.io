@@ -150,7 +150,7 @@
                     <div class="stat-label">Courses Completed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="remainingCount">16</div>
+                    <div class="stat-number" id="remainingCount">19</div>
                     <div class="stat-label">Courses Remaining</div>
                 </div>
             </div>
@@ -201,7 +201,10 @@
             { id: 13, name: "Module 13", image: "2026.png", page: "page13.html" },
             { id: 14, name: "Module 14", image: "2026.png", page: "page14.html" },
             { id: 15, name: "Module 15", image: "2026.png", page: "page15.html" },
-            { id: 16, name: "Module 16", image: "2026.png", page: "page16.html" }
+            { id: 16, name: "Module 16", image: "2026.png", page: "page16.html" },
+            { id: 17, name: "Eschatology", image: "2026.png", page: "page17.html" },
+            { id: 18, name: "False Prophets and False Teachers", image: "2026.png", page: "page18.html" },
+            { id: 19, name: "Module 19", image: "2026.png", page: "page19.html" }
         ];
 
         async function displayCompletedCourses() {
@@ -209,7 +212,7 @@
             const completedCourses = courses.filter(course => data[`module_${course.id}`] === true);
             
             completedCountBig.textContent = completedCourses.length;
-            remainingCount.textContent = 16 - completedCourses.length;
+            remainingCount.textContent = 19 - completedCourses.length;
 
             if (completedCourses.length === 0) {
                 completedGrid.innerHTML = `

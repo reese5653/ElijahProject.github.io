@@ -175,7 +175,7 @@ export async function getCompletionCount() {
   const data = await getUserCompletionData();
   let count = 0;
   
-  for (let i = 1; i <= 16; i++) {
+  for (let i = 1; i <= 19; i++) {
     if (data[`module_${i}`] === true) {
       count++;
     }

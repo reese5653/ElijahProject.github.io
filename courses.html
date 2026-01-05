@@ -165,12 +165,36 @@
                 </div>
                 <a href="page16.html" class="course-link"></a>
             </div>
+
+            <div class="course-card">
+                <img src="2026.png" alt="Module 17: Eschatology">
+                <div class="course-info">
+                    <p class="course-org">Module 17: Eschatology</p>
+                </div>
+                <a href="page17.html" class="course-link"></a>
+            </div>
+
+            <div class="course-card">
+                <img src="2026.png" alt="Module 18: False Prophets and False Teachers">
+                <div class="course-info">
+                    <p class="course-org">Module 18: False Prophets and False Teachers</p>
+                </div>
+                <a href="page18.html" class="course-link"></a>
+            </div>
+
+            <div class="course-card">
+                <img src="2026.png" alt="Module 19">
+                <div class="course-info">
+                    <p class="course-org">Module 19</p>
+                </div>
+                <a href="page19.html" class="course-link"></a>
+            </div>
         </div>
 
         <div id="progressSection" style="background: linear-gradient(135deg, #c41e3a 0%, #1a73e8 100%); color: white; padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 600px; text-align: center;">
             <h3 style="margin: 0 0 1rem 0;">Your Progress</h3>
             <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">
-                <span id="completedCount">0</span> / 16
+                <span id="completedCount">0</span> / 19
             </div>
             <div style="font-size: 0.9rem; margin-bottom: 1.5rem; opacity: 0.9;">Modules Completed</div>
             <div style="background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px; overflow: hidden;">
@@ -205,7 +229,7 @@
         async function updateProgressDisplay() {
             const count = await getCompletionCount();
             completedCount.textContent = count;
-            const percentage = (count / 16) * 100;
+            const percentage = (count / 19) * 100;
             progressBar.style.width = percentage + '%';
         }
 
@@ -304,7 +328,10 @@
             { name: "Module 13", module: "Module 13", page: "page13.html" },
             { name: "Module 14", module: "Module 14", page: "page14.html" },
             { name: "Module 15", module: "Module 15", page: "page15.html" },
-            { name: "Module 16", module: "Module 16", page: "page16.html" }
+            { name: "Module 16", module: "Module 16", page: "page16.html" },
+            { name: "Eschatology", module: "Module 17", page: "page17.html" },
+            { name: "False Prophets and False Teachers", module: "Module 18", page: "page18.html" },
+            { name: "Module 19", module: "Module 19", page: "page19.html" }
         ];
 
         const searchInput = document.querySelector('.search-input');
