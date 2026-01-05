@@ -379,9 +379,9 @@
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
             const target = event.currentTarget.href || event.target.href;
-            // Fire-and-forget completion; don't block navigation
+            // Start save and wait briefly for it to complete
             markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
-            window.location.href = target;
+            setTimeout(() => window.location.href = target, 300);
         };
     </script>
 </body>
