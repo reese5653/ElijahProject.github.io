@@ -175,7 +175,7 @@
     </footer>
 
     <script type="module">
-        import { onAuthChange, logout, getUserCompletionData, isAdmin, ensureUserDocument, getUserUsername } from './auth.js';
+        import { onAuthChange, logout, getUserCompletionData, isAdmin, ensureUserDocument, getUserUsername, onCompletionUpdate } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
@@ -242,6 +242,11 @@
                 userInfo.style.display = 'flex';
                 await ensureUserDocument();
                 displayCompletedCourses();
+                
+                // Set up real-time listener for completion updates
+                const unsubscribe = onCompletionUpdate((data) => {
+                    displayCompletedCourses();
+                });
                 
                 const adminStatus = await isAdmin();
                 if (adminStatus) {

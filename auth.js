@@ -1,7 +1,7 @@
 // Firebase Authentication Module
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, getDocs, deleteDoc, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -313,4 +313,20 @@ export async function getAnalyticsData() {
 export async function setAdminRole(userId, isAdmin) {
   const userRef = doc(db, "users", userId);
   await updateDoc(userRef, { isAdmin });
+}
+// Real-time listener for user completion updates
+export function onCompletionUpdate(callback) {
+  const user = getCurrentUser();
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+  
+  // Use onSnapshot for real-time updates
+  return onSnapshot(userRef, (doc) => {
+    if (doc.exists()) {
+      callback(doc.data());
+    }
+  }, (error) => {
+    console.error("Error listening to completion updates:", error);
+  });
 }

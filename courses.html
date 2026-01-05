@@ -193,7 +193,7 @@
     </footer>
 
     <script type="module">
-        import { onAuthChange, logout, getUserCompletionData, markModuleComplete, markModuleIncomplete, getCompletionCount, isAdmin, ensureUserDocument, getUserUsername } from './auth.js';
+        import { onAuthChange, logout, getUserCompletionData, markModuleComplete, markModuleIncomplete, getCompletionCount, isAdmin, ensureUserDocument, getUserUsername, onCompletionUpdate } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
@@ -263,6 +263,12 @@
                 await ensureUserDocument();
                 updateProgressDisplay();
                 updateCourseCards();
+                
+                // Set up real-time listener for completion updates
+                const unsubscribe = onCompletionUpdate((data) => {
+                    updateProgressDisplay();
+                    updateCourseCards();
+                });
                 
                 const adminStatus = await isAdmin();
                 if (adminStatus) {
