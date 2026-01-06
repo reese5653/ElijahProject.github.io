@@ -51,6 +51,49 @@ header {
     background: rgba(255,255,255,0.1);
     color: #fff;
 }
+
+/* Grid of social logo cards */
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    justify-items: center;
+    align-items: stretch;
+    max-width: 720px;
+    margin: 1rem auto;
+}
+
+.social-card a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #202124;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+}
+
+.social-card a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.social-icon {
+    width: 48px;
+    height: 48px;
+    display: block;
+}
+
+.social-label {
+    font-weight: 700;
+}
     align-items: center;
 }
 
