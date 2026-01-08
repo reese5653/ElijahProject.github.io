@@ -493,6 +493,12 @@ footer p {
 
 .lesson-content {
     display: none;
+    border: 2px solid #c41e3a;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .lesson-content.active {
