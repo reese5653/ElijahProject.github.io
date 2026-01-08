@@ -283,7 +283,7 @@ main {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border: 2px solid #c41e3a;
+    border: 2px solid #000;
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     position: relative;
     height: 100%;
@@ -293,8 +293,8 @@ main {
 
 .course-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(196, 30, 58, 0.15);
-    border-color: #a01729;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    border-color: #333;
 }
 
 .course-card img {
