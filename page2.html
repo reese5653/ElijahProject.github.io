@@ -362,6 +362,109 @@
                             <a href="Epsm(Redemption).pdf?v=20260108" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab ↗</a>
                         </div>
                     </div>
+
+                    <div class="quiz-container">
+                        <h3>Lesson 2 Quiz: Prophets and Promise</h3>
+                        <div class="quiz-header" id="l2progressText">Question 1 of 5</div>
+                        <div class="quiz-progress">
+                            <div class="quiz-progress-bar" id="l2progressBar" style="width: 20%;"></div>
+                        </div>
+                        <form id="lesson2QuizForm">
+                            <div class="quiz-question">
+                                <h4>Question 1: What was God's plan for Israel?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q1" value="a" id="l2q1a">
+                                    <label for="l2q1a">To be a Kingdom of Priest</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q1" value="b" id="l2q1b">
+                                    <label for="l2q1b">To represent him to the nations.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q1" value="c" id="l2q1c">
+                                    <label for="l2q1c">To bring the seed of the woman through them.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q1" value="d" id="l2q1d">
+                                    <label for="l2q1d">All the Above</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 2: Why did God give the Law?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q2" value="a" id="l2q2a">
+                                    <label for="l2q2a">To keep us until Christ.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q2" value="b" id="l2q2b">
+                                    <label for="l2q2b">The Law exposes sin and a need for a savior.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q2" value="c" id="l2q2c">
+                                    <label for="l2q2c">To point us toward the greater covenant.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q2" value="d" id="l2q2d">
+                                    <label for="l2q2d">All the Above</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 3: The Law could not save us because it could only point out sin but not empower us to overcome it.</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q3" value="true" id="l2q3true">
+                                    <label for="l2q3true">True, The Law could only condemn.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q3" value="false" id="l2q3false">
+                                    <label for="l2q3false">False, If we tried really hard we could keep the law perfectly before God.</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 4: Why will the Messiah be called the Son of David?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q4" value="a" id="l2q4a">
+                                    <label for="l2q4a">God made a covenant with David that his throne would reign forever.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q4" value="b" id="l2q4b">
+                                    <label for="l2q4b">Because Solomon was the Messiah.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q4" value="c" id="l2q4c">
+                                    <label for="l2q4c">David was a type and shadow of the future messiah</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q4" value="d" id="l2q4d">
+                                    <label for="l2q4d">A and C</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 5: Unconditional Covenants describes God's faithfulness to his own word despite human will.</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q5" value="true" id="l2q5true">
+                                    <label for="l2q5true">True, God is faithful to himself.</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="l2q5" value="false" id="l2q5false">
+                                    <label for="l2q5false">False, God changes his mind always.</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-nav">
+                                <button type="button" class="quiz-button" id="l2prevBtn" onclick="l2PreviousQuestion()" style="background-color: #888;">← Previous</button>
+                                <button type="button" class="quiz-button" id="l2nextBtn" onclick="l2NextQuestion()">Next →</button>
+                            </div>
+                        </form>
+
+                        <div id="l2results" class="results">
+                            <div class="score" id="l2scoreText"></div>
+                            <p id="l2feedback" style="margin-top: 1rem; color: #5f6368;"></p>
+                        </div>
+                    </div>
                 </div>
 
                     <div class="lesson-content" id="lesson3-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
@@ -475,6 +578,85 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             showQuestion(0);
+        });
+
+        // Lesson 2 Quiz Handler
+        let l2CurrentQuestion = 0;
+        const l2TotalQuestions = 5;
+        const l2CorrectAnswers = {
+            l2q1: 'd',
+            l2q2: 'd',
+            l2q3: 'true',
+            l2q4: 'd',
+            l2q5: 'true'
+        };
+
+        function l2ShowQuestion(index) {
+            const form = document.getElementById('lesson2QuizForm');
+            const questions = form.querySelectorAll('.quiz-question');
+            questions.forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+            });
+            
+            const progressPercent = ((index + 1) / l2TotalQuestions) * 100;
+            document.getElementById('l2progressBar').style.width = progressPercent + '%';
+            document.getElementById('l2progressText').textContent = `Question ${index + 1} of ${l2TotalQuestions}`;
+            
+            document.getElementById('l2prevBtn').disabled = index === 0;
+            document.getElementById('l2nextBtn').textContent = index === l2TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+        }
+
+        function l2NextQuestion() {
+            if (l2CurrentQuestion < l2TotalQuestions - 1) {
+                l2CurrentQuestion++;
+                l2ShowQuestion(l2CurrentQuestion);
+            } else {
+                l2SubmitQuiz();
+            }
+        }
+
+        function l2PreviousQuestion() {
+            if (l2CurrentQuestion > 0) {
+                l2CurrentQuestion--;
+                l2ShowQuestion(l2CurrentQuestion);
+            }
+        }
+
+        function l2SubmitQuiz() {
+            let score = 0;
+
+            for (let i = 1; i <= l2TotalQuestions; i++) {
+                const answer = document.querySelector(`input[name="l2q${i}"]:checked`)?.value;
+                if (answer === l2CorrectAnswers[`l2q${i}`]) {
+                    score++;
+                }
+            }
+
+            const resultsDiv = document.getElementById('l2results');
+            const scoreText = document.getElementById('l2scoreText');
+            const feedback = document.getElementById('l2feedback');
+
+            const percentage = Math.round((score / l2TotalQuestions) * 100);
+            scoreText.textContent = `Your Score: ${score} / ${l2TotalQuestions} (${percentage}%)`;
+            
+            if (score === 5) {
+                feedback.textContent = 'Perfect! You have mastered this lesson! 🎉';
+            } else if (score === 4) {
+                feedback.textContent = 'Excellent! You understand the material very well. Review the one question you missed.';
+            } else if (score === 3) {
+                feedback.textContent = 'Great job! Review the material for the areas you missed.';
+            } else if (score === 2) {
+                feedback.textContent = 'Good progress! Review the lesson material to strengthen your understanding.';
+            } else {
+                feedback.textContent = 'Please review the lesson material and try again.';
+            }
+
+            document.getElementById('lesson2QuizForm').style.display = 'none';
+            resultsDiv.classList.add('show');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            l2ShowQuestion(0);
         });
     </script>
 
