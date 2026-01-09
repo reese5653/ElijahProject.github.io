@@ -55,20 +55,17 @@ header {
 /* Grid of social logo cards */
 .social-grid {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
     align-items: center;
-    flex-wrap: nowrap;
-    max-width: 300px;
+    flex-wrap: wrap;
     margin: 1rem auto;
 }
 
 .social-card a {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.15rem;
     padding: 0.5rem;
     border: none;
     border-radius: 6px;
@@ -80,13 +77,13 @@ header {
 }
 
 .social-card a:hover {
-    transform: scale(1.12);
+    transform: scale(1.15);
     opacity: 0.8;
 }
 
 .social-icon {
-    width: 24px;
-    height: 24px;
+    width: 48px;
+    height: 48px;
     display: block;
 }
 
@@ -283,8 +280,7 @@ main {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border: 2px solid #000;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     height: 100%;
     display: flex;
@@ -294,7 +290,6 @@ main {
 .course-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-    border-color: #333;
 }
 
 .course-card img {

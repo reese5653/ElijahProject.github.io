@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Commit Module 2 PDF cache-busting",
+			"type": "shell",
+			"command": "git add page2.html; git commit -m \"Cache-bust Module 2 Week 1 PDFs to load latest\"; git push",
+			"group": "build"
+		}
+	]
+}
