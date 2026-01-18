@@ -422,7 +422,11 @@
         }
 
         // Call on page load
-        checkQuizCompletion();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkQuizCompletion);
+        } else {
+            checkQuizCompletion();
+        }
 
         // Make markQuizComplete available globally for quiz functions
         window.markQuizComplete = markQuizComplete;
