@@ -314,6 +314,45 @@ export async function setAdminRole(userId, isAdmin) {
   const userRef = doc(db, "users", userId);
   await updateDoc(userRef, { isAdmin });
 }
+
+// Mark quiz as completed
+export async function markQuizComplete(moduleNumber, lessonNumber) {
+  const user = getCurrentUser();
+  if (!user) return;
+
+  const userRef = doc(db, "users", user.uid);
+  const quizKey = `module_${moduleNumber}_lesson_${lessonNumber}_quiz`;
+  
+  try {
+    await setDoc(userRef, {
+      [quizKey]: true,
+      [`${quizKey}_date`]: new Date().toISOString()
+    }, { merge: true });
+  } catch (error) {
+    console.error("Error marking quiz complete:", error);
+  }
+}
+
+// Check if quiz is completed
+export async function isQuizCompleted(moduleNumber, lessonNumber) {
+  const user = getCurrentUser();
+  if (!user) return false;
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+    
+    if (userDoc.exists()) {
+      const quizKey = `module_${moduleNumber}_lesson_${lessonNumber}_quiz`;
+      return userDoc.data()[quizKey] === true;
+    }
+    return false;
+  } catch (error) {
+    console.error("Error checking quiz completion:", error);
+    return false;
+  }
+}
+
 // Real-time listener for user completion updates
 export function onCompletionUpdate(callback) {
   const user = getCurrentUser();

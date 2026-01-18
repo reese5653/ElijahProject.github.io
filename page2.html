@@ -581,6 +581,11 @@
 
             document.getElementById('quizForm').style.display = 'none';
             resultsDiv.classList.add('show');
+
+            // Mark quiz as complete
+            if (window.markQuizComplete) {
+                window.markQuizComplete(2, 1).catch(err => console.error('Error marking quiz complete:', err));
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -660,6 +665,11 @@
 
             document.getElementById('lesson2QuizForm').style.display = 'none';
             resultsDiv.classList.add('show');
+
+            // Mark quiz as complete
+            if (window.markQuizComplete) {
+                window.markQuizComplete(2, 2).catch(err => console.error('Error marking quiz complete:', err));
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -697,7 +707,7 @@
     </script>
 
     <script type="module">
-        import { markModuleComplete } from './auth.js';
+        import { markModuleComplete, markQuizComplete, isQuizCompleted } from './auth.js';
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
@@ -706,6 +716,32 @@
             markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
             setTimeout(() => window.location.href = target, 300);
         };
+
+        // Check and hide completed quizzes on page load
+        async function checkQuizCompletion() {
+            const lesson1QuizCompleted = await isQuizCompleted(2, 1);
+            const lesson2QuizCompleted = await isQuizCompleted(2, 2);
+
+            if (lesson1QuizCompleted) {
+                const quizContainer = document.querySelector('#lesson1-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.style.display = 'none';
+                }
+            }
+
+            if (lesson2QuizCompleted) {
+                const quizContainer = document.querySelector('#lesson2-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.style.display = 'none';
+                }
+            }
+        }
+
+        // Call on page load
+        checkQuizCompletion();
+
+        // Make markQuizComplete available globally for quiz functions
+        window.markQuizComplete = markQuizComplete;
     </script>
 </body>
 </html>

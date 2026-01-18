@@ -366,6 +366,11 @@
 
             document.getElementById('quizForm').style.display = 'none';
             resultsDiv.classList.add('show');
+
+            // Mark quiz as complete
+            if (window.markQuizComplete) {
+                window.markQuizComplete(1, 1).catch(err => console.error('Error marking quiz complete:', err));
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -374,7 +379,7 @@
     </script>
 
     <script type="module">
-        import { markModuleComplete } from './auth.js';
+        import { markModuleComplete, markQuizComplete, isQuizCompleted } from './auth.js';
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
@@ -383,6 +388,24 @@
             markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
             setTimeout(() => window.location.href = target, 300);
         };
+
+        // Check and hide completed quiz on page load
+        async function checkQuizCompletion() {
+            const quizCompleted = await isQuizCompleted(1, 1);
+
+            if (quizCompleted) {
+                const quizContainer = document.querySelector('.quiz-container');
+                if (quizContainer) {
+                    quizContainer.style.display = 'none';
+                }
+            }
+        }
+
+        // Call on page load
+        checkQuizCompletion();
+
+        // Make markQuizComplete available globally for quiz functions
+        window.markQuizComplete = markQuizComplete;
     </script>
 </body>
 </html>
