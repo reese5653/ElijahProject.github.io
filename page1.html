@@ -372,13 +372,17 @@
                 window.markQuizComplete(1, 1).catch(err => console.error('Error marking quiz complete:', err));
             }
 
-            // Hide entire quiz container after 3 seconds
+            // Replace quiz with completed status after showing results
             setTimeout(() => {
                 const quizContainer = document.querySelector('.quiz-container');
                 if (quizContainer) {
-                    quizContainer.style.transition = 'opacity 0.5s ease';
-                    quizContainer.style.opacity = '0';
-                    setTimeout(() => quizContainer.style.display = 'none', 500);
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
                 }
             }, 3000);
         }
@@ -399,14 +403,20 @@
             setTimeout(() => window.location.href = target, 300);
         };
 
-        // Check and hide completed quiz on page load
+        // Check and show completed status on page load
         async function checkQuizCompletion() {
             const quizCompleted = await isQuizCompleted(1, 1);
 
             if (quizCompleted) {
                 const quizContainer = document.querySelector('.quiz-container');
                 if (quizContainer) {
-                    quizContainer.style.display = 'none';
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
                 }
             }
         }
