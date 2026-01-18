@@ -367,7 +367,10 @@
             document.getElementById('quizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
-            // Mark quiz as complete
+            // Mark quiz as complete in localStorage
+            localStorage.setItem('quiz_1_1_completed', 'true');
+
+            // Mark quiz as complete in Firebase
             if (window.markQuizComplete) {
                 window.markQuizComplete(1, 1).catch(err => console.error('Error marking quiz complete:', err));
             }
@@ -393,7 +396,7 @@
     </script>
 
     <script type="module">
-        import { markModuleComplete, markQuizComplete, isQuizCompleted } from './auth.js';
+        import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
@@ -405,7 +408,18 @@
 
         // Check and show completed status on page load
         async function checkQuizCompletion() {
-            const quizCompleted = await isQuizCompleted(1, 1);
+            // Check localStorage first (works without auth)
+            const localStorageCompleted = localStorage.getItem('quiz_1_1_completed') === 'true';
+            
+            // Check Firebase if authenticated
+            let firebaseCompleted = false;
+            try {
+                firebaseCompleted = await isQuizCompleted(1, 1);
+            } catch (e) {
+                console.log('Not authenticated yet');
+            }
+
+            const quizCompleted = localStorageCompleted || firebaseCompleted;
 
             if (quizCompleted) {
                 const quizContainer = document.querySelector('.quiz-container');
@@ -421,12 +435,15 @@
             }
         }
 
-        // Call on page load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkQuizCompletion);
-        } else {
-            checkQuizCompletion();
-        }
+        // Check on page load
+        checkQuizCompletion();
+
+        // Also check when user authenticates
+        onAuthChange((user) => {
+            if (user) {
+                checkQuizCompletion();
+            }
+        });
 
         // Make markQuizComplete available globally for quiz functions
         window.markQuizComplete = markQuizComplete;

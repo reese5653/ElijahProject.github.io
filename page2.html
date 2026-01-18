@@ -582,6 +582,9 @@
             document.getElementById('quizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
+            // Mark quiz as complete in localStorage
+            localStorage.setItem('quiz_2_1_completed', 'true');
+
             // Mark quiz as complete
             if (window.markQuizComplete) {
                 window.markQuizComplete(2, 1).catch(err => console.error('Error marking quiz complete:', err));
@@ -680,6 +683,9 @@
             document.getElementById('lesson2QuizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
+            // Mark quiz as complete in localStorage
+            localStorage.setItem('quiz_2_2_completed', 'true');
+
             // Mark quiz as complete
             if (window.markQuizComplete) {
                 window.markQuizComplete(2, 2).catch(err => console.error('Error marking quiz complete:', err));
@@ -735,7 +741,7 @@
     </script>
 
     <script type="module">
-        import { markModuleComplete, markQuizComplete, isQuizCompleted } from './auth.js';
+        import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
@@ -747,8 +753,19 @@
 
         // Check and show completed status on page load
         async function checkQuizCompletion() {
-            const lesson1QuizCompleted = await isQuizCompleted(2, 1);
-            const lesson2QuizCompleted = await isQuizCompleted(2, 2);
+            // Check localStorage first (works without auth)
+            const lesson1LocalStorage = localStorage.getItem('quiz_2_1_completed') === 'true';
+            const lesson2LocalStorage = localStorage.getItem('quiz_2_2_completed') === 'true';
+            
+            // Check Firebase if authenticated
+            let lesson1QuizCompleted = lesson1LocalStorage;
+            let lesson2QuizCompleted = lesson2LocalStorage;
+            
+            try {
+                if (!lesson1LocalStorage) lesson1QuizCompleted = await isQuizCompleted(2, 1);
+                if (!lesson2LocalStorage) lesson2QuizCompleted = await isQuizCompleted(2, 2);
+            } catch (e) {
+                console.log('Not authenticated yet');\n            }
 
             if (lesson1QuizCompleted) {
                 const quizContainer = document.querySelector('#lesson1-content .quiz-container');
@@ -777,12 +794,15 @@
             }
         }
 
-        // Call on page load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', checkQuizCompletion);
-        } else {
-            checkQuizCompletion();
-        }
+        // Check on page load
+        checkQuizCompletion();
+
+        // Also check when user authenticates
+        onAuthChange((user) => {
+            if (user) {
+                checkQuizCompletion();
+            }
+        });
 
         // Make markQuizComplete available globally for quiz functions
         window.markQuizComplete = markQuizComplete;
