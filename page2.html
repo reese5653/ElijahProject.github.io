@@ -586,6 +586,16 @@
             if (window.markQuizComplete) {
                 window.markQuizComplete(2, 1).catch(err => console.error('Error marking quiz complete:', err));
             }
+
+            // Hide entire quiz container after 3 seconds
+            setTimeout(() => {
+                const quizContainer = document.querySelector('#lesson1-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.style.transition = 'opacity 0.5s ease';
+                    quizContainer.style.opacity = '0';
+                    setTimeout(() => quizContainer.style.display = 'none', 500);
+                }
+            }, 3000);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -670,6 +680,16 @@
             if (window.markQuizComplete) {
                 window.markQuizComplete(2, 2).catch(err => console.error('Error marking quiz complete:', err));
             }
+
+            // Hide entire quiz container after 3 seconds
+            setTimeout(() => {
+                const quizContainer = document.querySelector('#lesson2-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.style.transition = 'opacity 0.5s ease';
+                    quizContainer.style.opacity = '0';
+                    setTimeout(() => quizContainer.style.display = 'none', 500);
+                }
+            }, 3000);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
