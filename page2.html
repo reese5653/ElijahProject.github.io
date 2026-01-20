@@ -638,17 +638,29 @@
 
         function l2ShowQuestion(index) {
             const form = document.getElementById('lesson2QuizForm');
+            if (!form) {
+                console.warn('Quiz form not found yet');
+                return;
+            }
+            
             const questions = form.querySelectorAll('.quiz-question');
             questions.forEach((q, i) => {
                 q.classList.toggle('active', i === index);
             });
             
-            const progressPercent = ((index + 1) / l2TotalQuestions) * 100;
-            document.getElementById('l2progressBar').style.width = progressPercent + '%';
-            document.getElementById('l2progressText').textContent = `Question ${index + 1} of ${l2TotalQuestions}`;
+            const progressBar = document.getElementById('l2progressBar');
+            const progressText = document.getElementById('l2progressText');
+            const prevBtn = document.getElementById('l2prevBtn');
+            const nextBtn = document.getElementById('l2nextBtn');
             
-            document.getElementById('l2prevBtn').disabled = index === 0;
-            document.getElementById('l2nextBtn').textContent = index === l2TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+            if (progressBar && progressText && prevBtn && nextBtn) {
+                const progressPercent = ((index + 1) / l2TotalQuestions) * 100;
+                progressBar.style.width = progressPercent + '%';
+                progressText.textContent = `Question ${index + 1} of ${l2TotalQuestions}`;
+                
+                prevBtn.disabled = index === 0;
+                nextBtn.textContent = index === l2TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+            }
         }
 
         function l2NextQuestion() {
