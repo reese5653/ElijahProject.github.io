@@ -781,7 +781,8 @@
                 if (!lesson1LocalStorage) lesson1QuizCompleted = await isQuizCompleted(2, 1);
                 if (!lesson2LocalStorage) lesson2QuizCompleted = await isQuizCompleted(2, 2);
             } catch (e) {
-                console.log('Not authenticated yet');\n            }
+                console.log('Not authenticated yet');
+            }
 
             if (lesson1QuizCompleted) {
                 const quizContainer = document.querySelector('#lesson1-content .quiz-container');
@@ -810,13 +811,17 @@
             }
         }
 
-        // Check on page load
-        checkQuizCompletion();
+        // Wait for DOM to be fully loaded before checking
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkQuizCompletion);
+        } else {
+            checkQuizCompletion();
+        }
 
         // Also check when user authenticates
         onAuthChange((user) => {
             if (user) {
-                checkQuizCompletion();
+                setTimeout(checkQuizCompletion, 100);
             }
         });
 
