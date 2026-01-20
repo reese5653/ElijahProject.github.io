@@ -291,20 +291,41 @@
 
         onAuthChange(async (user) => {
             if (user) {
-                const username = await getUserUsername();
-                userEmail.textContent = username || user.email;
+                try {
+                    const username = await getUserUsername();
+                    userEmail.textContent = username || user.email;
+                } catch (error) {
+                    console.warn('Could not fetch username, using email:', error.message);
+                    userEmail.textContent = user.email;
+                }
+                
                 userInfo.style.display = 'flex';
-                await ensureUserDocument();
+                
+                try {
+                    await ensureUserDocument();
+                } catch (error) {
+                    console.warn('Could not ensure user document:', error.message);
+                }
+                
+                // Load dashboard - this is the important part
                 await displayCompletedCourses();
                 
                 // Set up real-time listener for completion updates
-                onCompletionUpdate(() => {
-                    displayCompletedCourses();
-                });
+                try {
+                    onCompletionUpdate(() => {
+                        displayCompletedCourses();
+                    });
+                } catch (error) {
+                    console.warn('Could not set up real-time listener:', error.message);
+                }
                 
-                const adminStatus = await isAdmin();
-                if (adminStatus) {
-                    adminLink.style.display = 'inline';
+                try {
+                    const adminStatus = await isAdmin();
+                    if (adminStatus) {
+                        adminLink.style.display = 'inline';
+                    }
+                } catch (error) {
+                    console.warn('Could not check admin status:', error.message);
                 }
             } else {
                 userInfo.style.display = 'none';
