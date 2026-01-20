@@ -242,16 +242,22 @@
                     return;
                 }
 
-                completedGrid.innerHTML = completedCourses.map(course => `
-                    <div class="completed-course-card" onclick="window.location.href='${course.page}'">
-                        <img src="${course.image}" alt="${course.name}">
-                        <div class="completed-course-info">
-                            <h3>${course.name}</h3>
-                            <div class="completed-date">${data[`module_${course.id}_date`] ? new Date(data[`module_${course.id}_date`]).toLocaleDateString() : 'Recently completed'}</div>
-                            <span class="completion-badge">✓ Completed</span>
+                completedGrid.innerHTML = completedCourses.map(course => {
+                    const firebaseDate = data[`module_${course.id}_date`];
+                    const localDate = localStorage.getItem(`module_${course.id}_date`);
+                    const dateToDisplay = firebaseDate ? new Date(firebaseDate).toLocaleDateString() : (localDate ? new Date(localDate).toLocaleDateString() : 'Recently completed');
+                    
+                    return `
+                        <div class="completed-course-card" onclick="window.location.href='${course.page}'">
+                            <img src="${course.image}" alt="${course.name}">
+                            <div class="completed-course-info">
+                                <h3>${course.name}</h3>
+                                <div class="completed-date">${dateToDisplay}</div>
+                                <span class="completion-badge">✓ Completed</span>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
             } catch (error) {
                 console.error('Error displaying completed courses:', error);
                 completedGrid.innerHTML = `

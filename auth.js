@@ -117,6 +117,11 @@ export async function ensureUserDocument() {
 
 // Mark module as completed
 export async function markModuleComplete(moduleNumber) {
+  // Always save to localStorage first (works without login)
+  localStorage.setItem(`module_${moduleNumber}_completed`, 'true');
+  localStorage.setItem(`module_${moduleNumber}_date`, new Date().toISOString());
+  
+  // Also save to Firebase if logged in
   const user = getCurrentUser();
   if (!user) return;
 
