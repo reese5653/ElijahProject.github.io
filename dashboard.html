@@ -216,34 +216,51 @@
         ];
 
         async function displayCompletedCourses() {
-            const data = await getUserCompletionData();
-            const completedCourses = courses.filter(course => data[`module_${course.id}`] === true);
-            
-            completedCountBig.textContent = completedCourses.length;
-            remainingCount.textContent = 19 - completedCourses.length;
+            try {
+                // Get Firebase data
+                const data = await getUserCompletionData();
+                
+                // Also check localStorage as fallback
+                const completedCourses = courses.filter(course => {
+                    const firebaseCompleted = data[`module_${course.id}`] === true;
+                    const localStorageCompleted = localStorage.getItem(`module_${course.id}_completed`) === 'true';
+                    return firebaseCompleted || localStorageCompleted;
+                });
+                
+                completedCountBig.textContent = completedCourses.length;
+                remainingCount.textContent = 19 - completedCourses.length;
 
-            if (completedCourses.length === 0) {
-                completedGrid.innerHTML = `
-                    <div style="grid-column: 1 / -1;">
-                        <div class="no-completed">
-                            <h2>No Completed Courses Yet</h2>
-                            <p>Start learning by visiting the <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">Courses</a> page!</p>
+                if (completedCourses.length === 0) {
+                    completedGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1;">
+                            <div class="no-completed">
+                                <h2>No Completed Courses Yet</h2>
+                                <p>Start learning by visiting the <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">Courses</a> page!</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                completedGrid.innerHTML = completedCourses.map(course => `
+                    <div class="completed-course-card" onclick="window.location.href='${course.page}'">
+                        <img src="${course.image}" alt="${course.name}">
+                        <div class="completed-course-info">
+                            <h3>${course.name}</h3>
+                            <div class="completed-date">${data[`module_${course.id}_date`] ? new Date(data[`module_${course.id}_date`]).toLocaleDateString() : 'Recently completed'}</div>
+                            <span class="completion-badge">✓ Completed</span>
                         </div>
                     </div>
-                `;
-                return;
-            }
-
-            completedGrid.innerHTML = completedCourses.map(course => `
-                <div class="completed-course-card" onclick="window.location.href='${course.page}'">
-                    <img src="${course.image}" alt="${course.name}">
-                    <div class="completed-course-info">
-                        <h3>${course.name}</h3>
-                        <div class="completed-date">${data[`module_${course.id}_date`] ? new Date(data[`module_${course.id}_date`]).toLocaleDateString() : 'Recently completed'}</div>
-                        <span class="completion-badge">✓ Completed</span>
+                `).join('');
+            } catch (error) {
+                console.error('Error displaying completed courses:', error);
+                completedGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #dc3545;">
+                        <h3>Error loading dashboard</h3>
+                        <p>There was a problem loading your progress. Please try refreshing the page.</p>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }
         }
 
         onAuthChange(async (user) => {
