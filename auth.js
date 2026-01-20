@@ -118,12 +118,23 @@ export async function ensureUserDocument() {
 // Mark module as completed
 export async function markModuleComplete(moduleNumber) {
   // Always save to localStorage first (works without login)
-  localStorage.setItem(`module_${moduleNumber}_completed`, 'true');
-  localStorage.setItem(`module_${moduleNumber}_date`, new Date().toISOString());
+  try {
+    localStorage.setItem(`module_${moduleNumber}_completed`, 'true');
+    localStorage.setItem(`module_${moduleNumber}_date`, new Date().toISOString());
+    console.log(`✓ Module ${moduleNumber} saved to localStorage`, {
+      key: `module_${moduleNumber}_completed`,
+      value: 'true'
+    });
+  } catch (e) {
+    console.error(`✗ Failed to save to localStorage:`, e);
+  }
   
   // Also save to Firebase if logged in
   const user = getCurrentUser();
-  if (!user) return;
+  if (!user) {
+    console.log(`ℹ No user logged in - skipping Firebase save`);
+    return;
+  }
 
   const userRef = doc(db, "users", user.uid);
   const completedKey = `module_${moduleNumber}`;
@@ -134,6 +145,7 @@ export async function markModuleComplete(moduleNumber) {
       [completedKey]: true,
       [`${completedKey}_date`]: new Date().toISOString()
     }, { merge: true });
+    console.log(`✓ Module ${moduleNumber} saved to Firebase`);
   } catch (error) {
     console.error("Error marking module complete:", error);
   }

@@ -219,13 +219,24 @@
             try {
                 // Get Firebase data
                 const data = await getUserCompletionData();
+                console.log('📊 Firebase data:', data);
+                
+                // Check localStorage
+                console.log('💾 Checking localStorage for completions...');
                 
                 // Also check localStorage as fallback
                 const completedCourses = courses.filter(course => {
                     const firebaseCompleted = data[`module_${course.id}`] === true;
                     const localStorageCompleted = localStorage.getItem(`module_${course.id}_completed`) === 'true';
+                    
+                    if (firebaseCompleted || localStorageCompleted) {
+                        console.log(`✓ Module ${course.id}:`, { firebase: firebaseCompleted, localStorage: localStorageCompleted });
+                    }
+                    
                     return firebaseCompleted || localStorageCompleted;
                 });
+                
+                console.log(`📈 Total completed: ${completedCourses.length}`);
                 
                 completedCountBig.textContent = completedCourses.length;
                 remainingCount.textContent = 19 - completedCourses.length;
@@ -259,11 +270,12 @@
                     `;
                 }).join('');
             } catch (error) {
-                console.error('Error displaying completed courses:', error);
+                console.error('❌ Error displaying completed courses:', error);
                 completedGrid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #dc3545;">
                         <h3>Error loading dashboard</h3>
                         <p>There was a problem loading your progress. Please try refreshing the page.</p>
+                        <p style="font-size: 0.9rem; color: #666;">Check console for details.</p>
                     </div>
                 `;
             }
