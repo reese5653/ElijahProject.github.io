@@ -217,14 +217,22 @@
 
         async function displayCompletedCourses() {
             try {
-                // Get Firebase data
-                const data = await getUserCompletionData();
-                console.log('📊 Firebase data:', data);
+                console.log('📊 Loading dashboard...');
+                
+                // Get Firebase data (might fail if offline, that's ok)
+                let data = {};
+                try {
+                    data = await getUserCompletionData();
+                    console.log('📊 Firebase data loaded:', data);
+                } catch (firebaseError) {
+                    console.warn('⚠️ Firebase offline or error:', firebaseError.message);
+                    console.log('💾 Using localStorage fallback...');
+                }
                 
                 // Check localStorage
                 console.log('💾 Checking localStorage for completions...');
                 
-                // Also check localStorage as fallback
+                // Combine Firebase and localStorage data
                 const completedCourses = courses.filter(course => {
                     const firebaseCompleted = data[`module_${course.id}`] === true;
                     const localStorageCompleted = localStorage.getItem(`module_${course.id}_completed`) === 'true';
