@@ -215,78 +215,52 @@
             { id: 19, name: "Module 19", image: "2026.png", page: "page19.html" }
         ];
 
-        async function displayCompletedCourses() {
-            try {
-                console.log('📊 Loading dashboard...');
-                
-                // Get Firebase data (might fail if offline, that's ok)
-                let data = {};
-                try {
-                    data = await getUserCompletionData();
-                    console.log('📊 Firebase data loaded:', data);
-                } catch (firebaseError) {
-                    console.warn('⚠️ Firebase offline or error:', firebaseError.message);
-                    console.log('💾 Using localStorage fallback...');
+        function displayCompletedCourses() {
+            console.log('📊 Loading dashboard from localStorage (instant)...');
+            
+            // Get completed courses from localStorage FIRST (instant load)
+            const completedCourses = courses.filter(course => {
+                const localStorageCompleted = localStorage.getItem(`module_${course.id}_completed`) === 'true';
+                if (localStorageCompleted) {
+                    console.log(`✓ Module ${course.id} completed`);
                 }
-                
-                // Check localStorage
-                console.log('💾 Checking localStorage for completions...');
-                
-                // Combine Firebase and localStorage data
-                const completedCourses = courses.filter(course => {
-                    const firebaseCompleted = data[`module_${course.id}`] === true;
-                    const localStorageCompleted = localStorage.getItem(`module_${course.id}_completed`) === 'true';
-                    
-                    if (firebaseCompleted || localStorageCompleted) {
-                        console.log(`✓ Module ${course.id}:`, { firebase: firebaseCompleted, localStorage: localStorageCompleted });
-                    }
-                    
-                    return firebaseCompleted || localStorageCompleted;
-                });
-                
-                console.log(`📈 Total completed: ${completedCourses.length}`);
-                
-                completedCountBig.textContent = completedCourses.length;
-                remainingCount.textContent = 19 - completedCourses.length;
+                return localStorageCompleted;
+            });
+            
+            console.log(`📈 Total completed: ${completedCourses.length}`);
+            
+            // Update stats
+            completedCountBig.textContent = completedCourses.length;
+            remainingCount.textContent = 19 - completedCourses.length;
 
-                if (completedCourses.length === 0) {
-                    completedGrid.innerHTML = `
-                        <div style="grid-column: 1 / -1;">
-                            <div class="no-completed">
-                                <h2>No Completed Courses Yet</h2>
-                                <p>Start learning by visiting the <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">Courses</a> page!</p>
-                            </div>
-                        </div>
-                    `;
-                    return;
-                }
-
-                completedGrid.innerHTML = completedCourses.map(course => {
-                    const firebaseDate = data[`module_${course.id}_date`];
-                    const localDate = localStorage.getItem(`module_${course.id}_date`);
-                    const dateToDisplay = firebaseDate ? new Date(firebaseDate).toLocaleDateString() : (localDate ? new Date(localDate).toLocaleDateString() : 'Recently completed');
-                    
-                    return `
-                        <div class="completed-course-card" onclick="window.location.href='${course.page}'">
-                            <img src="${course.image}" alt="${course.name}">
-                            <div class="completed-course-info">
-                                <h3>${course.name}</h3>
-                                <div class="completed-date">${dateToDisplay}</div>
-                                <span class="completion-badge">✓ Completed</span>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } catch (error) {
-                console.error('❌ Error displaying completed courses:', error);
+            // Display results
+            if (completedCourses.length === 0) {
                 completedGrid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #dc3545;">
-                        <h3>Error loading dashboard</h3>
-                        <p>There was a problem loading your progress. Please try refreshing the page.</p>
-                        <p style="font-size: 0.9rem; color: #666;">Check console for details.</p>
+                    <div style="grid-column: 1 / -1;">
+                        <div class="no-completed">
+                            <h2>No Completed Courses Yet</h2>
+                            <p>Start learning by visiting the <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">Courses</a> page!</p>
+                        </div>
                     </div>
                 `;
+                return;
             }
+
+            completedGrid.innerHTML = completedCourses.map(course => {
+                const localDate = localStorage.getItem(`module_${course.id}_date`);
+                const dateToDisplay = localDate ? new Date(localDate).toLocaleDateString() : 'Recently completed';
+                
+                return `
+                    <div class="completed-course-card" onclick="window.location.href='${course.page}'">
+                        <img src="${course.image}" alt="${course.name}">
+                        <div class="completed-course-info">
+                            <h3>${course.name}</h3>
+                            <div class="completed-date">${dateToDisplay}</div>
+                            <span class="completion-badge">✓ Completed</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         onAuthChange(async (user) => {
@@ -306,8 +280,8 @@
                     console.warn('Could not check admin status:', err.message);
                 });
                 
-                // Load dashboard - this is the important part
-                await displayCompletedCourses();
+                // Load dashboard instantly from localStorage (no await needed)
+                displayCompletedCourses();
             } else {
                 console.log('No user logged in, redirecting...');
                 userInfo.style.display = 'none';
