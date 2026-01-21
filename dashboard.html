@@ -271,14 +271,12 @@
                 userEmail.textContent = user.email;
                 userInfo.style.display = 'flex';
                 
-                // Try to check admin status but don't block on it
-                isAdmin().then(adminStatus => {
-                    if (adminStatus) {
-                        adminLink.style.display = 'inline';
-                    }
-                }).catch(err => {
-                    console.warn('Could not check admin status:', err.message);
-                });
+                // Check if admin by email (instant, no Firebase needed)
+                const ADMIN_EMAILS = ['shortcreekimpact@gmail.com'];
+                if (ADMIN_EMAILS.includes(user.email)) {
+                    console.log('✓ Admin user detected');
+                    adminLink.style.display = 'inline';
+                }
                 
                 // Load dashboard instantly from localStorage (no await needed)
                 displayCompletedCourses();
