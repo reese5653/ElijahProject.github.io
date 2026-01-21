@@ -291,43 +291,25 @@
 
         onAuthChange(async (user) => {
             if (user) {
-                try {
-                    const username = await getUserUsername();
-                    userEmail.textContent = username || user.email;
-                } catch (error) {
-                    console.warn('Could not fetch username, using email:', error.message);
-                    userEmail.textContent = user.email;
-                }
+                console.log('✓ User logged in:', user.email);
                 
+                // Show user email directly without Firebase calls
+                userEmail.textContent = user.email;
                 userInfo.style.display = 'flex';
                 
-                try {
-                    await ensureUserDocument();
-                } catch (error) {
-                    console.warn('Could not ensure user document:', error.message);
-                }
-                
-                // Load dashboard - this is the important part
-                await displayCompletedCourses();
-                
-                // Set up real-time listener for completion updates
-                try {
-                    onCompletionUpdate(() => {
-                        displayCompletedCourses();
-                    });
-                } catch (error) {
-                    console.warn('Could not set up real-time listener:', error.message);
-                }
-                
-                try {
-                    const adminStatus = await isAdmin();
+                // Try to check admin status but don't block on it
+                isAdmin().then(adminStatus => {
                     if (adminStatus) {
                         adminLink.style.display = 'inline';
                     }
-                } catch (error) {
-                    console.warn('Could not check admin status:', error.message);
-                }
+                }).catch(err => {
+                    console.warn('Could not check admin status:', err.message);
+                });
+                
+                // Load dashboard - this is the important part
+                await displayCompletedCourses();
             } else {
+                console.log('No user logged in, redirecting...');
                 userInfo.style.display = 'none';
                 window.location.href = 'login.html';
             }
