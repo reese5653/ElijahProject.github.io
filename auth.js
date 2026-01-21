@@ -89,16 +89,21 @@ export function getCurrentUser() {
 export async function getUserUsername() {
   const user = getCurrentUser();
   if (!user) return null;
+  // Use cached username first to avoid Firestore calls when offline
+  const cached = localStorage.getItem(`username_cache_${user.uid}`);
+  if (cached) return cached;
   
   try {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
-      return userSnap.data().username || user.email;
+      const name = userSnap.data().username || user.email;
+      localStorage.setItem(`username_cache_${user.uid}`, name);
+      return name;
     }
     return user.email;
   } catch (error) {
-    console.error("Error fetching username:", error);
+    console.warn("Could not fetch username (offline?), using email", error?.message || error);
     return user.email;
   }
 }
