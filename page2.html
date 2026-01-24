@@ -663,29 +663,27 @@
                     </div>
                 </div>
 
-                <div class="lesson-sidebar" style="margin-top: 2rem;">
-                    <h4>Jump to a Lesson</h4>
-                    <select class="lesson-select" id="lessonSelect">
-                        <option value="#lesson1">Lesson 1: Creation to Covenant</option>
-                        <option value="#lesson2">Lesson 2: Prophets and Promise</option>
-                        <option value="#lesson3">Lesson 3: From Cross to Resurrection</option>
-                    </select>
-                    <button class="lesson-go" id="lessonGo">Go</button>
-                    <ul class="lesson-list">
-                        <li>Quick navigation for this module.</li>
-                        <li>More lessons can be added later.</li>
-                    </ul>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <a href="page3.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; flex: 1; position: relative;" onclick="handleModuleComplete(event, 2)">
+                        <span id="btnText">Complete and Continue →</span>
+                        <span id="btnLoading" style="display: none;">Saving... ⏳</span>
+                    </a>
+                    <a href="courses.html" class="back-button" style="flex: 1;">← Back to Courses</a>
                 </div>
             </div>
 
             <aside class="lesson-sidebar">
-                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                    <a href="page3.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; position: relative; text-align: center;" onclick="handleModuleComplete(event, 2)">
-                        <span id="btnText">Complete and Continue →</span>
-                        <span id="btnLoading" style="display: none;">Saving... ⏳</span>
-                    </a>
-                    <a href="courses.html" class="back-button" style="text-align: center;">← Back to Courses</a>
-                </div>
+                <h4>Jump to a Lesson</h4>
+                <select class="lesson-select" id="lessonSelect">
+                    <option value="#lesson1">Lesson 1: Creation to Covenant</option>
+                    <option value="#lesson2">Lesson 2: Prophets and Promise</option>
+                    <option value="#lesson3">Lesson 3: From Cross to Resurrection</option>
+                </select>
+                <button class="lesson-go" id="lessonGo">Go</button>
+                <ul class="lesson-list">
+                    <li>Quick navigation for this module.</li>
+                    <li>More lessons can be added later.</li>
+                </ul>
             </aside>
         </div>
     </body>
