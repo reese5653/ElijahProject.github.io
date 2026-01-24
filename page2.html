@@ -818,7 +818,7 @@
                         <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
-                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
                         </div>
                     `;
                 }
@@ -931,7 +931,7 @@
                         <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
-                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
                         </div>
                     `;
                 }
@@ -1050,16 +1050,7 @@
                         <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
-                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
-                        </div>
-                    `;
-                }
-            }, 3000);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            l3ShowQuestion(0);
-        });
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
     </script>
 
     <script>
@@ -1129,40 +1120,21 @@
                         <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
-                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
-                        </div>
-                    `;
-                }
-            }
-
-            if (lesson2QuizCompleted) {
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
                 const quizContainer = document.querySelector('#lesson2-content .quiz-container');
                 if (quizContainer) {
                     quizContainer.innerHTML = `
                         <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
-                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
-                        </div>
-                    `;
-                }
-            }
-
-            if (lesson3QuizCompleted) {
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
                 const quizContainer = document.querySelector('#lesson3-content .quiz-container');
                 if (quizContainer) {
                     quizContainer.innerHTML = `
                         <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
-                            <p style="opacity: 0.9; margin: 0;">You have successfully completed this quiz.</p>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Wait for DOM to be fully loaded before checking
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', checkQuizCompletion);
         } else {
