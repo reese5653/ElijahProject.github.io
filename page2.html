@@ -186,7 +186,22 @@
     </style>
 </head>
 <body>
-    <div class="module-layout" style="padding: 2rem;">
+    <header>
+        <nav class="top-nav">
+            <div class="logo">Elijah Project</div>
+            <div class="nav-links">
+                <a href="courses.html">Courses</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+        <div style="margin-bottom: 2rem;">
+            <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">← Back to Courses</a>
+        </div>
+        <div class="module-layout">
         <div class="page-content" style="text-align: left;">
                 <h2>Module 2: From Genesis to the Cross</h2>
                 <p style="color: #5f6368; margin-bottom: 2rem;">Explore the biblical narrative from creation through the redemptive work of Christ.</p>
@@ -686,6 +701,11 @@
                 </ul>
             </aside>
         </div>
+    </main>
+
+    <footer style="background-color: #f8f9fa; border-top: 1px solid #e0e0e0; margin-top: 4rem; padding: 2rem; text-align: center;">
+        <p style="color: #5f6368; margin-bottom: 1rem; font-size: 0.875rem;">Copyrights ©2025. All Rights Reserved.</p>
+    </footer>
 
     <script>
         let currentQuestion = 0;
@@ -1140,7 +1160,5 @@
         // Make markQuizComplete available globally for quiz functions
         window.markQuizComplete = markQuizComplete;
     </script>
-</body>
-</html>
 </body>
 </html>
