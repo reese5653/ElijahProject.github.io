@@ -9,7 +9,7 @@
     <style>
         .module-layout {
             display: grid;
-            grid-template-columns: 1fr 120px;
+            grid-template-columns: 1fr auto;
             gap: 2rem;
             align-items: start;
         }
@@ -21,6 +21,8 @@
             padding: 0.5rem;
             box-shadow: 0 2px 6px rgba(0,0,0,0.04);
             font-size: 0.85rem;
+            max-width: 120px;
+            min-width: 120px;
         }
 
         .lesson-sidebar h4 {
