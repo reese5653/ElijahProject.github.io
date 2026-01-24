@@ -679,11 +679,13 @@
                     </div>
                 </div>
 
-                <a href="page3.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 2)">
-                    <span id="btnText">Complete and Continue →</span>
-                    <span id="btnLoading" style="display: none;">Saving... ⏳</span>
-                </a>
-                <a href="courses.html" class="back-button">← Back to Courses</a>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <a href="page3.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; flex: 1; position: relative;" onclick="handleModuleComplete(event, 2)">
+                        <span id="btnText">Complete and Continue →</span>
+                        <span id="btnLoading" style="display: none;">Saving... ⏳</span>
+                    </a>
+                    <a href="courses.html" class="back-button" style="flex: 1;">← Back to Courses</a>
+                </div>
             </div>
 
             <aside class="lesson-sidebar">
