@@ -687,19 +687,6 @@
                 </div>
             </div>
 
-            <aside class="lesson-sidebar">
-                <h4>Jump to a Lesson</h4>
-                <select class="lesson-select" id="lessonSelect">
-                    <option value="#lesson1">Lesson 1: Creation to Covenant</option>
-                    <option value="#lesson2">Lesson 2: Prophets and Promise</option>
-                    <option value="#lesson3">Lesson 3: From Cross to Resurrection</option>
-                </select>
-                <button class="lesson-go" id="lessonGo">Go</button>
-                <ul class="lesson-list">
-                    <li>Quick navigation for this module.</li>
-                    <li>More lessons can be added later.</li>
-                </ul>
-            </aside>
         </div>
     </main>
 
@@ -1041,35 +1028,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             l3ShowQuestion(0);
         });
-    </script>
-
-    <script>
-        const lessonSelect = document.getElementById('lessonSelect');
-        const lessonGo = document.getElementById('lessonGo');
-
-        function showLesson(lessonId) {
-            // Hide all lessons
-            document.querySelectorAll('.lesson-content').forEach(lesson => {
-                lesson.classList.remove('active');
-            });
-            // Show selected lesson
-            const selectedLesson = document.getElementById(lessonId + '-content');
-            if (selectedLesson) {
-                selectedLesson.classList.add('active');
-                selectedLesson.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        function jumpToLesson() {
-            const target = lessonSelect.value;
-            if (target) {
-                const lessonId = target.substring(1); // Remove '#' from value
-                showLesson(lessonId);
-            }
-        }
-
-        lessonGo.addEventListener('click', jumpToLesson);
-        lessonSelect.addEventListener('change', jumpToLesson);
     </script>
 
     <script type="module">
