@@ -391,22 +391,9 @@
         }
 
         // Check and show completed status on page load
-        async function checkQuizCompletion() {
-            // Check localStorage first (works without auth)
-            const localStorageCompleted = localStorage.getItem('quiz_1_1_completed') === 'true';
-            
-            // Check Firebase if authenticated
-            let firebaseCompleted = false;
-            try {
-                // This will work after auth.js module loads
-                if (window.isQuizCompleted) {
-                    firebaseCompleted = await window.isQuizCompleted(1, 1);
-                }
-            } catch (e) {
-                console.log('Not authenticated yet');
-            }
-
-            const quizCompleted = localStorageCompleted || firebaseCompleted;
+        function checkQuizCompletion() {
+            // Check localStorage only
+            const quizCompleted = localStorage.getItem('quiz_1_1_completed') === 'true';
 
             if (quizCompleted) {
                 const quizContainer = document.querySelector('.quiz-container');
@@ -422,8 +409,11 @@
             }
         }
 
-        // Check completion status
-        checkQuizCompletion();
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            showQuestion(0);
+            setTimeout(() => checkQuizCompletion(), 100);
+        });
 
     <script type="module">
         import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
