@@ -1119,24 +1119,41 @@
                 const quizContainer = document.querySelector('#lesson1-content .quiz-container');
                 if (quizContainer) {
                     quizContainer.innerHTML = `
-                        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
                             <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+
+            if (lesson2QuizCompleted) {
                 const quizContainer = document.querySelector('#lesson2-content .quiz-container');
                 if (quizContainer) {
                     quizContainer.innerHTML = `
-                        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
                             <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+
+            if (lesson3QuizCompleted) {
                 const quizContainer = document.querySelector('#lesson3-content .quiz-container');
                 if (quizContainer) {
                     quizContainer.innerHTML = `
-                        <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, #34a853 0%, #1a73e8 100%); border-radius: 12px; color: white;">
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
                             <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', checkQuizCompletion);
         } else {
