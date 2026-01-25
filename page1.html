@@ -411,8 +411,12 @@
 
         // Initialize on page load
         window.addEventListener('load', function() {
+            console.log('Page loaded, initializing quiz...');
             showQuestion(0);
-            setTimeout(() => checkQuizCompletion(), 100);
+            setTimeout(() => {
+                console.log('Checking quiz completion...');
+                checkQuizCompletion();
+            }, 100);
         });
 
     <script type="module">
