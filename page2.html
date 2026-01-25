@@ -826,9 +826,24 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            showQuestion(0);
-            setTimeout(() => l2ShowQuestion(0), 100);
-            setTimeout(() => l3ShowQuestion(0), 100);
+            // Initialize questions only if they haven't been completed yet
+            // The checkQuizCompletion function will replace them if needed
+            setTimeout(() => {
+                const lesson1Container = document.querySelector('#lesson1-content .quiz-container');
+                const lesson2Container = document.querySelector('#lesson2-content .quiz-container');
+                const lesson3Container = document.querySelector('#lesson3-content .quiz-container');
+                
+                // Check if they still have quiz forms (not replaced with completion message)
+                if (lesson1Container && lesson1Container.querySelector('form')) {
+                    showQuestion(0);
+                }
+                if (lesson2Container && lesson2Container.querySelector('form')) {
+                    l2ShowQuestion(0);
+                }
+                if (lesson3Container && lesson3Container.querySelector('form')) {
+                    l3ShowQuestion(0);
+                }
+            }, 150);
         });
 
         // Lesson 2 Quiz Handler
