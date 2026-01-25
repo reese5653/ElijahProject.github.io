@@ -384,7 +384,21 @@
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
                             <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
-    </script>
+                        </div>
+                    `;
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize question only if quiz hasn't been completed yet
+            setTimeout(() => {
+                const quizContainer = document.querySelector('.quiz-container');
+                if (quizContainer && quizContainer.querySelector('form')) {
+                    showQuestion(0);
+                }
+            }, 150);
+        });
 
     <script type="module">
         import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
@@ -420,13 +434,18 @@
                             <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
                             <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
-
-        // Also check when user authenticates
-        onAuthChange((user) => {
-            if (user) {
-                checkQuizCompletion();
+                        </div>
+                    `;
+                }
             }
-        });
+        }
+
+        // Check on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkQuizCompletion);
+        } else {
+            checkQuizCompletion();
+        }
 
         // Make markQuizComplete available globally for quiz functions
         window.markQuizComplete = markQuizComplete;
