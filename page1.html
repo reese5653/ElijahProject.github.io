@@ -409,73 +409,32 @@
             }
         }
 
-        // Initialize on page load
-        window.addEventListener('load', function() {
-            console.log('Page loaded, initializing quiz...');
+        // Initialize when DOM is ready
+        function initQuiz() {
+            console.log('Initializing Module 1 quiz...');
             showQuestion(0);
             setTimeout(() => {
                 console.log('Checking quiz completion...');
                 checkQuizCompletion();
             }, 100);
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initQuiz);
+        } else {
+            initQuiz();
+        }
+    </script>
 
     <script type="module">
-        import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
+        import { markModuleComplete } from './auth.js';
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
             const target = event.currentTarget.href || event.target.href;
-            // Start save and wait briefly for it to complete
             markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
             setTimeout(() => window.location.href = target, 300);
         };
-
-        // Check and show completed status on page load
-        async function checkQuizCompletion() {
-            // Check localStorage first (works without auth)
-            const localStorageCompleted = localStorage.getItem('quiz_1_1_completed') === 'true';
-            
-            // Check Firebase if authenticated
-            let firebaseCompleted = false;
-            try {
-                firebaseCompleted = await isQuizCompleted(1, 1);
-            } catch (e) {
-                console.log('Not authenticated yet');
-            }
-
-            const quizCompleted = localStorageCompleted || firebaseCompleted;
-
-            if (quizCompleted) {
-                const quizContainer = document.querySelector('.quiz-container');
-                if (quizContainer) {
-                    quizContainer.innerHTML = `
-                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
-                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
-                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Check on page load
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => {
-                showQuestion(0);
-                setTimeout(() => checkQuizCompletion(), 100);
-            });
-        } else {
-            showQuestion(0);
-            checkQuizCompletion();
-        }
-
-        // Also check when user authenticates
-        onAuthChange((user) => {
-            if (user) {
-                checkQuizCompletion();
-            }
-        });
     </script>
 </body>
 </html>
