@@ -33,7 +33,8 @@
             <p class="tagline">Learn to impact the world by training up to be laborers for God's harvest field.</p>
             
             <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search for a course">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search for a course" autocomplete="off">
+                <div class="search-suggestions" id="searchSuggestions"></div>
                 <button class="search-button">Search</button>
             </div>
         </div>
@@ -344,6 +345,55 @@
 
         const searchInput = document.querySelector('.search-input');
         const searchButton = document.querySelector('.search-button');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+
+        function showSuggestions(query) {
+            if (!query) {
+                searchSuggestions.style.display = 'none';
+                return;
+            }
+
+            const matches = courses.filter(course =>
+                course.name.toLowerCase().includes(query.toLowerCase()) ||
+                course.module.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 6);
+
+            if (matches.length === 0) {
+                searchSuggestions.style.display = 'none';
+                return;
+            }
+
+            searchSuggestions.innerHTML = matches.map(course => `
+                <div class="suggestion-item" data-page="${course.page}">
+                    <div class="suggestion-module">${course.module}</div>
+                    <div class="suggestion-name">${course.name}</div>
+                </div>
+            `).join('');
+            
+            searchSuggestions.style.display = 'block';
+
+            document.querySelectorAll('.suggestion-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    window.location.href = this.getAttribute('data-page');
+                });
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            showSuggestions(e.target.value);
+        });
+
+        searchInput.addEventListener('focus', (e) => {
+            if (e.target.value) {
+                showSuggestions(e.target.value);
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                searchSuggestions.style.display = 'none';
+            }
+        });
 
         function performSearch() {
             const query = searchInput.value.toLowerCase().trim();
