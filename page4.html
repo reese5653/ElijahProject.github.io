@@ -54,10 +54,6 @@
 
                     <div class="quiz-container">
                         <h3>Lesson 1 Quiz: Elijah Biblical Worldview</h3>
-                        <div class="quiz-header" id="m4l1progressText">Question 1 of 9</div>
-                        <div class="quiz-progress">
-                            <div class="quiz-progress-bar" id="m4l1progressBar" style="width: 11.11%;"></div>
-                        </div>
                         <form id="m4l1QuizForm">
                             <div class="quiz-question">
                                 <h4>Question 1: Define inerrancy.</h4>
@@ -223,9 +219,8 @@
                                 </div>
                             </div>
 
-                            <div class="quiz-nav">
-                                <button type="button" class="quiz-button" id="m4l1prevBtn" onclick="m4l1PreviousQuestion()" style="background-color: #888;">← Previous</button>
-                                <button type="button" class="quiz-button" id="m4l1nextBtn" onclick="m4l1NextQuestion()">Next →</button>
+                            <div style="text-align: center; margin-top: 2rem;">
+                                <button type="button" class="quiz-button" onclick="m4l1SubmitQuiz()" style="background-color: #c41e3a; font-size: 1.1rem; padding: 1rem 2rem;">Submit Quiz</button>
                             </div>
                         </form>
 
@@ -288,7 +283,6 @@
         lessonSelect.addEventListener('change', jumpToLesson);
 
         // Module 4 Lesson 1 Quiz
-        let m4l1CurrentQuestion = 0;
         const m4l1TotalQuestions = 9;
         const m4l1CorrectAnswers = {
             m4l1q1: 'a',
@@ -301,36 +295,6 @@
             m4l1q8: 'false',
             m4l1q9: 'd'
         };
-
-        function m4l1ShowQuestion(index) {
-            const questions = document.querySelectorAll('#lesson1-content .quiz-question');
-            questions.forEach((q, i) => {
-                q.classList.toggle('active', i === index);
-            });
-
-            const progressPercent = ((index + 1) / m4l1TotalQuestions) * 100;
-            document.getElementById('m4l1progressBar').style.width = progressPercent + '%';
-            document.getElementById('m4l1progressText').textContent = `Question ${index + 1} of ${m4l1TotalQuestions}`;
-
-            document.getElementById('m4l1prevBtn').disabled = index === 0;
-            document.getElementById('m4l1nextBtn').textContent = index === m4l1TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
-        }
-
-        function m4l1NextQuestion() {
-            if (m4l1CurrentQuestion < m4l1TotalQuestions - 1) {
-                m4l1CurrentQuestion++;
-                m4l1ShowQuestion(m4l1CurrentQuestion);
-            } else {
-                m4l1SubmitQuiz();
-            }
-        }
-
-        function m4l1PreviousQuestion() {
-            if (m4l1CurrentQuestion > 0) {
-                m4l1CurrentQuestion--;
-                m4l1ShowQuestion(m4l1CurrentQuestion);
-            }
-        }
 
         function m4l1SubmitQuiz() {
             let score = 0;
@@ -416,7 +380,6 @@
         }
 
         function m4l1InitQuiz() {
-            m4l1ShowQuestion(0);
             setTimeout(m4l1CheckQuizCompletion, 100);
         }
 
