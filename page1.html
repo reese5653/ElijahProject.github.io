@@ -270,8 +270,8 @@
                     <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 1rem;">
                         Find a word in the New Testament and do a word study in the Greek using Blue Letter Bible. In 5 sentences explain how you have found a deeper meaning in this word than in the English.
                     </p>
-                    <textarea style="width: 100%; min-height: 200px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; margin-top: 1rem; text-align: left;" placeholder="Type your answer here..."></textarea>
-                    <button style="margin-top: 1rem; padding: 0.75rem 2rem; background-color: #c41e3a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#a01729'" onmouseout="this.style.backgroundColor='#c41e3a'">Save Answer</button>
+                    <textarea id="m1essay1" style="width: 100%; min-height: 200px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; margin-top: 1rem; text-align: left;" placeholder="Type your answer here..."></textarea>
+                    <button id="m1essaySaveBtn" onclick="saveModule1Essay()" style="margin-top: 1rem; padding: 0.75rem 2rem; background-color: #c41e3a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#a01729'" onmouseout="this.style.backgroundColor='#c41e3a'">Save Answer</button>
                 </div>
             </div>
             
@@ -323,6 +323,36 @@
         if (lessonGo && lessonSelect) {
             lessonGo.addEventListener('click', jumpToLesson);
             lessonSelect.addEventListener('change', jumpToLesson);
+        }
+
+        // Essay answer functions
+        function saveModule1Essay() {
+            const essay1 = document.getElementById('m1essay1')?.value || '';
+            localStorage.setItem('module1_essay1', essay1);
+            
+            const btn = document.getElementById('m1essaySaveBtn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Saved! ✓';
+            btn.style.backgroundColor = '#28a745';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.backgroundColor = '#c41e3a';
+            }, 2000);
+        }
+        window.saveModule1Essay = saveModule1Essay;
+
+        // Load saved essay answer on page load
+        function loadModule1Essay() {
+            const essay1 = localStorage.getItem('module1_essay1');
+            if (essay1) document.getElementById('m1essay1').value = essay1;
+        }
+        
+        // Load essay when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadModule1Essay);
+        } else {
+            loadModule1Essay();
         }
 
         let currentQuestion = 0;
