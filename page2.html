@@ -246,7 +246,7 @@
                             <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 0.75rem;">
                                 In 3-5 sentences explain the principle established in the Garden of Gods sovereignty and mans dominion using Gen 1:26?
                             </p>
-                            <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
+                            <textarea id="m2essay1" style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
                         </div>
 
                         <div style="margin-bottom: 1rem;">
@@ -254,7 +254,7 @@
                             <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 0.75rem;">
                                 In 3-5 Sentences explain what was the purpose of the Law and Israel?
                             </p>
-                            <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
+                            <textarea id="m2essay2" style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
                         </div>
 
                         <div style="margin-bottom: 1rem;">
@@ -262,10 +262,10 @@
                             <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 0.75rem;">
                                 In 3-5 sentences explain who is Jesus and why is he qualified to be our savior?
                             </p>
-                            <textarea style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
+                            <textarea id="m2essay3" style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
                         </div>
 
-                        <button style="margin-top: 1rem; padding: 0.75rem 2rem; background-color: #c41e3a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#a01729'" onmouseout="this.style.backgroundColor='#c41e3a'">Save Answers</button>
+                        <button id="m2essaySaveBtn" onclick="saveModule2Essays()" style="margin-top: 1rem; padding: 0.75rem 2rem; background-color: #c41e3a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#a01729'" onmouseout="this.style.backgroundColor='#c41e3a'">Save Answers</button>
                     </div>
                 </div>
                 
@@ -1143,6 +1143,46 @@
         if (lessonSelect && lessonGo) {
             lessonGo.addEventListener('click', jumpToLesson);
             lessonSelect.addEventListener('change', jumpToLesson);
+        }
+
+        // Essay answer functions
+        function saveModule2Essays() {
+            const essay1 = document.getElementById('m2essay1')?.value || '';
+            const essay2 = document.getElementById('m2essay2')?.value || '';
+            const essay3 = document.getElementById('m2essay3')?.value || '';
+            
+            localStorage.setItem('module2_essay1', essay1);
+            localStorage.setItem('module2_essay2', essay2);
+            localStorage.setItem('module2_essay3', essay3);
+            
+            const btn = document.getElementById('m2essaySaveBtn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Saved! ✓';
+            btn.style.backgroundColor = '#28a745';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.backgroundColor = '#c41e3a';
+            }, 2000);
+        }
+        window.saveModule2Essays = saveModule2Essays;
+
+        // Load saved essay answers on page load
+        function loadModule2Essays() {
+            const essay1 = localStorage.getItem('module2_essay1');
+            const essay2 = localStorage.getItem('module2_essay2');
+            const essay3 = localStorage.getItem('module2_essay3');
+            
+            if (essay1) document.getElementById('m2essay1').value = essay1;
+            if (essay2) document.getElementById('m2essay2').value = essay2;
+            if (essay3) document.getElementById('m2essay3').value = essay3;
+        }
+        
+        // Load essays when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadModule2Essays);
+        } else {
+            loadModule2Essays();
         }
     </script>
 
