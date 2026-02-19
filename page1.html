@@ -117,13 +117,24 @@
             font-weight: 700;
             color: #202124;
         }
+
+        .lesson-content {
+            display: none;
+        }
+
+        .lesson-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="module-layout" style="padding: 2rem;">
         <div class="page-content" style="text-align: left;">
             <h2>Module 1: How to Study the Bible</h2>
-            <div style="margin: 1.5rem 0; max-width: 1200px;">
+            
+            <div class="lesson-content active" id="lesson1-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Lesson 1: Study Materials & Quiz</h3>
+                <div style="margin: 1.5rem 0; max-width: 1200px;">
                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; box-shadow: 0 14px 36px rgba(0,0,0,0.18); background: #000;">
                     <iframe src="https://www.youtube.com/embed/_8oAyqxJYTA" title="How to Study the Bible" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
                 </div>
@@ -250,6 +261,17 @@
                     <p id="feedback" style="margin-top: 1rem; color: #5f6368;"></p>
                 </div>
             </div>
+            </div>
+
+            <div class="lesson-content" id="lesson2-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <h3 id="lesson2" style="margin-bottom: 1rem; color: #202124;">Lesson 2: Essay Prompt</h3>
+                <div style="background: white; padding: 2rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
+                    <h4 style="color: #202124; margin-bottom: 1rem;">Assignment:</h4>
+                    <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem;">
+                        Find a word in the New Testament and do a word study in the Greek using Blue Letter Bible. In 5 sentences explain how you have found a deeper meaning in this word than in the English.
+                    </p>
+                </div>
+            </div>
             
             <a href="page2.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 1)">
                 <span id="btnText">Complete and Continue →</span>
@@ -261,7 +283,8 @@
         <aside class="lesson-sidebar">
             <h4>Jump to a Lesson</h4>
             <select class="lesson-select" id="lessonSelect">
-                <option value="#lesson1">Lesson 1: PDF + Quiz</option>
+                <option value="#lesson1">Lesson 1: Study Materials & Quiz</option>
+                <option value="#lesson2">Lesson 2: Essay Prompt</option>
             </select>
             <button class="lesson-go" id="lessonGo">Go</button>
             <ul class="lesson-list">
@@ -275,9 +298,22 @@
         const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
 
+        function showLesson(lessonId) {
+            document.querySelectorAll('.lesson-content').forEach(lesson => {
+                lesson.classList.remove('active');
+            });
+            const selectedLesson = document.getElementById(lessonId + '-content');
+            if (selectedLesson) {
+                selectedLesson.classList.add('active');
+                selectedLesson.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
         function jumpToLesson() {
             const target = lessonSelect?.value;
             if (target) {
+                const lessonId = target.substring(1);
+                showLesson(lessonId);
                 window.location.hash = target;
             }
         }
