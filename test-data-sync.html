@@ -70,20 +70,10 @@
     <div class="container">
         <h1>🧪 Data Synchronization Test</h1>
         
-        <div id="pageStatus" class="status error" style="display: none;">
-            ⏳ Loading test page...
-        </div>
-        
         <div class="test-section">
             <h2>User Status</h2>
             <button onclick="testUserStatus()">Check Login Status</button>
             <div id="userStatus" class="output"></div>
-        </div>
-
-        <div class="test-section">
-            <h2>Database Connection Test</h2>
-            <button onclick="testDatabase()">Test Database Read/Write</button>
-            <div id="dbTestOutput" class="output"></div>
         </div>
 
         <div class="test-section">
@@ -125,43 +115,16 @@
     </div>
 
     <script type="module">
-        console.log('🔧 Test script loading...');
-        
-        // Show loading indicator
-        document.addEventListener('DOMContentLoaded', () => {
-            const statusEl = document.getElementById('pageStatus');
-            if (statusEl) {
-                statusEl.style.display = 'block';
-                statusEl.className = 'status error';
-                statusEl.textContent = '⏳ Loading test page...';
-            }
-        });
-        
-        let getCurrentUser, saveQuizScore, getQuizScore, updateUserProfile, getUserProfile, 
-            updateUserPreferences, getUserPreferences, onAllUserDataUpdate, testDatabaseConnection;
-        
-        try {
-            const authModule = await import('./auth.js');
-            getCurrentUser = authModule.getCurrentUser;
-            saveQuizScore = authModule.saveQuizScore;
-            getQuizScore = authModule.getQuizScore;
-            updateUserProfile = authModule.updateUserProfile;
-            getUserProfile = authModule.getUserProfile;
-            updateUserPreferences = authModule.updateUserPreferences;
-            getUserPreferences = authModule.getUserPreferences;
-            onAllUserDataUpdate = authModule.onAllUserDataUpdate;
-            testDatabaseConnection = authModule.testDatabaseConnection;
-            console.log('✓ Auth module loaded successfully');
-        } catch (error) {
-            console.error('✗ Failed to load auth.js:', error);
-            const statusEl = document.getElementById('pageStatus');
-            if (statusEl) {
-                statusEl.style.display = 'block';
-                statusEl.className = 'status error';
-                statusEl.innerHTML = `<strong>✗ ERROR:</strong> Failed to load auth.js<br>${error.message}`;
-            }
-            throw error; // Stop execution
-        }
+        import { 
+            getCurrentUser, 
+            saveQuizScore, 
+            getQuizScore,
+            updateUserProfile,
+            getUserProfile,
+            updateUserPreferences,
+            getUserPreferences,
+            onAllUserDataUpdate
+        } from './auth.js';
 
         let unsubscribe = null;
 
@@ -175,12 +138,8 @@
             console.log(message);
         };
 
-        // Initialize all test functions after imports complete
-        function initializeTests() {
-            console.log('🔧 Initializing test functions...');
-            
-            // Test 1: User Status
-            window.testUserStatus = async function() {
+        // Test 1: User Status
+        window.testUserStatus = async function() {
             const output = document.getElementById('userStatus');
             output.innerHTML = '';
             
@@ -189,45 +148,6 @@
                 window.logOutput('userStatus', `✓ Logged in as: ${user.email}`);
             } else {
                 window.logOutput('userStatus', `✗ NOT logged in. Please log in first!`, true);
-            }
-        };
-
-        // Test Database Connection
-        window.testDatabase = async function() {
-            const output = document.getElementById('dbTestOutput');
-            output.innerHTML = '';
-            
-            const user = getCurrentUser();
-            if (!user) {
-                window.logOutput('dbTestOutput', '✗ NOT LOGGED IN! Please log in first.', true);
-                return;
-            }
-            
-            window.logOutput('dbTestOutput', `🔧 Testing database connection for user: ${user.uid}`);
-            
-            // Add timeout
-            const timeout = new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Timeout: Database test took more than 15 seconds')), 15000)
-            );
-            
-            try {
-                const result = await Promise.race([
-                    testDatabaseConnection(),
-                    timeout
-                ]);
-                
-                if (result.success) {
-                    window.logOutput('dbTestOutput', '✓ Database connection test PASSED!');
-                    window.logOutput('dbTestOutput', 'Both read and write operations work!');
-                } else {
-                    window.logOutput('dbTestOutput', `✗ Test failed: ${result.error}`, true);
-                    if (result.code) {
-                        window.logOutput('dbTestOutput', `Error code: ${result.code}`, true);
-                    }
-                }
-            } catch (error) {
-                window.logOutput('dbTestOutput', `✗ Error: ${error.message}`, true);
-                console.error('Full error:', error);
             }
         };
 
@@ -371,21 +291,6 @@
             }
         };
         
-        console.log('✓ All test functions initialized');
-    }
-    
-    // Call initialization after imports
-    initializeTests();
-    console.log('🟢 Test page ready!');
-    
-    // Update status to ready
-    const statusEl = document.getElementById('pageStatus');
-    if (statusEl) {
-        statusEl.style.display = 'block';
-        statusEl.className = 'status success';
-        statusEl.textContent = '✓ Test page ready! All functions loaded successfully.';
-        setTimeout(() => statusEl.style.display = 'none', 3000);
-    }
     </script>
 </body>
 </html>

@@ -398,11 +398,8 @@ export function onCompletionUpdate(callback) {
 
 // Save quiz score with details
 export async function saveQuizScore(moduleNumber, lessonNumber, score, totalQuestions, percentage, answers) {
-  console.log(`[saveQuizScore] Starting - Module ${moduleNumber}, Lesson ${lessonNumber}`);
-  
   const user = getCurrentUser();
   if (!user) {
-    console.log('[saveQuizScore] No user logged in, saving to localStorage');
     // Save to localStorage if not logged in
     const quizKey = `quiz_${moduleNumber}_${lessonNumber}`;
     localStorage.setItem(quizKey, JSON.stringify({
@@ -415,15 +412,9 @@ export async function saveQuizScore(moduleNumber, lessonNumber, score, totalQues
     return;
   }
 
-  console.log(`[saveQuizScore] User ID: ${user.uid}`);
-  console.log(`[saveQuizScore] Database object:`, db);
-  
   const userRef = doc(db, "users", user.uid);
   const quizKey = `quiz_${moduleNumber}_${lessonNumber}`;
-  
-  console.log(`[saveQuizScore] Document reference created:`, userRef.path);
-  console.log(`[saveQuizScore] About to call setDoc...`);
-  
+
   try {
     await setDoc(userRef, {
       [`${quizKey}_score`]: score,
@@ -434,9 +425,7 @@ export async function saveQuizScore(moduleNumber, lessonNumber, score, totalQues
     }, { merge: true });
     console.log(`✓ Quiz score for Module ${moduleNumber} Lesson ${lessonNumber} saved to Firebase`);
   } catch (error) {
-    console.error("[saveQuizScore] Error saving to Firebase:", error);
-    console.error("[saveQuizScore] Error code:", error.code);
-    console.error("[saveQuizScore] Error message:", error.message);
+    console.error("Error saving quiz score to Firebase:", error);
     throw error; // Re-throw so caller knows it failed
   }
 }
@@ -676,46 +665,4 @@ export function onAllUserDataUpdate(callback) {
   }, (error) => {
     console.error("Error listening to all user data updates:", error);
   });
-}
-
-// Test database connectivity
-export async function testDatabaseConnection() {
-  console.log('[testDatabaseConnection] Starting test...');
-  const user = getCurrentUser();
-  if (!user) {
-    console.log('[testDatabaseConnection] No user logged in');
-    return { success: false, error: 'Not logged in' };
-  }
-
-  console.log(`[testDatabaseConnection] User ID: ${user.uid}`);
-  console.log('[testDatabaseConnection] Database:', db);
-  
-  try {
-    const userRef = doc(db, "users", user.uid);
-    console.log('[testDatabaseConnection] Document path:', userRef.path);
-    
-    // Try to read first
-    console.log('[testDatabaseConnection] Attempting to read document...');
-    const docSnap = await getDoc(userRef);
-    console.log('[testDatabaseConnection] Read completed. Exists:', docSnap.exists());
-    
-    if (docSnap.exists()) {
-      console.log('[testDatabaseConnection] Document data:', docSnap.data());
-    }
-    
-    // Try to write
-    console.log('[testDatabaseConnection] Attempting to write test field...');
-    await setDoc(userRef, {
-      test_timestamp: new Date().toISOString(),
-      test_connection: true
-    }, { merge: true });
-    
-    console.log('[testDatabaseConnection] ✓ Write successful!');
-    return { success: true };
-  } catch (error) {
-    console.error('[testDatabaseConnection] ✗ Error:', error);
-    console.error('[testDatabaseConnection] Error code:', error.code);
-    console.error('[testDatabaseConnection] Error message:', error.message);
-    return { success: false, error: error.message, code: error.code };
-  }
 }
