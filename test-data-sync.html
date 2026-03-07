@@ -156,12 +156,20 @@
             const output = document.getElementById('quizOutput');
             output.innerHTML = '';
             
-            window.logOutput('quizOutput', '📝 Saving quiz score...');
+            const user = getCurrentUser();
+            if (!user) {
+                window.logOutput('quizOutput', '✗ NOT LOGGED IN! Please log in first.', true);
+                return;
+            }
+            
+            window.logOutput('quizOutput', `📝 Saving quiz score for user: ${user.uid}`);
             try {
                 await saveQuizScore(4, 3, 7, 8, 88, {q1: 'a', q2: ['a', 'b'], q3: 'd'});
-                window.logOutput('quizOutput', '✓ Quiz score saved successfully!');
+                window.logOutput('quizOutput', '✓ Quiz score saved to Firebase!');
+                window.logOutput('quizOutput', `ℹ Check Firestore for document: ${user.uid}`);
             } catch (error) {
-                window.logOutput('quizOutput', `✗ Error: ${error.message}`, true);
+                window.logOutput('quizOutput', `✗ Firebase Error: ${error.message}`, true);
+                console.error('Full error:', error);
             }
         };
 

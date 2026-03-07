@@ -425,9 +425,10 @@ export async function saveQuizScore(moduleNumber, lessonNumber, score, totalQues
       [`${quizKey}_answers`]: answers,
       [`${quizKey}_date`]: new Date().toISOString()
     }, { merge: true });
-    console.log(`✓ Quiz score for Module ${moduleNumber} Lesson ${lessonNumber} saved`);
+    console.log(`✓ Quiz score for Module ${moduleNumber} Lesson ${lessonNumber} saved to Firebase`);
   } catch (error) {
-    console.error("Error saving quiz score:", error);
+    console.error("Error saving quiz score to Firebase:", error);
+    throw error; // Re-throw so caller knows it failed
   }
 }
 
@@ -547,9 +548,10 @@ export async function updateUserProfile(profileData) {
       bio: profileData.bio,
       profileUpdatedAt: new Date().toISOString()
     }, { merge: true });
-    console.log('✓ Profile updated');
+    console.log('✓ Profile updated in Firebase');
   } catch (error) {
-    console.error("Error updating profile:", error);
+    console.error("Error updating profile in Firebase:", error);
+    throw error;
   }
 }
 
@@ -601,9 +603,10 @@ export async function updateUserPreferences(preferences) {
       },
       preferencesUpdatedAt: new Date().toISOString()
     }, { merge: true });
-    console.log('✓ Preferences updated');
+    console.log('✓ Preferences updated in Firebase');
   } catch (error) {
-    console.error("Error updating preferences:", error);
+    console.error("Error updating preferences in Firebase:", error);
+    throw error;
   }
 }
 
