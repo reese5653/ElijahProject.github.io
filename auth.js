@@ -23,12 +23,10 @@ let storage;
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
-  // Force long polling to avoid WebSocket blocks on restrictive networks
-  db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
-    useFetchStreams: false
-  });
+  // Explicitly connect to the "elijahproject" database
+  db = getFirestore(app, 'elijahproject');
   storage = getStorage(app);
+  console.log('✓ Firebase initialized successfully with database: elijahproject');
 } catch (error) {
   console.error("Firebase initialization error:", error);
 }

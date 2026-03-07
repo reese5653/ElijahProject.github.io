@@ -163,8 +163,17 @@
             }
             
             window.logOutput('quizOutput', `📝 Saving quiz score for user: ${user.uid}`);
+            
+            // Add timeout
+            const timeout = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout: Firebase not responding after 10 seconds')), 10000)
+            );
+            
             try {
-                await saveQuizScore(4, 3, 7, 8, 88, {q1: 'a', q2: ['a', 'b'], q3: 'd'});
+                await Promise.race([
+                    saveQuizScore(4, 3, 7, 8, 88, {q1: 'a', q2: ['a', 'b'], q3: 'd'}),
+                    timeout
+                ]);
                 window.logOutput('quizOutput', '✓ Quiz score saved to Firebase!');
                 window.logOutput('quizOutput', `ℹ Check Firestore for document: ${user.uid}`);
             } catch (error) {
