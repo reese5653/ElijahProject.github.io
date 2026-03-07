@@ -23,8 +23,11 @@ let storage;
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
-  // Use the named Firestore database requested by project setup
-  db = getFirestore(app, 'elijahproject');
+  // Use the named Firestore database with transport settings that work better on restrictive networks
+  db = initializeFirestore(app, {
+    experimentalAutoDetectLongPolling: true,
+    useFetchStreams: false
+  }, 'elijahproject');
   storage = getStorage(app);
   console.log('✓ Firebase initialized successfully with elijahproject database');
 } catch (error) {
