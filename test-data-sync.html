@@ -81,6 +81,12 @@
         </div>
 
         <div class="test-section">
+            <h2>Database Connection Test</h2>
+            <button onclick="testDatabase()">Test Database Read/Write</button>
+            <div id="dbTestOutput" class="output"></div>
+        </div>
+
+        <div class="test-section">
             <h2>Quiz Score Test</h2>
             <button onclick="testSaveQuizScore()">Save Test Quiz Score</button>
             <button onclick="testGetQuizScore()">Retrieve Quiz Score</button>
@@ -132,7 +138,7 @@
         });
         
         let getCurrentUser, saveQuizScore, getQuizScore, updateUserProfile, getUserProfile, 
-            updateUserPreferences, getUserPreferences, onAllUserDataUpdate;
+            updateUserPreferences, getUserPreferences, onAllUserDataUpdate, testDatabaseConnection;
         
         try {
             const authModule = await import('./auth.js');
@@ -144,6 +150,7 @@
             updateUserPreferences = authModule.updateUserPreferences;
             getUserPreferences = authModule.getUserPreferences;
             onAllUserDataUpdate = authModule.onAllUserDataUpdate;
+            testDatabaseConnection = authModule.testDatabaseConnection;
             console.log('✓ Auth module loaded successfully');
         } catch (error) {
             console.error('✗ Failed to load auth.js:', error);
@@ -182,6 +189,45 @@
                 window.logOutput('userStatus', `✓ Logged in as: ${user.email}`);
             } else {
                 window.logOutput('userStatus', `✗ NOT logged in. Please log in first!`, true);
+            }
+        };
+
+        // Test Database Connection
+        window.testDatabase = async function() {
+            const output = document.getElementById('dbTestOutput');
+            output.innerHTML = '';
+            
+            const user = getCurrentUser();
+            if (!user) {
+                window.logOutput('dbTestOutput', '✗ NOT LOGGED IN! Please log in first.', true);
+                return;
+            }
+            
+            window.logOutput('dbTestOutput', `🔧 Testing database connection for user: ${user.uid}`);
+            
+            // Add timeout
+            const timeout = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout: Database test took more than 15 seconds')), 15000)
+            );
+            
+            try {
+                const result = await Promise.race([
+                    testDatabaseConnection(),
+                    timeout
+                ]);
+                
+                if (result.success) {
+                    window.logOutput('dbTestOutput', '✓ Database connection test PASSED!');
+                    window.logOutput('dbTestOutput', 'Both read and write operations work!');
+                } else {
+                    window.logOutput('dbTestOutput', `✗ Test failed: ${result.error}`, true);
+                    if (result.code) {
+                        window.logOutput('dbTestOutput', `Error code: ${result.code}`, true);
+                    }
+                }
+            } catch (error) {
+                window.logOutput('dbTestOutput', `✗ Error: ${error.message}`, true);
+                console.error('Full error:', error);
             }
         };
 
