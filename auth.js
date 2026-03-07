@@ -26,7 +26,7 @@ try {
   // Use the default Firestore database (has API access enabled)
   db = getFirestore(app);
   storage = getStorage(app);
-  console.log('✓ Firebase initialized successfully with default database
+  console.log('✓ Firebase initialized successfully with default database');
 } catch (error) {
   console.error("Firebase initialization error:", error);
 }
