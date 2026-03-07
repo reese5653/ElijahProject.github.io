@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Sync Test - Elijah Project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #c41e3a;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #c41e3a;
+            background: #f9f9f9;
+        }
+        button {
+            background-color: #c41e3a;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+        }
+        button:hover {
+            background-color: #a01729;
+        }
+        .output {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Data Synchronization Test</h1>
+        
+        <div class="test-section">
+            <h2>User Status</h2>
+            <button onclick="testUserStatus()">Check Login Status</button>
+            <div id="userStatus" class="output"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Quiz Score Test</h2>
+            <button onclick="testSaveQuizScore()">Save Test Quiz Score</button>
+            <button onclick="testGetQuizScore()">Retrieve Quiz Score</button>
+            <div id="quizOutput" class="output"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>User Profile Test</h2>
+            <button onclick="testUpdateProfile()">Update Profile</button>
+            <button onclick="testGetProfile()">Get Profile</button>
+            <div id="profileOutput" class="output"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>User Preferences Test</h2>
+            <button onclick="testUpdatePreferences()">Update Preferences</button>
+            <button onclick="testGetPreferences()">Get Preferences</button>
+            <div id="prefsOutput" class="output"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Real-Time Sync Test</h2>
+            <button onclick="testRealTimeSync()">Start Listening for Updates</button>
+            <button onclick="stopListening()">Stop Listening</button>
+            <div id="realtimeOutput" class="output"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Instructions</h2>
+            <p>1. Make sure you're logged in to your account</p>
+            <p>2. Click the buttons above to test each feature</p>
+            <p>3. Watch the output boxes to see results</p>
+            <p>4. Check the browser console (F12) for detailed logs</p>
+            <p>5. Open <a href="https://console.firebase.google.com" target="_blank">Firebase Console</a> to verify data is saved</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import { 
+            getCurrentUser, 
+            saveQuizScore, 
+            getQuizScore,
+            updateUserProfile,
+            getUserProfile,
+            updateUserPreferences,
+            getUserPreferences,
+            onAllUserDataUpdate
+        } from './auth.js';
+
+        let unsubscribe = null;
+
+        // Helper function to log output
+        window.logOutput = function(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = isError ? 'error' : 'success';
+            element.innerHTML += `<div class="${className}status">[${timestamp}] ${message}</div>`;
+            element.scrollTop = element.scrollHeight;
+            console.log(message);
+        };
+
+        // Test 1: User Status
+        window.testUserStatus = async function() {
+            const output = document.getElementById('userStatus');
+            output.innerHTML = '';
+            
+            const user = getCurrentUser();
+            if (user) {
+                window.logOutput('userStatus', `✓ Logged in as: ${user.email}`);
+            } else {
+                window.logOutput('userStatus', `✗ NOT logged in. Please log in first!`, true);
+            }
+        };
+
+        // Test 2: Save Quiz Score
+        window.testSaveQuizScore = async function() {
+            const output = document.getElementById('quizOutput');
+            output.innerHTML = '';
+            
+            window.logOutput('quizOutput', '📝 Saving quiz score...');
+            try {
+                await saveQuizScore(4, 3, 7, 8, 88, {q1: 'a', q2: ['a', 'b'], q3: 'd'});
+                window.logOutput('quizOutput', '✓ Quiz score saved successfully!');
+            } catch (error) {
+                window.logOutput('quizOutput', `✗ Error: ${error.message}`, true);
+            }
+        };
+
+        // Test 3: Get Quiz Score
+        window.testGetQuizScore = async function() {
+            const output = document.getElementById('quizOutput');
+            output.innerHTML += '<div class="status">🔍 Retrieving quiz score...</div>';
+            
+            try {
+                const score = await getQuizScore(4, 3);
+                if (score) {
+                    window.logOutput('quizOutput', `✓ Retrieved: Score=${score.score}/${score.totalQuestions} (${score.percentage}%)`);
+                    console.log('Full score data:', score);
+                } else {
+                    window.logOutput('quizOutput', '⚠ No score found. Try saving first!', true);
+                }
+            } catch (error) {
+                window.logOutput('quizOutput', `✗ Error: ${error.message}`, true);
+            }
+        };
+
+        // Test 4: Update Profile
+        window.testUpdateProfile = async function() {
+            const output = document.getElementById('profileOutput');
+            output.innerHTML = '';
+            
+            window.logOutput('profileOutput', '📝 Updating profile...');
+            try {
+                await updateUserProfile({
+                    username: 'TestUser_' + Date.now(),
+                    fullName: 'Test Name',
+                    bio: 'Testing data sync'
+                });
+                window.logOutput('profileOutput', '✓ Profile updated successfully!');
+            } catch (error) {
+                window.logOutput('profileOutput', `✗ Error: ${error.message}`, true);
+            }
+        };
+
+        // Test 5: Get Profile
+        window.testGetProfile = async function() {
+            const output = document.getElementById('profileOutput');
+            output.innerHTML += '<div class="status">🔍 Retrieving profile...</div>';
+            
+            try {
+                const profile = await getUserProfile();
+                if (profile) {
+                    window.logOutput('profileOutput', `✓ Username: ${profile.username}, Name: ${profile.fullName}`);
+                    console.log('Full profile data:', profile);
+                } else {
+                    window.logOutput('profileOutput', '⚠ No profile found.', true);
+                }
+            } catch (error) {
+                window.logOutput('profileOutput', `✗ Error: ${error.message}`, true);
+            }
+        };
+
+        // Test 6: Update Preferences
+        window.testUpdatePreferences = async function() {
+            const output = document.getElementById('prefsOutput');
+            output.innerHTML = '';
+            
+            window.logOutput('prefsOutput', '📝 Updating preferences...');
+            try {
+                await updateUserPreferences({
+                    theme: 'dark',
+                    notifications: true,
+                    language: 'en'
+                });
+                window.logOutput('prefsOutput', '✓ Preferences updated successfully!');
+            } catch (error) {
+                window.logOutput('prefsOutput', `✗ Error: ${error.message}`, true);
+            }
+        };
+
+        // Test 7: Get Preferences
+        window.testGetPreferences = async function() {
+            const output = document.getElementById('prefsOutput');
+            output.innerHTML += '<div class="status">🔍 Retrieving preferences...</div>';
+            
+            try {
+                const prefs = await getUserPreferences();
+                window.logOutput('prefsOutput', `✓ Theme: ${prefs.theme}, Notifications: ${prefs.notifications}`);
+                console.log('Full preferences data:', prefs);
+            } catch (error) {
+                window.logOutput('prefsOutput', `✗ Error: ${error.message}`, true);
+            }
+        };
+
+        // Test 8: Real-Time Sync
+        window.testRealTimeSync = async function() {
+            const output = document.getElementById('realtimeOutput');
+            output.innerHTML = '';
+            
+            window.logOutput('realtimeOutput', '📡 Setting up real-time listener...');
+            
+            unsubscribe = onAllUserDataUpdate((data) => {
+                window.logOutput('realtimeOutput', `📡 REAL-TIME UPDATE RECEIVED at ${new Date().toLocaleTimeString()}`);
+                console.log('Real-time data:', data);
+            });
+            
+            window.logOutput('realtimeOutput', '✓ Listening for updates! Open another tab/device and make changes.');
+        };
+
+        // Stop Listening
+        window.stopListening = function() {
+            if (unsubscribe) {
+                unsubscribe();
+                window.logOutput('realtimeOutput', '⏹ Stopped listening for updates');
+            }
+        };
+    </script>
+</body>
+</html>
