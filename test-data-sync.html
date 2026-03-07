@@ -70,6 +70,10 @@
     <div class="container">
         <h1>🧪 Data Synchronization Test</h1>
         
+        <div id="pageStatus" class="status error" style="display: none;">
+            ⏳ Loading test page...
+        </div>
+        
         <div class="test-section">
             <h2>User Status</h2>
             <button onclick="testUserStatus()">Check Login Status</button>
@@ -115,16 +119,42 @@
     </div>
 
     <script type="module">
-        import { 
-            getCurrentUser, 
-            saveQuizScore, 
-            getQuizScore,
-            updateUserProfile,
-            getUserProfile,
-            updateUserPreferences,
-            getUserPreferences,
-            onAllUserDataUpdate
-        } from './auth.js';
+        console.log('🔧 Test script loading...');
+        
+        // Show loading indicator
+        document.addEventListener('DOMContentLoaded', () => {
+            const statusEl = document.getElementById('pageStatus');
+            if (statusEl) {
+                statusEl.style.display = 'block';
+                statusEl.className = 'status error';
+                statusEl.textContent = '⏳ Loading test page...';
+            }
+        });
+        
+        let getCurrentUser, saveQuizScore, getQuizScore, updateUserProfile, getUserProfile, 
+            updateUserPreferences, getUserPreferences, onAllUserDataUpdate;
+        
+        try {
+            const authModule = await import('./auth.js');
+            getCurrentUser = authModule.getCurrentUser;
+            saveQuizScore = authModule.saveQuizScore;
+            getQuizScore = authModule.getQuizScore;
+            updateUserProfile = authModule.updateUserProfile;
+            getUserProfile = authModule.getUserProfile;
+            updateUserPreferences = authModule.updateUserPreferences;
+            getUserPreferences = authModule.getUserPreferences;
+            onAllUserDataUpdate = authModule.onAllUserDataUpdate;
+            console.log('✓ Auth module loaded successfully');
+        } catch (error) {
+            console.error('✗ Failed to load auth.js:', error);
+            const statusEl = document.getElementById('pageStatus');
+            if (statusEl) {
+                statusEl.style.display = 'block';
+                statusEl.className = 'status error';
+                statusEl.innerHTML = `<strong>✗ ERROR:</strong> Failed to load auth.js<br>${error.message}`;
+            }
+            throw error; // Stop execution
+        }
 
         let unsubscribe = null;
 
@@ -138,8 +168,12 @@
             console.log(message);
         };
 
-        // Test 1: User Status
-        window.testUserStatus = async function() {
+        // Initialize all test functions after imports complete
+        function initializeTests() {
+            console.log('🔧 Initializing test functions...');
+            
+            // Test 1: User Status
+            window.testUserStatus = async function() {
             const output = document.getElementById('userStatus');
             output.innerHTML = '';
             
@@ -290,6 +324,22 @@
                 window.logOutput('realtimeOutput', '⏹ Stopped listening for updates');
             }
         };
+        
+        console.log('✓ All test functions initialized');
+    }
+    
+    // Call initialization after imports
+    initializeTests();
+    console.log('🟢 Test page ready!');
+    
+    // Update status to ready
+    const statusEl = document.getElementById('pageStatus');
+    if (statusEl) {
+        statusEl.style.display = 'block';
+        statusEl.className = 'status success';
+        statusEl.textContent = '✓ Test page ready! All functions loaded successfully.';
+        setTimeout(() => statusEl.style.display = 'none', 3000);
+    }
     </script>
 </body>
 </html>
