@@ -23,10 +23,10 @@ let storage;
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
-  // Explicitly connect to the "elijahproject" database
-  db = getFirestore(app, 'elijahproject');
+  // Use the default Firestore database (has API access enabled)
+  db = getFirestore(app);
   storage = getStorage(app);
-  console.log('✓ Firebase initialized successfully with database: elijahproject');
+  console.log('✓ Firebase initialized successfully with default database
 } catch (error) {
   console.error("Firebase initialization error:", error);
 }
