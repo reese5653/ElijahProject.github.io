@@ -718,9 +718,8 @@
                                 </div>
                             </div>
 
-                            <div class="quiz-nav" style="margin-top: 1rem;">
-                                <button type="button" class="quiz-button" id="m4l4prevBtn" onclick="m4l4PreviousQuestion()" style="background-color: #888;">← Previous</button>
-                                <button type="button" class="quiz-button" id="m4l4nextBtn" onclick="m4l4NextQuestion()">Next →</button>
+                            <div class="quiz-nav" style="margin-top: 1rem; text-align: center;">
+                                <button type="button" class="quiz-button" onclick="m4l4SubmitQuiz()" style="background-color: #c41e3a; padding: 0.75rem 1.5rem; color: white; border: none; border-radius: 8px; font-weight: 600;">Submit Quiz</button>
                             </div>
                         </form>
 
@@ -1110,8 +1109,7 @@
     </script>
 
     <script>
-        // Module 4 Lesson 4 Quiz
-        let m4l4CurrentQuestion = 0;
+        // Module 4 Lesson 4 Quiz (single-page; submit-only)
         const m4l4TotalQuestions = 4;
         const m4l4CorrectAnswers = {
             m4l4q1: 'a',
@@ -1119,41 +1117,6 @@
             m4l4q3: 'a',
             m4l4q4: 'a'
         };
-
-        function m4l4ShowQuestion(index) {
-            const form = document.getElementById('m4l4QuizForm');
-            if (!form) return;
-            const questions = form.querySelectorAll('.quiz-question');
-            questions.forEach((q, i) => q.classList.toggle('active', i === index));
-
-            const progressBar = document.getElementById('m4l4progressBar');
-            const progressText = document.getElementById('m4l4progressText');
-            const prevBtn = document.getElementById('m4l4prevBtn');
-            const nextBtn = document.getElementById('m4l4nextBtn');
-            if (progressBar && progressText && prevBtn && nextBtn) {
-                const percent = ((index + 1) / m4l4TotalQuestions) * 100;
-                progressBar.style.width = percent + '%';
-                progressText.textContent = `Question ${index + 1} of ${m4l4TotalQuestions}`;
-                prevBtn.disabled = index === 0;
-                nextBtn.textContent = index === m4l4TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
-            }
-        }
-
-        function m4l4NextQuestion() {
-            if (m4l4CurrentQuestion < m4l4TotalQuestions - 1) {
-                m4l4CurrentQuestion++;
-                m4l4ShowQuestion(m4l4CurrentQuestion);
-            } else {
-                m4l4SubmitQuiz();
-            }
-        }
-
-        function m4l4PreviousQuestion() {
-            if (m4l4CurrentQuestion > 0) {
-                m4l4CurrentQuestion--;
-                m4l4ShowQuestion(m4l4CurrentQuestion);
-            }
-        }
 
         function m4l4SubmitQuiz() {
             let score = 0;
@@ -1182,11 +1145,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize this quiz if form exists
-            setTimeout(() => {
-                const form = document.getElementById('m4l4QuizForm');
-                if (form) m4l4ShowQuestion(0);
-            }, 150);
+            // Quiz displays all questions at once; no pagination initialization required
         });
     </script>
 
