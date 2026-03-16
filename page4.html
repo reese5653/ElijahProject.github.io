@@ -1164,10 +1164,29 @@
                 feedback.textContent = 'Please review the lesson material and try again.';
             }
 
+            // show results and mark complete (same UX as other lessons)
             document.getElementById('m4l4QuizForm').style.display = 'none';
             document.getElementById('m4l4results').classList.add('show');
+
+            // Persist completion to localStorage so the user data is saved locally
             localStorage.setItem('quiz_4_4_completed', 'true');
+
+            // Notify any auth/dashboard integration if available
             if (window.markQuizComplete) window.markQuizComplete(4, 4).catch(() => {});
+
+            // Replace quiz with completed banner after showing results (matches other lessons)
+            setTimeout(() => {
+                const quizContainer = document.querySelector('#lesson4-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }, 3000);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
