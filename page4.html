@@ -728,6 +728,35 @@
                     <!-- Removed duplicate boxed viewer to avoid repeated embeds; kept single responsive iframe above -->
                 </div>
 
+                <div class="lesson-content" id="lesson5-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <h3 id="lesson5" style="margin-bottom: 1rem; color: #202124;">Lesson 5: Essay Questions</h3>
+                    <p style="color: #5f6368; margin-bottom: 1rem;">Respond to the prompts below and save your answers.</p>
+
+                    <div style="background: white; padding: 2rem; border-radius: 8px; border-left: 4px solid #c41e3a; max-width: 900px; margin: 0 auto;">
+                        <div style="margin-bottom: 1rem;">
+                            <p style="color: #202124; font-weight: 600; margin-bottom: 0.5rem;">Prompt 1:</p>
+                            <p style="color: #5f6368; line-height: 1.6; margin-bottom: 0.5rem;">In 4-6 sentences explain how you would begin a gospel conversation with a friend.</p>
+                            <textarea id="m4essay1" style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <p style="color: #202124; font-weight: 600; margin-bottom: 0.5rem;">Prompt 2:</p>
+                            <p style="color: #5f6368; line-height: 1.6; margin-bottom: 0.5rem;">Describe one common objection to the gospel and how you would respond biblically.</p>
+                            <textarea id="m4essay2" style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <p style="color: #202124; font-weight: 600; margin-bottom: 0.5rem;">Prompt 3:</p>
+                            <p style="color: #5f6368; line-height: 1.6; margin-bottom: 0.5rem;">Reflect on a time you felt nervous sharing your faith — what helped you overcome it?</p>
+                            <textarea id="m4essay3" style="width: 100%; min-height: 120px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button id="m4essaySaveBtn" onclick="saveModule4Essays()" style="margin-top: 1rem; padding: 0.75rem 2rem; background-color: #c41e3a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">Save Answers</button>
+                        </div>
+                    </div>
+                </div>
+
                 <a href="page5.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 4)">
                     <span id="btnText">Complete and Continue →</span>
                     <span id="btnLoading" style="display: none;">Saving... ⏳</span>
@@ -742,6 +771,7 @@
                     <option value="#lesson2">Lesson 2: Did Jesus live a sinless life?</option>
                     <option value="#lesson3">Lesson 3: What is Salvation?</option>
                     <option value="#lesson4">Lesson 4: Should a Christian share there faith?</option>
+                    <option value="#lesson5">Lesson 5: Essay Questions</option>
                 </select>
                 <button class="lesson-go" id="lessonGo">Go</button>
                 <ul class="lesson-list">
@@ -1143,6 +1173,45 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Quiz displays all questions at once; no pagination initialization required
         });
+    </script>
+
+    <script>
+        // Module 4 Lesson 5: Essay Questions - save/load handlers
+        function saveModule4Essays() {
+            const a1 = document.getElementById('m4essay1')?.value || '';
+            const a2 = document.getElementById('m4essay2')?.value || '';
+            const a3 = document.getElementById('m4essay3')?.value || '';
+
+            localStorage.setItem('m4_essay1', a1);
+            localStorage.setItem('m4_essay2', a2);
+            localStorage.setItem('m4_essay3', a3);
+
+            const btn = document.getElementById('m4essaySaveBtn');
+            if (btn) {
+                const original = btn.textContent;
+                btn.textContent = 'Saved! ✓';
+                btn.style.backgroundColor = '#28a745';
+                setTimeout(() => { btn.textContent = original; btn.style.backgroundColor = '#c41e3a'; }, 2000);
+            }
+        }
+
+        function loadModule4Essays() {
+            const a1 = localStorage.getItem('m4_essay1');
+            const a2 = localStorage.getItem('m4_essay2');
+            const a3 = localStorage.getItem('m4_essay3');
+
+            if (a1) document.getElementById('m4essay1').value = a1;
+            if (a2) document.getElementById('m4essay2').value = a2;
+            if (a3) document.getElementById('m4essay3').value = a3;
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadModule4Essays);
+        } else {
+            loadModule4Essays();
+        }
+
+        window.saveModule4Essays = saveModule4Essays;
     </script>
 
     <script type="module">
