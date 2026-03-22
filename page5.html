@@ -5,7 +5,200 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 5: The Apostles Creed - Elijah Project</title>
     <link rel="icon" href="2026.png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20260322a">
+    <style>
+        .module-layout {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .module-layout > .page-content {
+            order: 1;
+        }
+
+        .module-layout > .lesson-sidebar {
+            order: 2;
+        }
+
+        .lesson-sidebar {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 0.5rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            font-size: 0.85rem;
+            max-width: 235px;
+            min-width: 235px;
+        }
+
+        .lesson-sidebar h4 {
+            margin-top: 0;
+            margin-bottom: 0.35rem;
+            color: #202124;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .lesson-select {
+            width: 100%;
+            padding: 0.35rem;
+            border-radius: 6px;
+            border: 1px solid #d0d7de;
+            font-size: 0.8rem;
+            background: white;
+            margin-bottom: 0.35rem;
+        }
+
+        .lesson-go {
+            width: 100%;
+            padding: 0.35rem;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .lesson-go:hover {
+            background: #1557b0;
+        }
+
+        .lesson-list {
+            margin: 0.35rem 0 0;
+            padding-left: 0.9rem;
+            color: #5f6368;
+            font-size: 0.75rem;
+        }
+
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            margin-bottom: 1.5rem;
+            color: #5f6368;
+            font-size: 0.95rem;
+        }
+
+        .quiz-progress {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            background: #c41e3a;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h4 {
+            color: #202124;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .quiz-option input[type="radio"],
+        .quiz-option input[type="checkbox"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+
+        .quiz-button {
+            padding: 0.75rem 2rem;
+            background-color: #c41e3a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .quiz-button:hover {
+            background-color: #a01729;
+        }
+
+        .quiz-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .quiz-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            background-color: #fff5f5;
+            border-left: 4px solid #c41e3a;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #202124;
+        }
+
+        @media (max-width: 900px) {
+            .module-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .lesson-content {
+            display: none;
+        }
+
+        .lesson-content.active {
+            display: block;
+        }
+    </style>
 </head>
 <body data-version="20260319a">
     <header>
