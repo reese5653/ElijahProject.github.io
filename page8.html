@@ -3,9 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 8 - Elijah Project</title>
+    <title>Module 8: What is Calvinism? - Elijah Project</title>
     <link rel="icon" href="2026.png">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            margin-bottom: 1.5rem;
+            color: #5f6368;
+            font-size: 0.95rem;
+        }
+
+        .quiz-progress {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            background: #c41e3a;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h4 {
+            color: #202124;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+
+        .quiz-button {
+            padding: 0.75rem 2rem;
+            background-color: #c41e3a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .quiz-button:hover {
+            background-color: #a01729;
+        }
+
+        .quiz-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .quiz-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            background-color: #fff5f5;
+            border-left: 4px solid #c41e3a;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #202124;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -26,12 +137,257 @@
 
         <div class="module-layout">
             <div class="page-content" style="text-align: left;">
-                <h2>Module 8</h2>
-                <p style="color: #5f6368; margin-bottom: 2rem;">Explore the foundations and principles of this module.</p>
+                <h2>Module 8: What is Calvinism?</h2>
+                <p style="color: #5f6368; margin-bottom: 2rem;">Study the core teachings, historical roots, and theological framework of Calvinism.</p>
                 
                 <div class="lesson-content active" id="lesson1-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
-                    <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Course Content</h3>
-                    <p>Content for this module is coming soon. Check back later for study materials, videos, and assessments.</p>
+                    <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Lesson 1: What is Calvinism?</h3>
+                    <p>This lesson introduces the key ideas often associated with Calvinist theology, with attention to doctrine, church history, and biblical interpretation.</p>
+
+                    <div style="margin: 1.5rem 0; max-width: 1200px;">
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; box-shadow: 0 14px 36px rgba(0,0,0,0.18); background: #000;">
+                            <iframe src="https://www.youtube.com/embed/cUL0Um3hU_I" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
+                        </div>
+                    </div>
+
+                    <div style="margin: 2rem auto; max-width: 1200px; background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                        <div style="background: linear-gradient(135deg, #0f172a 0%, #1f2d3d 100%); padding: 1rem; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.2);">
+                            <iframe src="Presentation (2).pdf#zoom=75" width="100%"></iframe>
+                            <div style="margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                                <div style="color: #e5e7eb; font-weight: 600;">Module 8 Presentation</div>
+                                <a href="Presentation (2).pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab ↗</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin: 2rem auto; max-width: 1200px; background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                        <div style="background: #0f172a; padding: 1rem; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.15);">
+                            <iframe src="epsom module 6 week 1.pdf#zoom=75" width="100%"></iframe>
+                            <div style="margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                                <div style="color: #e5e7eb; font-weight: 600;">Epsom Module 6 Week 1</div>
+                                <a href="epsom module 6 week 1.pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab ↗</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <h3>Lesson 1 Quiz: What is Calvinism?</h3>
+                        <div class="quiz-header" id="m8l1ProgressText">Question 1 of 10</div>
+                        <div class="quiz-progress">
+                            <div class="quiz-progress-bar" id="m8l1ProgressBar" style="width: 10%;"></div>
+                        </div>
+                        <form id="m8l1QuizForm">
+                            <div class="quiz-question">
+                                <h4>Question 1: What does the acronym TULIP represent?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q1" value="a" id="m8l1q1a">
+                                    <label for="m8l1q1a">Five books of the Bible</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q1" value="b" id="m8l1q1b">
+                                    <label for="m8l1q1b">Five points of Calvinism</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q1" value="c" id="m8l1q1c">
+                                    <label for="m8l1q1c">Five church councils</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q1" value="d" id="m8l1q1d">
+                                    <label for="m8l1q1d">Five spiritual gifts</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 2: What does Total Depravity teach about humanity?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q2" value="a" id="m8l1q2a">
+                                    <label for="m8l1q2a">Humans are mostly good with minor sin</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q2" value="b" id="m8l1q2b">
+                                    <label for="m8l1q2b">Humans can choose God without help</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q2" value="c" id="m8l1q2c">
+                                    <label for="m8l1q2c">Humans are completely fallen and enslaved to sin</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q2" value="d" id="m8l1q2d">
+                                    <label for="m8l1q2d">Humans only sin after learning it</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 3: According to Total Depravity, what caused mankind's separation from God?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q3" value="a" id="m8l1q3a">
+                                    <label for="m8l1q3a">Lack of knowledge</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q3" value="b" id="m8l1q3b">
+                                    <label for="m8l1q3b">Original sin</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q3" value="c" id="m8l1q3c">
+                                    <label for="m8l1q3c">Government systems</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q3" value="d" id="m8l1q3d">
+                                    <label for="m8l1q3d">Cultural influence</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 4: What is the key idea of Unconditional Election?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q4" value="a" id="m8l1q4a">
+                                    <label for="m8l1q4a">God chooses based on human effort</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q4" value="b" id="m8l1q4b">
+                                    <label for="m8l1q4b">God chooses based on foreseen faith</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q4" value="c" id="m8l1q4c">
+                                    <label for="m8l1q4c">God chooses based on His will alone</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q4" value="d" id="m8l1q4d">
+                                    <label for="m8l1q4d">God waits for humans to choose first</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 5: Which scripture is commonly used to support Unconditional Election?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q5" value="a" id="m8l1q5a">
+                                    <label for="m8l1q5a">John 3:16</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q5" value="b" id="m8l1q5b">
+                                    <label for="m8l1q5b">Ephesians 1:4-5</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q5" value="c" id="m8l1q5c">
+                                    <label for="m8l1q5c">Genesis 1:1</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q5" value="d" id="m8l1q5d">
+                                    <label for="m8l1q5d">Psalm 23</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 6: What does Limited Atonement teach?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q6" value="a" id="m8l1q6a">
+                                    <label for="m8l1q6a">Christ died for all people equally</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q6" value="b" id="m8l1q6b">
+                                    <label for="m8l1q6b">Christ died only for moral people</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q6" value="c" id="m8l1q6c">
+                                    <label for="m8l1q6c">Christ died specifically for the elect</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q6" value="d" id="m8l1q6d">
+                                    <label for="m8l1q6d">Christ died only for Israel</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 7: Which verse challenges the idea of Limited Atonement by emphasizing a universal scope?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q7" value="a" id="m8l1q7a">
+                                    <label for="m8l1q7a">Romans 9:16</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q7" value="b" id="m8l1q7b">
+                                    <label for="m8l1q7b">John 6:44</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q7" value="c" id="m8l1q7c">
+                                    <label for="m8l1q7c">1 John 2:2</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q7" value="d" id="m8l1q7d">
+                                    <label for="m8l1q7d">Hebrews 12:6</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 8: What is the central claim of Irresistible Grace?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q8" value="a" id="m8l1q8a">
+                                    <label for="m8l1q8a">Grace is optional</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q8" value="b" id="m8l1q8b">
+                                    <label for="m8l1q8b">Grace can always be rejected</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q8" value="c" id="m8l1q8c">
+                                    <label for="m8l1q8c">God's grace guarantees a response</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q8" value="d" id="m8l1q8d">
+                                    <label for="m8l1q8d">Grace only applies to certain cultures</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 9: Which passage is used to challenge Irresistible Grace by showing resistance to the Holy Spirit?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q9" value="a" id="m8l1q9a">
+                                    <label for="m8l1q9a">Acts 7:51</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q9" value="b" id="m8l1q9b">
+                                    <label for="m8l1q9b">John 10:28</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q9" value="c" id="m8l1q9c">
+                                    <label for="m8l1q9c">Philippians 1:6</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q9" value="d" id="m8l1q9d">
+                                    <label for="m8l1q9d">Romans 8:28</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 10: According to Perseverance of the Saints, why do true believers endure to the end?</h4>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q10" value="a" id="m8l1q10a">
+                                    <label for="m8l1q10a">Because they never sin</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q10" value="b" id="m8l1q10b">
+                                    <label for="m8l1q10b">Because they are disciplined by others</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q10" value="c" id="m8l1q10c">
+                                    <label for="m8l1q10c">Because God sustains their salvation</label>
+                                </div>
+                                <div class="quiz-option">
+                                    <input type="radio" name="m8l1q10" value="d" id="m8l1q10d">
+                                    <label for="m8l1q10d">Because they earn their salvation</label>
+                                </div>
+                            </div>
+
+                            <div class="quiz-nav">
+                                <button type="button" class="quiz-button" id="m8l1PrevBtn" onclick="m8l1PreviousQuestion()" style="background-color: #888;">← Previous</button>
+                                <button type="button" class="quiz-button" id="m8l1NextBtn" onclick="m8l1NextQuestion()">Next →</button>
+                            </div>
+                        </form>
+
+                        <div id="m8l1Results" class="results">
+                            <div class="score" id="m8l1ScoreText"></div>
+                            <p id="m8l1Feedback" style="margin-top: 1rem; color: #5f6368;"></p>
+                        </div>
+                    </div>
                 </div>
 
                 <a href="page9.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 8)">
@@ -44,7 +400,7 @@
             <aside class="lesson-sidebar">
                 <h4>Jump to a Lesson</h4>
                 <select class="lesson-select" id="lessonSelect">
-                    <option value="#lesson1">Lesson 1: Course Content</option>
+                    <option value="#lesson1">Lesson 1: What is Calvinism?</option>
                 </select>
                 <button class="lesson-go" id="lessonGo">Go</button>
                 <ul class="lesson-list">
@@ -60,6 +416,113 @@
     </footer>
 
     <script>
+        let m8l1CurrentQuestion = 0;
+        const m8l1TotalQuestions = 10;
+        const m8l1CorrectAnswers = {
+            m8l1q1: 'b',
+            m8l1q2: 'c',
+            m8l1q3: 'b',
+            m8l1q4: 'c',
+            m8l1q5: 'b',
+            m8l1q6: 'c',
+            m8l1q7: 'c',
+            m8l1q8: 'c',
+            m8l1q9: 'a',
+            m8l1q10: 'c'
+        };
+
+        function m8l1ShowQuestion(index) {
+            const form = document.getElementById('m8l1QuizForm');
+            if (!form) {
+                return;
+            }
+
+            const questions = form.querySelectorAll('.quiz-question');
+            questions.forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+            });
+
+            const progressPercent = ((index + 1) / m8l1TotalQuestions) * 100;
+            document.getElementById('m8l1ProgressBar').style.width = progressPercent + '%';
+            document.getElementById('m8l1ProgressText').textContent = `Question ${index + 1} of ${m8l1TotalQuestions}`;
+
+            document.getElementById('m8l1PrevBtn').disabled = index === 0;
+            document.getElementById('m8l1NextBtn').textContent = index === m8l1TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+        }
+
+        function m8l1NextQuestion() {
+            if (m8l1CurrentQuestion < m8l1TotalQuestions - 1) {
+                m8l1CurrentQuestion++;
+                m8l1ShowQuestion(m8l1CurrentQuestion);
+            } else {
+                m8l1SubmitQuiz();
+            }
+        }
+
+        function m8l1PreviousQuestion() {
+            if (m8l1CurrentQuestion > 0) {
+                m8l1CurrentQuestion--;
+                m8l1ShowQuestion(m8l1CurrentQuestion);
+            }
+        }
+
+        function m8l1SubmitQuiz() {
+            let score = 0;
+
+            for (let i = 1; i <= m8l1TotalQuestions; i++) {
+                const answer = document.querySelector(`input[name="m8l1q${i}"]:checked`)?.value;
+                if (answer === m8l1CorrectAnswers[`m8l1q${i}`]) {
+                    score++;
+                }
+            }
+
+            const resultsDiv = document.getElementById('m8l1Results');
+            const scoreText = document.getElementById('m8l1ScoreText');
+            const feedback = document.getElementById('m8l1Feedback');
+            const percentage = Math.round((score / m8l1TotalQuestions) * 100);
+
+            scoreText.textContent = `Your Score: ${score} / ${m8l1TotalQuestions} (${percentage}%)`;
+
+            if (score === 10) {
+                feedback.textContent = 'Perfect! You have mastered this lesson!';
+            } else if (score >= 8) {
+                feedback.textContent = 'Excellent work. You have a strong grasp of the TULIP framework.';
+            } else if (score >= 6) {
+                feedback.textContent = 'Good progress. Review the lesson material and scriptures for the missed items.';
+            } else {
+                feedback.textContent = 'Please review the lesson material and try again.';
+            }
+
+            document.getElementById('m8l1QuizForm').style.display = 'none';
+            resultsDiv.classList.add('show');
+
+            localStorage.setItem('quiz_8_1_completed', 'true');
+
+            if (window.markQuizComplete) {
+                window.markQuizComplete(8, 1).catch(err => console.error('Error marking quiz complete:', err));
+            }
+
+            setTimeout(() => {
+                const quizContainer = document.querySelector('#lesson1-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const lesson1Container = document.querySelector('#lesson1-content .quiz-container');
+            if (lesson1Container && lesson1Container.querySelector('form')) {
+                m8l1ShowQuestion(0);
+            }
+        });
+
         const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
 
@@ -87,7 +550,7 @@
     </script>
 
     <script type="module">
-        import { markModuleComplete } from './auth.js';
+        import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
@@ -96,6 +559,47 @@
             markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
             setTimeout(() => window.location.href = target, 300);
         };
+
+        async function checkQuizCompletion() {
+            const lesson1LocalStorage = localStorage.getItem('quiz_8_1_completed') === 'true';
+            let lesson1QuizCompleted = lesson1LocalStorage;
+
+            try {
+                if (!lesson1LocalStorage) {
+                    lesson1QuizCompleted = await isQuizCompleted(8, 1);
+                }
+            } catch (e) {
+                console.log('Not authenticated yet');
+            }
+
+            if (lesson1QuizCompleted) {
+                const quizContainer = document.querySelector('#lesson1-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkQuizCompletion);
+        } else {
+            checkQuizCompletion();
+        }
+
+        onAuthChange((user) => {
+            if (user) {
+                setTimeout(checkQuizCompletion, 100);
+            }
+        });
+
+        window.markQuizComplete = markQuizComplete;
     </script>
 </body>
 </html>
+
