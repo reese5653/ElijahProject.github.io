@@ -132,7 +132,7 @@
 
     <main style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
         <div style="margin-bottom: 2rem;">
-            <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">â† Back to Courses</a>
+            <a href="courses.html" style="color: #1a73e8; text-decoration: none; font-weight: 600;">← Back to Courses</a>
         </div>
 
         <div class="module-layout">
@@ -155,7 +155,7 @@
                             <iframe src="Presentation (2).pdf#zoom=75" width="100%"></iframe>
                             <div style="margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                                 <div style="color: #e5e7eb; font-weight: 600;">Module 6 Presentation</div>
-                                <a href="Presentation (2).pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab â†—</a>
+                                <a href="Presentation (2).pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab ↗</a>
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                             <iframe src="epsom module 6 week 1.pdf#zoom=75" width="100%"></iframe>
                             <div style="margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;">
                                 <div style="color: #e5e7eb; font-weight: 600;">Epsom Module 6 Week 1</div>
-                                <a href="epsom module 6 week 1.pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab â†—</a>
+                                <a href="epsom module 6 week 1.pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab ↗</a>
                             </div>
                         </div>
                     </div>
@@ -378,8 +378,8 @@
                             </div>
 
                             <div class="quiz-nav">
-                                <button type="button" class="quiz-button" id="m6l1PrevBtn" onclick="m6l1PreviousQuestion()" style="background-color: #888;">â† Previous</button>
-                                <button type="button" class="quiz-button" id="m6l1NextBtn" onclick="m6l1NextQuestion()">Next â†’</button>
+                                <button type="button" class="quiz-button" id="m6l1PrevBtn" onclick="m6l1PreviousQuestion()" style="background-color: #888;">← Previous</button>
+                                <button type="button" class="quiz-button" id="m6l1NextBtn" onclick="m6l1NextQuestion()">Next →</button>
                             </div>
                         </form>
 
@@ -391,10 +391,10 @@
                 </div>
 
                 <a href="page7.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 6)">
-                    <span id="btnText">Complete and Continue â†’</span>
-                    <span id="btnLoading" style="display: none;">Saving... â³</span>
+                    <span id="btnText">Complete and Continue →</span>
+                    <span id="btnLoading" style="display: none;">Saving... ⏳</span>
                 </a>
-                <a href="courses.html" class="back-button">â† Back to Courses</a>
+                <a href="courses.html" class="back-button">← Back to Courses</a>
             </div>
 
             <aside class="lesson-sidebar">
@@ -412,7 +412,7 @@
     </main>
 
     <footer style="background-color: #f8f9fa; border-top: 1px solid #e0e0e0; margin-top: 4rem; padding: 2rem; text-align: center;">
-        <p style="color: #5f6368; margin-bottom: 1rem; font-size: 0.875rem;">Copyrights Â©2025. All Rights Reserved.</p>
+        <p style="color: #5f6368; margin-bottom: 1rem; font-size: 0.875rem;">Copyrights ©2025. All Rights Reserved.</p>
     </footer>
 
     <script>
@@ -447,7 +447,7 @@
             document.getElementById('m6l1ProgressText').textContent = `Question ${index + 1} of ${m6l1TotalQuestions}`;
 
             document.getElementById('m6l1PrevBtn').disabled = index === 0;
-            document.getElementById('m6l1NextBtn').textContent = index === m6l1TotalQuestions - 1 ? 'Submit Quiz' : 'Next â†’';
+            document.getElementById('m6l1NextBtn').textContent = index === m6l1TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
         }
 
         function m6l1NextQuestion() {
@@ -507,7 +507,7 @@
                 if (quizContainer) {
                     quizContainer.innerHTML = `
                         <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">âœ“</div>
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
                             <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
                         </div>
@@ -577,7 +577,7 @@
                 if (quizContainer) {
                     quizContainer.innerHTML = `
                         <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
-                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">âœ“</div>
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
                             <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
                             <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
                         </div>
