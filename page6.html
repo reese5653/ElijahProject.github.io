@@ -630,6 +630,20 @@
                     </div>
                 </div>
 
+                <div class="lesson-content" id="lesson3-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <h3 id="lesson3" style="margin-bottom: 1rem; color: #202124;">Lesson 3: Essay Questions</h3>
+                    <p>Write a short reflection comparing Calvinism and Arminianism using Scripture references.</p>
+
+                    <div style="background: white; padding: 2rem; border-radius: 8px; border-left: 4px solid #c41e3a; max-width: 900px; margin: 0 auto; text-align: left;">
+                        <h4 style="color: #202124; margin-bottom: 1rem;">Essay Prompt:</h4>
+                        <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 0.75rem;">
+                            Expalin in three to five sentences what you agree and dont agree with Calvinism and Arminianism and why using scripture.
+                        </p>
+                        <textarea id="m6essay1" style="width: 100%; min-height: 180px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
+                        <button id="m6essaySaveBtn" onclick="saveModule6Essay()" style="margin-top: 1rem; padding: 0.75rem 2rem; background-color: #c41e3a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#a01729'" onmouseout="this.style.backgroundColor='#c41e3a'">Save Answer</button>
+                    </div>
+                </div>
+
                 <a href="page7.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 6)">
                     <span id="btnText">Complete and Continue →</span>
                     <span id="btnLoading" style="display: none;">Saving... ⏳</span>
@@ -642,6 +656,7 @@
                 <select class="lesson-select" id="lessonSelect">
                     <option value="#lesson1">Lesson 1: What is Calvinism?</option>
                     <option value="#lesson2">Lesson 2: What is Arminianism?</option>
+                    <option value="#lesson3">Lesson 3: Essay Questions</option>
                 </select>
                 <button class="lesson-go" id="lessonGo">Go</button>
                 <ul class="lesson-list">
@@ -867,7 +882,38 @@
             if (lesson2Container && lesson2Container.querySelector('form')) {
                 m6l2ShowQuestion(0);
             }
+
+            loadModule6Essay();
         });
+
+        function saveModule6Essay() {
+            const essay = document.getElementById('m6essay1')?.value || '';
+            localStorage.setItem('module6_essay1', essay);
+
+            const btn = document.getElementById('m6essaySaveBtn');
+            if (!btn) {
+                return;
+            }
+
+            const originalText = btn.textContent;
+            btn.textContent = 'Saved! ✓';
+            btn.style.backgroundColor = '#28a745';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.backgroundColor = '#c41e3a';
+            }, 2000);
+        }
+
+        function loadModule6Essay() {
+            const essay = localStorage.getItem('module6_essay1');
+            const textarea = document.getElementById('m6essay1');
+            if (essay && textarea) {
+                textarea.value = essay;
+            }
+        }
+
+        window.saveModule6Essay = saveModule6Essay;
 
         const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
