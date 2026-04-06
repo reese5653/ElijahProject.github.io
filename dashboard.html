@@ -193,13 +193,14 @@
         const completedCountBig = document.getElementById('completedCountBig');
         const remainingCount = document.getElementById('remainingCount');
 
-        const courses = [
+        const fallbackCourses = [
             { id: 1, name: "How to study the Bible", image: "Bible.png", page: "page1.html" },
             { id: 2, name: "From Genesis to Creation", image: "Genesis to the Cross.png", page: "page2.html" },
             { id: 3, name: "Identity in Christ", image: "identity in Christ.png", page: "page3.html" },
             { id: 4, name: "Biblical Worldview", image: "Biblical Worldview.png", page: "page4.html" },
-            { id: 5, name: "Doctrines, Creeds, & The Early Church", image: "early church fathers.png", page: "page7.html" },
-            { id: 6, name: "Divine Council", image: "Sethite view.png", page: "page6.html" },
+            { id: 5, name: "Doctrines, Creeds, & The Early Church", image: "early church fathers.png", page: "page5.html" },
+            { id: 6, name: "Calvinism versus Arminianism", image: "Calvinism.png", page: "page6.html" },
+            { id: 7, name: "The Kingdom of God", image: "The Kingdom of God.png", page: "page7.html" },
             { id: 9, name: "Module 9", image: "2026.png", page: "page9.html" },
             { id: 10, name: "Module 10", image: "2026.png", page: "page10.html" },
             { id: 11, name: "Module 11", image: "2026.png", page: "page11.html" },
@@ -213,16 +214,79 @@
             { id: 19, name: "Module 19", image: "2026.png", page: "page19.html" }
         ];
 
+        let courseCatalog = new Map(fallbackCourses.map((course) => [course.id, course]));
+
+        async function loadCourseCatalogFromCoursesPage() {
+            try {
+                const response = await fetch('courses.html', { cache: 'no-store' });
+                if (!response.ok) return;
+
+                const html = await response.text();
+                const doc = new DOMParser().parseFromString(html, 'text/html');
+                const cards = Array.from(doc.querySelectorAll('.course-card'));
+
+                const parsed = cards.map((card) => {
+                    const link = card.querySelector('a.course-link');
+                    const orgText = card.querySelector('.course-org')?.textContent?.trim() || '';
+                    const image = card.querySelector('img')?.getAttribute('src') || '2026.png';
+
+                    if (!link || !orgText) return null;
+
+                    const page = link.getAttribute('href') || '';
+                    const moduleMatch = orgText.match(/Module\s+(\d+)/i);
+                    const pageMatch = page.match(/page(\d+)\.html/i);
+                    const id = moduleMatch ? parseInt(moduleMatch[1], 10) : (pageMatch ? parseInt(pageMatch[1], 10) : NaN);
+                    const name = orgText.replace(/^Module\s+\d+\s*:\s*/i, '').trim() || orgText;
+
+                    if (!Number.isInteger(id)) return null;
+
+                    return {
+                        id,
+                        name,
+                        image,
+                        page
+                    };
+                }).filter(Boolean);
+
+                if (parsed.length > 0) {
+                    courseCatalog = new Map(parsed.map((course) => [course.id, course]));
+                }
+            } catch (error) {
+                console.warn('Could not sync dashboard catalog from courses.html:', error);
+            }
+        }
+
         function displayCompletedCourses() {
             console.log('📊 Loading dashboard from localStorage (instant)...');
             
-            // Get completed courses from localStorage FIRST (instant load)
-            const completedCourses = courses.filter(course => {
-                const localStorageCompleted = localStorage.getItem(`module_${course.id}_completed`) === 'true';
-                if (localStorageCompleted) {
-                    console.log(`✓ Module ${course.id} completed`);
+            // Read completion state from localStorage keys so module numbers and labels stay decoupled.
+            const completedIds = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (!key) continue;
+
+                const match = key.match(/^module_(\d+)_completed$/);
+                if (match && localStorage.getItem(key) === 'true') {
+                    completedIds.push(parseInt(match[1], 10));
                 }
-                return localStorageCompleted;
+            }
+
+            completedIds.sort((a, b) => a - b);
+
+            const completedCourses = completedIds.map((id) => {
+                const course = courseCatalog.get(id);
+                if (course) return course;
+
+                return {
+                    id,
+                    name: `Module ${id}`,
+                    image: '2026.png',
+                    page: `page${id}.html`
+                };
+            });
+
+            completedCourses.forEach((course) => {
+                console.log(`✓ Module ${course.id} completed`);
             });
             
             console.log(`📈 Total completed: ${completedCourses.length}`);
@@ -276,7 +340,11 @@
                     adminLink.style.display = 'inline';
                 }
                 
-                // Load dashboard instantly from localStorage (no await needed)
+                // Load dashboard instantly from localStorage first.
+                displayCompletedCourses();
+
+                // Then refresh from the courses catalog so names/images stay in sync.
+                await loadCourseCatalogFromCoursesPage();
                 displayCompletedCourses();
             } else {
                 console.log('No user logged in, redirecting...');
