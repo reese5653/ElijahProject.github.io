@@ -176,17 +176,6 @@
                 <a href="page19.html" class="course-link"></a>
             </div>
         </div>
-
-        <div id="progressSection" style="background: linear-gradient(135deg, #c41e3a 0%, #1a73e8 100%); color: white; padding: 2rem; border-radius: 12px; margin: 2rem auto; max-width: 600px; text-align: center;">
-            <h3 style="margin: 0 0 1rem 0;">Your Progress</h3>
-            <div style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">
-                <span id="completedCount">0</span> / 19
-            </div>
-            <div style="font-size: 0.9rem; margin-bottom: 1.5rem; opacity: 0.9;">Modules Completed</div>
-            <div style="background: rgba(255,255,255,0.2); height: 8px; border-radius: 4px; overflow: hidden;">
-                <div id="progressBar" style="background: #c41e3a; height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 4px;"></div>
-            </div>
-        </div>
     </main>
 
     <footer>
@@ -215,16 +204,7 @@
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
         const logoutBtn = document.getElementById('logoutBtn');
-        const completedCount = document.getElementById('completedCount');
-        const progressBar = document.getElementById('progressBar');
         const adminLink = document.getElementById('adminLink');
-
-        async function updateProgressDisplay() {
-            const count = await getCompletionCount();
-            completedCount.textContent = count;
-            const percentage = (count / 19) * 100;
-            progressBar.style.width = percentage + '%';
-        }
 
         async function updateCourseCards() {
             const data = await getUserCompletionData();
@@ -262,7 +242,6 @@
                         await markModuleComplete(moduleNum);
                     }
                     updateCourseCards();
-                    updateProgressDisplay();
                 });
                 
                 const courseLink = card.querySelector('.course-link');
@@ -278,12 +257,10 @@
                 userEmail.textContent = username || user.email;
                 userInfo.style.display = 'flex';
                 await ensureUserDocument();
-                updateProgressDisplay();
                 updateCourseCards();
                 
                 // Set up real-time listener for completion updates
                 const unsubscribe = onCompletionUpdate((data) => {
-                    updateProgressDisplay();
                     updateCourseCards();
                 });
                 
