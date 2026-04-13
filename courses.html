@@ -199,57 +199,12 @@
     </footer>
 
     <script type="module">
-        import { onAuthChange, logout, getUserCompletionData, markModuleComplete, markModuleIncomplete, getCompletionCount, isAdmin, ensureUserDocument, getUserUsername, onCompletionUpdate } from './auth.js';
+        import { onAuthChange, logout, isAdmin, ensureUserDocument, getUserUsername } from './auth.js';
 
         const userInfo = document.getElementById('userInfo');
         const userEmail = document.getElementById('userEmail');
         const logoutBtn = document.getElementById('logoutBtn');
         const adminLink = document.getElementById('adminLink');
-
-        async function updateCourseCards() {
-            const data = await getUserCompletionData();
-            const cards = document.querySelectorAll('.course-card');
-            
-            cards.forEach((card, index) => {
-                const moduleNum = index + 1;
-                const isCompleted = data[`module_${moduleNum}`] === true;
-                
-                if (isCompleted) {
-                    card.style.opacity = '0.8';
-                    card.style.borderTop = '3px solid #4ade80';
-                }
-                
-                const toggleBtn = document.createElement('button');
-                toggleBtn.textContent = isCompleted ? '✓ Completed' : 'Mark Complete';
-                toggleBtn.style.cssText = `
-                    background-color: ${isCompleted ? '#4ade80' : '#e0e0e0'};
-                    color: ${isCompleted ? 'white' : '#333'};
-                    border: none;
-                    padding: 0.5rem 1rem;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    font-weight: 600;
-                    margin-top: 0.5rem;
-                    width: 100%;
-                    transition: all 0.2s;
-                `;
-                
-                toggleBtn.addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    if (isCompleted) {
-                        await markModuleIncomplete(moduleNum);
-                    } else {
-                        await markModuleComplete(moduleNum);
-                    }
-                    updateCourseCards();
-                });
-                
-                const courseLink = card.querySelector('.course-link');
-                if (courseLink && courseLink.parentNode.lastChild !== toggleBtn) {
-                    card.appendChild(toggleBtn);
-                }
-            });
-        }
 
         onAuthChange(async (user) => {
             if (user) {
@@ -257,12 +212,6 @@
                 userEmail.textContent = username || user.email;
                 userInfo.style.display = 'flex';
                 await ensureUserDocument();
-                updateCourseCards();
-                
-                // Set up real-time listener for completion updates
-                const unsubscribe = onCompletionUpdate((data) => {
-                    updateCourseCards();
-                });
                 
                 const adminStatus = await isAdmin();
                 if (adminStatus) {
