@@ -390,6 +390,10 @@
             document.getElementById('kingdomQuizForm').style.display = 'none';
             resultsDiv.classList.add('show');
             localStorage.setItem('quiz_7_1_completed', 'true');
+
+            if (window.markQuizComplete) {
+                window.markQuizComplete(7, 1).catch(err => console.error('Error marking quiz complete:', err));
+            }
         }
 
         const lessonSelect = document.getElementById('lessonSelect');
@@ -429,7 +433,7 @@
     </script>
 
     <script type="module">
-        import { markModuleComplete } from './auth.js';
+        import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
@@ -438,6 +442,44 @@
             markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
             setTimeout(() => window.location.href = target, 300);
         };
+
+        async function checkQuizCompletion() {
+            const lesson1LocalStorage = localStorage.getItem('quiz_7_1_completed') === 'true';
+            let lesson1QuizCompleted = lesson1LocalStorage;
+
+            try {
+                if (!lesson1LocalStorage) lesson1QuizCompleted = await isQuizCompleted(7, 1);
+            } catch (e) {
+                console.log('Not authenticated yet');
+            }
+
+            if (lesson1QuizCompleted) {
+                const quizContainer = document.querySelector('#lesson1-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkQuizCompletion);
+        } else {
+            checkQuizCompletion();
+        }
+
+        onAuthChange((user) => {
+            if (user) {
+                setTimeout(checkQuizCompletion, 100);
+            }
+        });
+
+        window.markQuizComplete = markQuizComplete;
     </script>
 </body>
 </html>
