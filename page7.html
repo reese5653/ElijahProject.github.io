@@ -6,6 +6,117 @@
     <title>Module 7: The Kingdom of God - Elijah Project</title>
     <link rel="icon" href="2026.png">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            margin-bottom: 1.5rem;
+            color: #5f6368;
+            font-size: 0.95rem;
+        }
+
+        .quiz-progress {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            background: #c41e3a;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h4 {
+            color: #202124;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+
+        .quiz-button {
+            padding: 0.75rem 2rem;
+            background-color: #c41e3a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .quiz-button:hover {
+            background-color: #a01729;
+        }
+
+        .quiz-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .quiz-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            background-color: #fff5f5;
+            border-left: 4px solid #c41e3a;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #202124;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -56,6 +167,121 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="quiz-container">
+                        <h3>Lesson 1 Quiz: The Kingdom of God</h3>
+                        <div class="quiz-header" id="kprogressText">Question 1 of 12</div>
+                        <div class="quiz-progress">
+                            <div class="quiz-progress-bar" id="kprogressBar" style="width: 8.33%;"></div>
+                        </div>
+                        <form id="kingdomQuizForm">
+                            <div class="quiz-question">
+                                <h4>Question 1: The Kingdom of God is best defined as:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq1" value="a" id="kq1a"><label for="kq1a">A. A physical nation on earth</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq1" value="b" id="kq1b"><label for="kq1b">B. The invisible rule and authority of God</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq1" value="c" id="kq1c"><label for="kq1c">C. A future-only reality</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq1" value="d" id="kq1d"><label for="kq1d">D. A religious organization</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 2: The Kingdom of Heaven refers to:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq2" value="a" id="kq2a"><label for="kq2a">A. Heaven after death</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq2" value="b" id="kq2b"><label for="kq2b">B. The visible manifestation of God's Kingdom</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq2" value="c" id="kq2c"><label for="kq2c">C. Angels only</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq2" value="d" id="kq2d"><label for="kq2d">D. The Old Testament law</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 3: Humanity was created in God's image to:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq3" value="a" id="kq3a"><label for="kq3a">A. Live independently</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq3" value="b" id="kq3b"><label for="kq3b">B. Rule heaven</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq3" value="c" id="kq3c"><label for="kq3c">C. Represent God and exercise dominion</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq3" value="d" id="kq3d"><label for="kq3d">D. Serve angels</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 4: Dominion means:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq4" value="a" id="kq4a"><label for="kq4a">A. Ownership of the earth</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq4" value="b" id="kq4b"><label for="kq4b">B. Freedom from responsibility</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq4" value="c" id="kq4c"><label for="kq4c">C. Stewardship and rulership</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq4" value="d" id="kq4d"><label for="kq4d">D. Control without God</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 5: The Garden of Eden represented:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq5" value="a" id="kq5a"><label for="kq5a">A. A temporary test</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq5" value="b" id="kq5b"><label for="kq5b">B. Heaven overlapping earth</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq5" value="c" id="kq5c"><label for="kq5c">C. A symbolic story only</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq5" value="d" id="kq5d"><label for="kq5d">D. A place of punishment</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 6: What caused the loss of the Kingdom on earth?</h4>
+                                <div class="quiz-option"><input type="radio" name="kq6" value="a" id="kq6a"><label for="kq6a">A. Lack of knowledge</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq6" value="b" id="kq6b"><label for="kq6b">B. Adam's obedience</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq6" value="c" id="kq6c"><label for="kq6c">C. Adam's rebellion (sin)</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq6" value="d" id="kq6d"><label for="kq6d">D. God's decision</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 7: According to Isaiah 9:6-7, the Messiah would bring:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq7" value="a" id="kq7a"><label for="kq7a">A. Religion only</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq7" value="b" id="kq7b"><label for="kq7b">B. Judgment only</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq7" value="c" id="kq7c"><label for="kq7c">C. Government and eternal rule</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq7" value="d" id="kq7d"><label for="kq7d">D. Temporary peace</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 8: Jesus' first message was:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq8" value="a" id="kq8a"><label for="kq8a">A. Love your neighbor</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq8" value="b" id="kq8b"><label for="kq8b">B. Repent, for the Kingdom is at hand</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq8" value="c" id="kq8c"><label for="kq8c">C. Follow the law</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq8" value="d" id="kq8d"><label for="kq8d">D. Give to the poor</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 9: According to John 3:3, entering the Kingdom requires:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq9" value="a" id="kq9a"><label for="kq9a">A. Good works</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq9" value="b" id="kq9b"><label for="kq9b">B. Knowledge</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq9" value="c" id="kq9c"><label for="kq9c">C. Being born again</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq9" value="d" id="kq9d"><label for="kq9d">D. Obedience to the law</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 10: Which of the following is a manifestation of the Kingdom?</h4>
+                                <div class="quiz-option"><input type="radio" name="kq10" value="a" id="kq10a"><label for="kq10a">A. Fame</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq10" value="b" id="kq10b"><label for="kq10b">B. Wealth only</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq10" value="c" id="kq10c"><label for="kq10c">C. Healing, deliverance, and provision</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq10" value="d" id="kq10d"><label for="kq10d">D. Political power</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 11: In the Kingdom of God, the greatest are:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq11" value="a" id="kq11a"><label for="kq11a">A. The richest</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq11" value="b" id="kq11b"><label for="kq11b">B. The most powerful</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq11" value="c" id="kq11c"><label for="kq11c">C. The most educated</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq11" value="d" id="kq11d"><label for="kq11d">D. Servants</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 12: The Kingdom value of giving teaches that:</h4>
+                                <div class="quiz-option"><input type="radio" name="kq12" value="a" id="kq12a"><label for="kq12a">A. Receiving is better than giving</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq12" value="b" id="kq12b"><label for="kq12b">B. Accumulation is the goal</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq12" value="c" id="kq12c"><label for="kq12c">C. It is more blessed to give than to receive</label></div>
+                                <div class="quiz-option"><input type="radio" name="kq12" value="d" id="kq12d"><label for="kq12d">D. Giving is optional</label></div>
+                            </div>
+
+                            <div class="quiz-nav">
+                                <button type="button" class="quiz-button" id="kprevBtn" onclick="kPreviousQuestion()" style="background-color: #888;">← Previous</button>
+                                <button type="button" class="quiz-button" id="knextBtn" onclick="kNextQuestion()">Next →</button>
+                            </div>
+                        </form>
+
+                        <div id="kresults" class="results">
+                            <div class="score" id="kscoreText"></div>
+                            <p id="kfeedback" style="margin-top: 1rem; color: #5f6368;"></p>
+                        </div>
+                    </div>
                 </div>
 
                 <a href="page9.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 7)">
@@ -84,6 +310,88 @@
     </footer>
 
     <script>
+        let kCurrentQuestion = 0;
+        const kTotalQuestions = 12;
+        const kCorrectAnswers = {
+            kq1: 'b',
+            kq2: 'b',
+            kq3: 'c',
+            kq4: 'c',
+            kq5: 'b',
+            kq6: 'c',
+            kq7: 'c',
+            kq8: 'b',
+            kq9: 'c',
+            kq10: 'c',
+            kq11: 'd',
+            kq12: 'c'
+        };
+
+        function kShowQuestion(index) {
+            const form = document.getElementById('kingdomQuizForm');
+            if (!form) return;
+
+            const questions = form.querySelectorAll('.quiz-question');
+            questions.forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+            });
+
+            const progressPercent = ((index + 1) / kTotalQuestions) * 100;
+            document.getElementById('kprogressBar').style.width = progressPercent + '%';
+            document.getElementById('kprogressText').textContent = 'Question ' + (index + 1) + ' of ' + kTotalQuestions;
+
+            document.getElementById('kprevBtn').disabled = index === 0;
+            document.getElementById('knextBtn').textContent = index === kTotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+        }
+
+        function kNextQuestion() {
+            if (kCurrentQuestion < kTotalQuestions - 1) {
+                kCurrentQuestion++;
+                kShowQuestion(kCurrentQuestion);
+            } else {
+                kSubmitQuiz();
+            }
+        }
+
+        function kPreviousQuestion() {
+            if (kCurrentQuestion > 0) {
+                kCurrentQuestion--;
+                kShowQuestion(kCurrentQuestion);
+            }
+        }
+
+        function kSubmitQuiz() {
+            let score = 0;
+
+            for (let i = 1; i <= kTotalQuestions; i++) {
+                const answer = document.querySelector('input[name="kq' + i + '"]:checked')?.value;
+                if (answer === kCorrectAnswers['kq' + i]) {
+                    score++;
+                }
+            }
+
+            const resultsDiv = document.getElementById('kresults');
+            const scoreText = document.getElementById('kscoreText');
+            const feedback = document.getElementById('kfeedback');
+
+            const percentage = Math.round((score / kTotalQuestions) * 100);
+            scoreText.textContent = 'Your Score: ' + score + ' / ' + kTotalQuestions + ' (' + percentage + '%)';
+
+            if (percentage === 100) {
+                feedback.textContent = 'Perfect score. Excellent work.';
+            } else if (percentage >= 80) {
+                feedback.textContent = 'Great job. You understand the Kingdom message well.';
+            } else if (percentage >= 60) {
+                feedback.textContent = 'Good progress. Review the lesson notes and try again for mastery.';
+            } else {
+                feedback.textContent = 'Review the lesson materials and retake the quiz to strengthen understanding.';
+            }
+
+            document.getElementById('kingdomQuizForm').style.display = 'none';
+            resultsDiv.classList.add('show');
+            localStorage.setItem('quiz_7_1_completed', 'true');
+        }
+
         const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
 
@@ -108,6 +416,16 @@
 
         lessonGo.addEventListener('click', jumpToLesson);
         lessonSelect.addEventListener('change', jumpToLesson);
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                if (document.getElementById('kingdomQuizForm')) {
+                    kShowQuestion(0);
+                }
+            });
+        } else if (document.getElementById('kingdomQuizForm')) {
+            kShowQuestion(0);
+        }
     </script>
 
     <script type="module">
