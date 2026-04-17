@@ -55,20 +55,72 @@ function hasPendingLocalData() {
 async function autoSyncLocalDataOnce(user) {
   if (!user) return;
 
-  const syncKey = `local_sync_done_${user.uid}`;
-  if (localStorage.getItem(syncKey) === 'true') return;
-  if (!hasPendingLocalData()) {
-    localStorage.setItem(syncKey, 'true');
-    return;
+  const uploadKey = `local_sync_uploaded_${user.uid}`;
+  const hydrateKey = `local_sync_hydrated_${user.uid}`;
+
+  if (localStorage.getItem(uploadKey) !== 'true' && hasPendingLocalData()) {
+    try {
+      const { syncLocalDataToFirebase } = await import('./firebase-database.js');
+      await syncLocalDataToFirebase();
+      console.log('✓ Synced local device data to Firebase');
+    } catch (error) {
+      console.warn('Local device data upload skipped:', error?.message || error);
+    }
   }
 
   try {
-    const { syncLocalDataToFirebase } = await import('./firebase-database.js');
-    await syncLocalDataToFirebase();
-    localStorage.setItem(syncKey, 'true');
-    console.log('✓ Synced local device data to Firebase');
+    const userRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+
+      // Hydrate completion flags used by dashboard/module UI from Firebase.
+      for (let i = 1; i <= 19; i++) {
+        const legacyCompleted = data[`module_${i}`] === true;
+        const nestedCompleted = data.modules?.[i]?.completed === true || data.modules?.[String(i)]?.completed === true;
+        const completed = legacyCompleted || nestedCompleted;
+        if (completed) {
+          localStorage.setItem(`module_${i}_completed`, 'true');
+        }
+
+        const legacyDate = data[`module_${i}_date`];
+        const nestedDate = data.modules?.[i]?.completedDate || data.modules?.[String(i)]?.completedDate;
+        const dateValue = legacyDate || nestedDate;
+        if (dateValue) {
+          const iso = typeof dateValue?.toDate === 'function' ? dateValue.toDate().toISOString() : String(dateValue);
+          localStorage.setItem(`module_${i}_date`, iso);
+        }
+      }
+
+      // Hydrate top-level quiz completion flags.
+      Object.keys(data).forEach((key) => {
+        const match = key.match(/^module_(\d+)_lesson_(\d+)_quiz$/);
+        if (match && data[key] === true) {
+          const moduleNumber = match[1];
+          const lessonNumber = match[2];
+          localStorage.setItem(`quiz_${moduleNumber}_${lessonNumber}_completed`, 'true');
+        }
+      });
+    }
+
+    // Hydrate quiz completion flags from quizzes subcollection documents.
+    const quizzesRef = collection(db, "users", user.uid, "quizzes");
+    const quizzesSnap = await getDocs(quizzesRef);
+    quizzesSnap.forEach((quizDoc) => {
+      const quiz = quizDoc.data();
+      const moduleNumber = Number(quiz.moduleNumber);
+      const weekNumber = Number(quiz.weekNumber);
+      if (Number.isInteger(moduleNumber) && Number.isInteger(weekNumber)) {
+        localStorage.setItem(`quiz_${moduleNumber}_${weekNumber}_completed`, 'true');
+      }
+    });
+
+    localStorage.setItem(uploadKey, 'true');
+    localStorage.setItem(hydrateKey, 'true');
+    console.log('✓ Synced Firebase progress into local device cache');
   } catch (error) {
-    console.warn('Local device data sync skipped:', error?.message || error);
+    console.warn('Cloud-to-local sync skipped:', error?.message || error);
   }
 }
 
