@@ -34,6 +34,44 @@ try {
   console.error("Firebase initialization error:", error);
 }
 
+function hasPendingLocalData() {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i) || "";
+      if (
+        /^module_\d+_progress$/.test(key) ||
+        /^quiz_module\d+_week\d+$/.test(key) ||
+        /^notes_module\d+_week\d+$/.test(key)
+      ) {
+        return true;
+      }
+    }
+  } catch (error) {
+    console.warn("Could not inspect localStorage for sync:", error);
+  }
+  return false;
+}
+
+async function autoSyncLocalDataOnce(user) {
+  if (!user) return;
+
+  const syncKey = `local_sync_done_${user.uid}`;
+  if (localStorage.getItem(syncKey) === 'true') return;
+  if (!hasPendingLocalData()) {
+    localStorage.setItem(syncKey, 'true');
+    return;
+  }
+
+  try {
+    const { syncLocalDataToFirebase } = await import('./firebase-database.js');
+    await syncLocalDataToFirebase();
+    localStorage.setItem(syncKey, 'true');
+    console.log('✓ Synced local device data to Firebase');
+  } catch (error) {
+    console.warn('Local device data sync skipped:', error?.message || error);
+  }
+}
+
 // Sign Up
 export async function signUp(email, password, username) {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -48,6 +86,10 @@ export async function signUp(email, password, username) {
     isAdmin: false
   }, { merge: true }).catch((error) => {
     console.error("Error storing user profile:", error);
+  });
+
+  autoSyncLocalDataOnce(user).catch((error) => {
+    console.warn('Post-signup local sync issue:', error?.message || error);
   });
   
   return userCredential;
@@ -65,6 +107,11 @@ export async function signIn(email, password) {
   }, { merge: true }).catch((error) => {
     console.error("Error ensuring user doc on sign in:", error);
   });
+
+  autoSyncLocalDataOnce(user).catch((error) => {
+    console.warn('Post-login local sync issue:', error?.message || error);
+  });
+
   return credential;
 }
 
@@ -80,7 +127,14 @@ export function logout() {
 
 // Check Auth State
 export function onAuthChange(callback) {
-  return onAuthStateChanged(auth, callback);
+  return onAuthStateChanged(auth, (user) => {
+    if (user) {
+      autoSyncLocalDataOnce(user).catch((error) => {
+        console.warn('Auth-state local sync issue:', error?.message || error);
+      });
+    }
+    callback(user);
+  });
 }
 
 // Get Current User
