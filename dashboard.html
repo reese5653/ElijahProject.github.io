@@ -307,11 +307,16 @@
             }
         }
 
-        function displayCompletedCourses(completionData = null) {
+        function displayCompletedCourses(completionData = null, useCloudAsSource = false) {
             const firebaseCompletedIds = getCompletedIdsFromFirebaseData(completionData);
-            const completedIds = firebaseCompletedIds.length > 0 ? firebaseCompletedIds : getCompletedIdsFromLocalStorage();
+            const completedIds = useCloudAsSource
+                ? firebaseCompletedIds
+                : (firebaseCompletedIds.length > 0 ? firebaseCompletedIds : getCompletedIdsFromLocalStorage());
 
-            if (firebaseCompletedIds.length > 0) {
+            if (useCloudAsSource) {
+                console.log('📊 Loading dashboard from Firebase (authoritative)...');
+                cacheFirebaseCompletionToLocal(completionData);
+            } else if (firebaseCompletedIds.length > 0) {
                 cacheFirebaseCompletionToLocal(completionData);
                 console.log('📊 Loading dashboard from Firebase + local cache...');
             } else {
@@ -395,7 +400,7 @@
 
                 // Finally, render from Firebase completion data for cross-device consistency.
                 const completionData = await getUserCompletionData();
-                displayCompletedCourses(completionData);
+                displayCompletedCourses(completionData, true);
             } else {
                 console.log('No user logged in, redirecting...');
                 userInfo.style.display = 'none';
