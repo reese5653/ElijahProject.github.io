@@ -848,6 +848,24 @@
             // Mark quiz as complete in localStorage
             localStorage.setItem('quiz_2_1_completed', 'true');
 
+            // Collect quiz answers for Firebase
+            const answers = [];
+            for (let i = 1; i <= totalQuestions; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`)?.value;
+                answers.push({
+                    questionId: i,
+                    selectedAnswer: answer || '',
+                    correctAnswer: correctAnswers[`q${i}`]
+                });
+            }
+
+            // Save to Firebase
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(2, 1, answers, score, totalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
+
             // Mark quiz as complete
             if (window.markQuizComplete) {
                 window.markQuizComplete(2, 1).catch(err => console.error('Error marking quiz complete:', err));
@@ -977,6 +995,24 @@
 
             // Mark quiz as complete in localStorage
             localStorage.setItem('quiz_2_2_completed', 'true');
+
+            // Collect quiz answers for Firebase
+            const answers = [];
+            for (let i = 1; i <= l2TotalQuestions; i++) {
+                const answer = document.querySelector(`input[name="l2q${i}"]:checked`)?.value;
+                answers.push({
+                    questionId: i,
+                    selectedAnswer: answer || '',
+                    correctAnswer: l2CorrectAnswers[`l2q${i}`]
+                });
+            }
+
+            // Save to Firebase
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(2, 2, answers, score, l2TotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
 
             // Mark quiz as complete
             if (window.markQuizComplete) {
@@ -1156,6 +1192,9 @@
             localStorage.setItem('module2_essay2', essay2);
             localStorage.setItem('module2_essay3', essay3);
             
+            // Also save to Firebase
+            saveAllEssays().catch(err => console.error('Error saving essays:', err));
+            
             const btn = document.getElementById('m2essaySaveBtn');
             const originalText = btn.textContent;
             btn.textContent = 'Saved! ✓';
@@ -1189,14 +1228,138 @@
 
     <script type="module">
         import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
+        import { 
+            saveNotes, 
+            getNotes, 
+            saveQuizResponse, 
+            saveModuleProgress, 
+            completeModule,
+            recordStudySession 
+        } from './firebase-database.js';
+
+        const MODULE_NUMBER = 2;
+        let sessionStartTime = Date.now();
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
             const target = event.currentTarget.href || event.target.href;
-            // Start save and wait briefly for it to complete
-            markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
-            setTimeout(() => window.location.href = target, 300);
+            
+            // Show saving status
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            if (btnText) btnText.style.display = 'none';
+            if (btnLoading) btnLoading.style.display = 'inline';
+            
+            // Save all data before navigating
+            Promise.all([
+                saveAllEssays(),
+                completeModule(MODULE_NUMBER),
+                recordSessionOnComplete()
+            ]).then(() => {
+                setTimeout(() => window.location.href = target, 500);
+            }).catch(err => {
+                console.error('Error marking complete:', err);
+                setTimeout(() => window.location.href = target, 500);
+            });
         };
+
+        // Auto-save essays with debounce
+        function setupAutoSaveEssays() {
+            const essayFields = ['m2essay1', 'm2essay2', 'm2essay3'];
+            let saveTimeout;
+            
+            essayFields.forEach(fieldId => {
+                const textarea = document.getElementById(fieldId);
+                if (textarea) {
+                    textarea.addEventListener('input', () => {
+                        clearTimeout(saveTimeout);
+                        saveTimeout = setTimeout(() => {
+                            const essayNumber = fieldId.replace('m2essay', '');
+                            saveNotes(MODULE_NUMBER, essayNumber, textarea.value).catch(err => {
+                                console.error('Error auto-saving essay:', err);
+                            });
+                        }, 2000); // Save 2 seconds after user stops typing
+                    });
+                }
+            });
+        }
+
+        // Save all essays to Firebase
+        async function saveAllEssays() {
+            const essays = {
+                1: document.getElementById('m2essay1')?.value || '',
+                2: document.getElementById('m2essay2')?.value || '',
+                3: document.getElementById('m2essay3')?.value || ''
+            };
+            
+            try {
+                for (let i = 1; i <= 3; i++) {
+                    await saveNotes(MODULE_NUMBER, i, essays[i]);
+                }
+                console.log('✓ All essays saved');
+            } catch (error) {
+                console.error('Error saving essays:', error);
+            }
+        }
+
+        // Record study session on module complete
+        async function recordSessionOnComplete() {
+            const durationMinutes = Math.round((Date.now() - sessionStartTime) / 60000);
+            try {
+                await recordStudySession({
+                    moduleNumber: MODULE_NUMBER,
+                    durationMinutes: durationMinutes,
+                    completedAt: new Date().toISOString()
+                });
+                console.log(`✓ Study session recorded: ${durationMinutes} minutes`);
+            } catch (error) {
+                console.error('Error recording session:', error);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            setupAutoSaveEssays();
+            loadSavedEssays();
+            updateModuleProgress();
+        });
+
+        // Load saved essays on page load
+        async function loadSavedEssays() {
+            try {
+                const essayFields = [
+                    { id: 'm2essay1', week: 1 },
+                    { id: 'm2essay2', week: 2 },
+                    { id: 'm2essay3', week: 3 }
+                ];
+                
+                for (const field of essayFields) {
+                    const textarea = document.getElementById(field.id);
+                    if (textarea) {
+                        const notes = await getNotes(MODULE_NUMBER, field.week);
+                        if (notes) {
+                            textarea.value = notes;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading essays:', error);
+            }
+        }
+
+        // Update module progress as user progresses
+        async function updateModuleProgress() {
+            try {
+                await saveModuleProgress(MODULE_NUMBER, {
+                    currentLesson: 1,
+                    currentWeek: 1,
+                    progress: 0.25, // 25% - lesson 1 of 4
+                    lastAccessedAt: new Date().toISOString()
+                });
+            } catch (error) {
+                console.error('Error updating progress:', error);
+            }
+        }
 
         // Check and show completed status on page load
         async function checkQuizCompletion() {
@@ -1272,6 +1435,23 @@
 
         // Make markQuizComplete available globally for quiz functions
         window.markQuizComplete = markQuizComplete;
+
+        // Helper function to save quiz responses to Firebase
+        window.saveQuizResponseToFirebase = async (moduleNumber, weekNumber, answers, score, totalQuestions) => {
+            try {
+                await saveQuizResponse(moduleNumber, weekNumber, {
+                    answers: answers,
+                    score: score,
+                    totalQuestions: totalQuestions,
+                    passingScore: 70,
+                    passed: score >= 70,
+                    completed: true
+                });
+                console.log(`✓ Quiz ${moduleNumber}.${weekNumber} saved to Firebase`);
+            } catch (error) {
+                console.error('Error saving quiz response:', error);
+            }
+        };
     </script>
 </body>
 </html>

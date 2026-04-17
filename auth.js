@@ -5,13 +5,13 @@ import { initializeFirestore, getFirestore, doc, setDoc, getDoc, updateDoc, coll
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAXZdoFnEmRbb62c2LwxgCjH6LJ1WhfB1c",
-  authDomain: "elijah-project-9c433.firebaseapp.com",
-  projectId: "elijah-project-9c433",
-  storageBucket: "elijah-project-9c433.firebasestorage.app",
-  messagingSenderId: "245457490092",
-  appId: "1:245457490092:web:18b1a9ad2b0f7d294d4f09",
-  measurementId: "G-PRRVPR95ZW"
+  apiKey: "AIzaSyDTVzgvDO_TrE-8Nc-MCGVr36CDyytamZk",
+  authDomain: "elijahprojectdb.firebaseapp.com",
+  projectId: "elijahprojectdb",
+  storageBucket: "elijahprojectdb.firebasestorage.app",
+  messagingSenderId: "364080054462",
+  appId: "1:364080054462:web:a6397c55c57119d66f9eef",
+  measurementId: "G-ZYSSXMM9VB"
 };
 
 // Initialize Firebase
@@ -23,13 +23,13 @@ let storage;
 try {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
-  // Use the named Firestore database with transport settings that work better on restrictive networks
+  // Use default Firestore database (Native mode) with transport settings for restrictive networks
   db = initializeFirestore(app, {
     experimentalAutoDetectLongPolling: true,
     useFetchStreams: false
-  }, 'elijahproject');
+  });
   storage = getStorage(app);
-  console.log('✓ Firebase initialized successfully with elijahproject database');
+  console.log('✓ Firebase initialized successfully with default Firestore database');
 } catch (error) {
   console.error("Firebase initialization error:", error);
 }
@@ -41,6 +41,7 @@ export async function signUp(email, password, username) {
   
   // Store username in Firestore (fire-and-forget so UI doesn't wait)
   setDoc(doc(db, "users", user.uid), {
+    uid: user.uid,
     email: user.email,
     username: username,
     createdAt: new Date().toISOString(),
@@ -58,6 +59,7 @@ export async function signIn(email, password) {
   const user = credential.user;
   // Fire-and-forget the profile write so login UI never waits
   setDoc(doc(db, "users", user.uid), {
+    uid: user.uid,
     email: user.email || "",
     lastLoginAt: new Date().toISOString()
   }, { merge: true }).catch((error) => {
@@ -84,6 +86,11 @@ export function onAuthChange(callback) {
 // Get Current User
 export function getCurrentUser() {
   return auth.currentUser;
+}
+
+// Get the configured Firestore instance (named DB: elijahproject)
+export function getDb() {
+  return db;
 }
 
 // Get user's username from Firestore
@@ -117,6 +124,7 @@ export async function ensureUserDocument() {
   const userRef = doc(db, "users", user.uid);
   try {
     await setDoc(userRef, {
+      uid: user.uid,
       email: user.email || "",
       createdAt: new Date().toISOString()
     }, { merge: true });

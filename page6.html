@@ -754,6 +754,21 @@
 
             localStorage.setItem('quiz_6_1_completed', 'true');
 
+            const answers = [];
+            for (let i = 1; i <= m6l1TotalQuestions; i++) {
+                answers.push({
+                    questionId: i,
+                    selectedAnswer: document.querySelector(`input[name="m6l1q${i}"]:checked`)?.value || '',
+                    correctAnswer: m6l1CorrectAnswers[`m6l1q${i}`]
+                });
+            }
+
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(1, answers, score, m6l1TotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
+
             if (window.markQuizComplete) {
                 window.markQuizComplete(6, 1).catch(err => console.error('Error marking quiz complete:', err));
             }
@@ -855,6 +870,21 @@
 
             localStorage.setItem('quiz_6_2_completed', 'true');
 
+            const answers = [];
+            for (let i = 1; i <= m6l2TotalQuestions; i++) {
+                answers.push({
+                    questionId: i,
+                    selectedAnswer: document.querySelector(`input[name="m6l2q${i}"]:checked`)?.value || '',
+                    correctAnswer: m6l2CorrectAnswers[`m6l2q${i}`]
+                });
+            }
+
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(2, answers, score, m6l2TotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
+
             if (window.markQuizComplete) {
                 window.markQuizComplete(6, 2).catch(err => console.error('Error marking quiz complete:', err));
             }
@@ -942,14 +972,53 @@
     </script>
 
     <script type="module">
+        import { saveNotes, saveQuizResponse, completeModule, recordStudySession } from './firebase-database.js';
         import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
+
+        const MODULE_NUMBER = 6;
+        let sessionStartTime = Date.now();
+
+        async function saveAllEssays() {
+            const content = document.getElementById('m6essay1')?.value || '';
+            if (content.trim()) {
+                await saveNotes(MODULE_NUMBER, 1, content);
+            }
+        }
+
+        window.saveQuizResponseToFirebase = async (weekNumber, answers, score, totalQuestions) => {
+            await saveQuizResponse(MODULE_NUMBER, weekNumber, {
+                answers,
+                score,
+                totalQuestions,
+                passingScore: 70,
+                passed: score >= 70,
+                completed: true
+            });
+        };
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
             const target = event.currentTarget.href || event.target.href;
-            // Start save and wait briefly for it to complete
-            markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
-            setTimeout(() => window.location.href = target, 300);
+
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            if (btnText) btnText.style.display = 'none';
+            if (btnLoading) btnLoading.style.display = 'inline';
+
+            const durationMinutes = Math.max(1, Math.round((Date.now() - sessionStartTime) / 60000));
+
+            Promise.all([
+                saveAllEssays().catch(err => console.error('Error saving essays:', err)),
+                completeModule(moduleNumber).catch(err => console.error('Error completing module:', err)),
+                recordStudySession({
+                    moduleNumber,
+                    durationMinutes,
+                    completedAt: new Date().toISOString()
+                }).catch(err => console.error('Error recording study session:', err)),
+                markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err))
+            ]).finally(() => {
+                setTimeout(() => window.location.href = target, 500);
+            });
         };
 
         async function checkQuizCompletion() {

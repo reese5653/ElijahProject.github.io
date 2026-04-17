@@ -878,6 +878,24 @@
 
             localStorage.setItem('quiz_4_1_completed', 'true');
 
+            const answers = [
+                { questionId: 1, selectedAnswer: q1Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q1 },
+                { questionId: 2, selectedAnswer: q2Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q2 },
+                { questionId: 3, selectedAnswer: q3Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q3 },
+                { questionId: 4, selectedAnswer: q4Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q4 },
+                { questionId: 5, selectedAnswer: q5Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q5 },
+                { questionId: 6, selectedAnswer: q6Checked, correctAnswer: m4l1CorrectAnswers.m4l1q6 },
+                { questionId: 7, selectedAnswer: q7Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q7 },
+                { questionId: 8, selectedAnswer: q8Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q8 },
+                { questionId: 9, selectedAnswer: q9Answer || '', correctAnswer: m4l1CorrectAnswers.m4l1q9 }
+            ];
+
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(1, answers, score, m4l1TotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
+
             setTimeout(() => {
                 const quizContainer = document.querySelector('#lesson1-content .quiz-container');
                 if (quizContainer) {
@@ -980,6 +998,23 @@
             resultsDiv.classList.add('show');
 
             localStorage.setItem('quiz_4_2_completed', 'true');
+
+            const answers = [
+                { questionId: 1, selectedAnswer: q1 || '', correctAnswer: m4l2CorrectAnswers.m4l2q1 },
+                { questionId: 2, selectedAnswer: q2 || '', correctAnswer: m4l2CorrectAnswers.m4l2q2 },
+                { questionId: 3, selectedAnswer: q3 || '', correctAnswer: m4l2CorrectAnswers.m4l2q3 },
+                { questionId: 4, selectedAnswer: q4 || '', correctAnswer: m4l2CorrectAnswers.m4l2q4 },
+                { questionId: 5, selectedAnswer: q5 || '', correctAnswer: m4l2CorrectAnswers.m4l2q5 },
+                { questionId: 6, selectedAnswer: q6 || '', correctAnswer: m4l2CorrectAnswers.m4l2q6 },
+                { questionId: 7, selectedAnswer: q7 || '', correctAnswer: m4l2CorrectAnswers.m4l2q7 },
+                { questionId: 8, selectedAnswer: q8 || '', correctAnswer: m4l2CorrectAnswers.m4l2q8 }
+            ];
+
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(2, answers, score, m4l2TotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
 
             setTimeout(() => {
                 const quizContainer = document.querySelector('#lesson2-content .quiz-container');
@@ -1092,6 +1127,23 @@
 
             localStorage.setItem('quiz_4_3_completed', 'true');
 
+            const answers = [
+                { questionId: 1, selectedAnswer: q1 || '', correctAnswer: m4l3CorrectAnswers.m4l3q1 },
+                { questionId: 2, selectedAnswer: q2Checked, correctAnswer: m4l3CorrectAnswers.m4l3q2 },
+                { questionId: 3, selectedAnswer: q3 || '', correctAnswer: m4l3CorrectAnswers.m4l3q3 },
+                { questionId: 4, selectedAnswer: q4 || '', correctAnswer: m4l3CorrectAnswers.m4l3q4 },
+                { questionId: 5, selectedAnswer: q5 || '', correctAnswer: m4l3CorrectAnswers.m4l3q5 },
+                { questionId: 6, selectedAnswer: q6 || '', correctAnswer: m4l3CorrectAnswers.m4l3q6 },
+                { questionId: 7, selectedAnswer: q7 || '', correctAnswer: m4l3CorrectAnswers.m4l3q7 },
+                { questionId: 8, selectedAnswer: q8Checked, correctAnswer: m4l3CorrectAnswers.m4l3q8 }
+            ];
+
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(3, answers, score, m4l3TotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
+
             setTimeout(() => {
                 const quizContainer = document.querySelector('#lesson3-content .quiz-container');
                 if (quizContainer) {
@@ -1171,6 +1223,21 @@
             // Persist completion to localStorage so the user data is saved locally
             localStorage.setItem('quiz_4_4_completed', 'true');
 
+            const answers = [];
+            for (let i = 1; i <= m4l4TotalQuestions; i++) {
+                answers.push({
+                    questionId: i,
+                    selectedAnswer: document.querySelector(`input[name="m4l4q${i}"]:checked`)?.value || '',
+                    correctAnswer: m4l4CorrectAnswers[`m4l4q${i}`]
+                });
+            }
+
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(4, answers, score, m4l4TotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
+
             // Notify any auth/dashboard integration if available
             if (window.markQuizComplete) window.markQuizComplete(4, 4).catch(() => {});
 
@@ -1234,14 +1301,61 @@
     </script>
 
     <script type="module">
+        import { saveNotes, saveQuizResponse, completeModule, recordStudySession } from './firebase-database.js';
         import { markModuleComplete } from './auth.js';
+
+        const MODULE_NUMBER = 4;
+        let sessionStartTime = Date.now();
+
+        async function saveAllEssays() {
+            const fields = [
+                { id: 'm4essay1', week: 1 },
+                { id: 'm4essay2', week: 2 },
+                { id: 'm4essay3', week: 3 }
+            ];
+
+            for (const field of fields) {
+                const content = document.getElementById(field.id)?.value || '';
+                if (content.trim()) {
+                    await saveNotes(MODULE_NUMBER, field.week, content);
+                }
+            }
+        }
+
+        window.saveQuizResponseToFirebase = async (weekNumber, answers, score, totalQuestions) => {
+            await saveQuizResponse(MODULE_NUMBER, weekNumber, {
+                answers,
+                score,
+                totalQuestions,
+                passingScore: 70,
+                passed: score >= 70,
+                completed: true
+            });
+        };
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
             const target = event.currentTarget.href || event.target.href;
-            // Start save and wait briefly for it to complete
-            markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
-            setTimeout(() => window.location.href = target, 300);
+
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            if (btnText) btnText.style.display = 'none';
+            if (btnLoading) btnLoading.style.display = 'inline';
+
+            const durationMinutes = Math.max(1, Math.round((Date.now() - sessionStartTime) / 60000));
+
+            Promise.all([
+                saveAllEssays().catch(err => console.error('Error saving essays:', err)),
+                completeModule(moduleNumber).catch(err => console.error('Error completing module:', err)),
+                recordStudySession({
+                    moduleNumber,
+                    durationMinutes,
+                    completedAt: new Date().toISOString()
+                }).catch(err => console.error('Error recording study session:', err)),
+                markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err))
+            ]).finally(() => {
+                setTimeout(() => window.location.href = target, 500);
+            });
         };
     </script>
 </body>

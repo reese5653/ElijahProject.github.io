@@ -89,13 +89,30 @@
     </script>
 
     <script type="module">
+        import { completeModule, recordStudySession } from './firebase-database.js';
         import { markModuleComplete } from './auth.js';
+
+        let sessionStartTime = Date.now();
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
             const target = event.currentTarget.href || event.target.href;
-            // Start save and wait briefly for it to complete
+
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            if (btnText) btnText.style.display = 'none';
+            if (btnLoading) btnLoading.style.display = 'inline';
+
+            const durationMinutes = Math.max(1, Math.round((Date.now() - sessionStartTime) / 60000));
+
+            completeModule(moduleNumber).catch(err => console.error('Error completing module:', err));
+            recordStudySession({
+                moduleNumber,
+                durationMinutes,
+                completedAt: new Date().toISOString()
+            }).catch(err => console.error('Error recording study session:', err));
             markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
-            setTimeout(() => window.location.href = target, 300);
+
+            setTimeout(() => window.location.href = target, 500);
         };
     </script>

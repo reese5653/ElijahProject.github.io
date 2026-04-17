@@ -391,6 +391,21 @@
             resultsDiv.classList.add('show');
             localStorage.setItem('quiz_7_1_completed', 'true');
 
+            const answers = [];
+            for (let i = 1; i <= kTotalQuestions; i++) {
+                answers.push({
+                    questionId: i,
+                    selectedAnswer: document.querySelector('input[name="kq' + i + '"]:checked')?.value || '',
+                    correctAnswer: kCorrectAnswers['kq' + i]
+                });
+            }
+
+            if (window.saveQuizResponseToFirebase) {
+                window.saveQuizResponseToFirebase(1, answers, score, kTotalQuestions).catch(err => {
+                    console.error('Error saving quiz to Firebase:', err);
+                });
+            }
+
             if (window.markQuizComplete) {
                 window.markQuizComplete(7, 1).catch(err => console.error('Error marking quiz complete:', err));
             }
@@ -433,14 +448,45 @@
     </script>
 
     <script type="module">
+        import { saveQuizResponse, completeModule, recordStudySession } from './firebase-database.js';
         import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
+
+        const MODULE_NUMBER = 7;
+        let sessionStartTime = Date.now();
+
+        window.saveQuizResponseToFirebase = async (weekNumber, answers, score, totalQuestions) => {
+            await saveQuizResponse(MODULE_NUMBER, weekNumber, {
+                answers,
+                score,
+                totalQuestions,
+                passingScore: 70,
+                passed: score >= 70,
+                completed: true
+            });
+        };
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
             const target = event.currentTarget.href || event.target.href;
-            // Start save and wait briefly for it to complete
-            markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err));
-            setTimeout(() => window.location.href = target, 300);
+
+            const btnText = document.getElementById('btnText');
+            const btnLoading = document.getElementById('btnLoading');
+            if (btnText) btnText.style.display = 'none';
+            if (btnLoading) btnLoading.style.display = 'inline';
+
+            const durationMinutes = Math.max(1, Math.round((Date.now() - sessionStartTime) / 60000));
+
+            Promise.all([
+                completeModule(moduleNumber).catch(err => console.error('Error completing module:', err)),
+                recordStudySession({
+                    moduleNumber,
+                    durationMinutes,
+                    completedAt: new Date().toISOString()
+                }).catch(err => console.error('Error recording study session:', err)),
+                markModuleComplete(moduleNumber).catch(err => console.error('Error marking complete:', err))
+            ]).finally(() => {
+                setTimeout(() => window.location.href = target, 500);
+            });
         };
 
         async function checkQuizCompletion() {
