@@ -1065,12 +1065,8 @@
             let lesson2QuizCompleted = lesson2LocalStorage;
 
             try {
-                if (!lesson1LocalStorage) {
-                    lesson1QuizCompleted = await isQuizCompleted(6, 1);
-                }
-                if (!lesson2LocalStorage) {
-                    lesson2QuizCompleted = await isQuizCompleted(6, 2);
-                }
+                lesson1QuizCompleted = await isQuizCompleted(6, 1);
+                lesson2QuizCompleted = await isQuizCompleted(6, 2);
             } catch (e) {
                 console.log('Not authenticated yet');
             }
@@ -1112,6 +1108,10 @@
             if (user) {
                 setTimeout(checkQuizCompletion, 100);
             }
+        });
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(checkQuizCompletion, 100);
         });
 
         window.markQuizComplete = markQuizComplete;

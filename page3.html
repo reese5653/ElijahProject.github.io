@@ -770,6 +770,10 @@
         } else {
             m3InitQuiz();
         }
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(m3CheckQuizCompletion, 100);
+        });
     </script>
 
     <script>
@@ -918,6 +922,10 @@
         } else {
             m3l2InitQuiz();
         }
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(m3l2CheckQuizCompletion, 100);
+        });
     </script>
 
     <script type="module">

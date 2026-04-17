@@ -142,6 +142,10 @@ async function autoSyncLocalDataOnce(user) {
     console.log('✓ Synced Firebase progress into local device cache');
   } catch (error) {
     console.warn('Cloud-to-local sync skipped:', error?.message || error);
+  } finally {
+    window.dispatchEvent(new CustomEvent('elijah:sync-complete', {
+      detail: { uid: user.uid }
+    }));
   }
 }
 

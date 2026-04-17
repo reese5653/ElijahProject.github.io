@@ -565,6 +565,10 @@
         } else {
             initQuiz();
         }
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(checkQuizCompletion, 100);
+        });
     </script>
 
     <script type="module">

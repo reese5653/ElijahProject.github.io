@@ -974,6 +974,10 @@
             m4l1InitQuiz();
         }
 
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(m4l1CheckQuizCompletion, 100);
+        });
+
         // Module 4 Lesson 2 Quiz
         const m4l2TotalQuestions = 8;
         const m4l2CorrectAnswers = {
@@ -1093,6 +1097,10 @@
         } else {
             m4l2InitQuiz();
         }
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(m4l2CheckQuizCompletion, 100);
+        });
 
         // Module 4 Lesson 3 Quiz
         const m4l3TotalQuestions = 8;
@@ -1221,6 +1229,10 @@
         } else {
             m4l3InitQuiz();
         }
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(m4l3CheckQuizCompletion, 100);
+        });
     </script>
 
     <script>

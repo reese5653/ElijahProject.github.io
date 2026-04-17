@@ -531,7 +531,7 @@
             let lesson1QuizCompleted = lesson1LocalStorage;
 
             try {
-                if (!lesson1LocalStorage) lesson1QuizCompleted = await isQuizCompleted(7, 1);
+                lesson1QuizCompleted = await isQuizCompleted(7, 1);
             } catch (e) {
                 console.log('Not authenticated yet');
             }
@@ -560,6 +560,10 @@
             if (user) {
                 setTimeout(checkQuizCompletion, 100);
             }
+        });
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(checkQuizCompletion, 100);
         });
 
         window.markQuizComplete = markQuizComplete;

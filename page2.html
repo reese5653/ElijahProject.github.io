@@ -1402,7 +1402,7 @@
 
         // Check and show completed status on page load
         async function checkQuizCompletion() {
-            // Check localStorage first (works without auth)
+            // Check localStorage first, then overwrite with cloud values when available.
             const lesson1LocalStorage = localStorage.getItem('quiz_2_1_completed') === 'true';
             const lesson2LocalStorage = localStorage.getItem('quiz_2_2_completed') === 'true';
             const lesson3LocalStorage = localStorage.getItem('quiz_2_3_completed') === 'true';
@@ -1413,9 +1413,9 @@
             let lesson3QuizCompleted = lesson3LocalStorage;
             
             try {
-                if (!lesson1LocalStorage) lesson1QuizCompleted = await isQuizCompleted(2, 1);
-                if (!lesson2LocalStorage) lesson2QuizCompleted = await isQuizCompleted(2, 2);
-                if (!lesson3LocalStorage) lesson3QuizCompleted = await isQuizCompleted(2, 3);
+                lesson1QuizCompleted = await isQuizCompleted(2, 1);
+                lesson2QuizCompleted = await isQuizCompleted(2, 2);
+                lesson3QuizCompleted = await isQuizCompleted(2, 3);
             } catch (e) {
                 console.log('Not authenticated yet');
             }
@@ -1470,6 +1470,10 @@
             if (user) {
                 setTimeout(checkQuizCompletion, 100);
             }
+        });
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(checkQuizCompletion, 100);
         });
 
         // Make markQuizComplete available globally for quiz functions
