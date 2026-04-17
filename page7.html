@@ -284,6 +284,7 @@
                     </div>
                 </div>
 
+                <a href="#" class="back-button" id="nextLessonBtn" style="background-color: #1a73e8; margin-bottom: 1rem; margin-right: 0.5rem; display: none;">Next Lesson →</a>
                 <a href="page9.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 7)">
                     <span id="btnText">Complete and Continue →</span>
                     <span id="btnLoading" style="display: none;">Saving... ⏳</span>
@@ -413,6 +414,7 @@
 
         const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
+        const nextLessonBtn = document.getElementById('nextLessonBtn');
 
         function showLesson(lessonId) {
             document.querySelectorAll('.lesson-content').forEach(lesson => {
@@ -430,11 +432,46 @@
             if (target) {
                 const lessonId = target.substring(1);
                 showLesson(lessonId);
+                updateNextLessonButton();
             }
+        }
+
+        function isEssayLessonOption(option) {
+            return /essay/i.test(option?.textContent || '');
+        }
+
+        function updateNextLessonButton() {
+            if (!nextLessonBtn || !lessonSelect) return;
+
+            const currentIndex = lessonSelect.selectedIndex >= 0 ? lessonSelect.selectedIndex : 0;
+            const currentOption = lessonSelect.options[currentIndex];
+            const nextOption = lessonSelect.options[currentIndex + 1];
+
+            if (isEssayLessonOption(currentOption) || !nextOption) {
+                nextLessonBtn.style.display = 'none';
+                return;
+            }
+
+            nextLessonBtn.style.display = 'inline-block';
+            nextLessonBtn.textContent = 'Next Lesson →';
         }
 
         lessonGo.addEventListener('click', jumpToLesson);
         lessonSelect.addEventListener('change', jumpToLesson);
+
+        if (nextLessonBtn) {
+            nextLessonBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                const currentIndex = lessonSelect.selectedIndex >= 0 ? lessonSelect.selectedIndex : 0;
+                const nextOption = lessonSelect.options[currentIndex + 1];
+                if (!nextOption) return;
+
+                lessonSelect.value = nextOption.value;
+                jumpToLesson();
+            });
+        }
+
+        updateNextLessonButton();
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
