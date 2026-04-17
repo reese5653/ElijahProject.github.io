@@ -256,10 +256,7 @@
             }
         }
 
-        function displayCompletedCourses() {
-            console.log('📊 Loading dashboard from localStorage (instant)...');
-            
-            // Read completion state from localStorage keys so module numbers and labels stay decoupled.
+        function getCompletedIdsFromLocalStorage() {
             const completedIds = [];
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
@@ -269,6 +266,56 @@
                 if (match && localStorage.getItem(key) === 'true') {
                     completedIds.push(parseInt(match[1], 10));
                 }
+            }
+            return completedIds;
+        }
+
+        function getCompletedIdsFromFirebaseData(completionData) {
+            const ids = [];
+            if (!completionData || typeof completionData !== 'object') {
+                return ids;
+            }
+
+            for (let i = 1; i <= 19; i++) {
+                const topLevelCompleted = completionData[`module_${i}`] === true;
+                const nestedCompleted = completionData.modules?.[i]?.completed === true || completionData.modules?.[String(i)]?.completed === true;
+                if (topLevelCompleted || nestedCompleted) {
+                    ids.push(i);
+                }
+            }
+
+            return ids;
+        }
+
+        function cacheFirebaseCompletionToLocal(completionData) {
+            if (!completionData || typeof completionData !== 'object') return;
+
+            for (let i = 1; i <= 19; i++) {
+                const topLevelCompleted = completionData[`module_${i}`] === true;
+                const nestedCompleted = completionData.modules?.[i]?.completed === true || completionData.modules?.[String(i)]?.completed === true;
+                if (topLevelCompleted || nestedCompleted) {
+                    localStorage.setItem(`module_${i}_completed`, 'true');
+                }
+
+                const topLevelDate = completionData[`module_${i}_date`];
+                const nestedDate = completionData.modules?.[i]?.completedDate || completionData.modules?.[String(i)]?.completedDate;
+                const dateValue = topLevelDate || nestedDate;
+                if (dateValue) {
+                    const iso = typeof dateValue?.toDate === 'function' ? dateValue.toDate().toISOString() : String(dateValue);
+                    localStorage.setItem(`module_${i}_date`, iso);
+                }
+            }
+        }
+
+        function displayCompletedCourses(completionData = null) {
+            const firebaseCompletedIds = getCompletedIdsFromFirebaseData(completionData);
+            const completedIds = firebaseCompletedIds.length > 0 ? firebaseCompletedIds : getCompletedIdsFromLocalStorage();
+
+            if (firebaseCompletedIds.length > 0) {
+                cacheFirebaseCompletionToLocal(completionData);
+                console.log('📊 Loading dashboard from Firebase + local cache...');
+            } else {
+                console.log('📊 Loading dashboard from localStorage...');
             }
 
             completedIds.sort((a, b) => a - b);
@@ -345,7 +392,10 @@
 
                 // Then refresh from the courses catalog so names/images stay in sync.
                 await loadCourseCatalogFromCoursesPage();
-                displayCompletedCourses();
+
+                // Finally, render from Firebase completion data for cross-device consistency.
+                const completionData = await getUserCompletionData();
+                displayCompletedCourses(completionData);
             } else {
                 console.log('No user logged in, redirecting...');
                 userInfo.style.display = 'none';
