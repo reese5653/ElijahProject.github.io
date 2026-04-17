@@ -116,6 +116,27 @@ async function autoSyncLocalDataOnce(user) {
       }
     });
 
+    // Hydrate note/essay content keys used by module pages.
+    const notesRef = collection(db, "users", user.uid, "notes");
+    const notesSnap = await getDocs(notesRef);
+    notesSnap.forEach((noteDoc) => {
+      const note = noteDoc.data();
+      const moduleNumber = Number(note.moduleNumber);
+      const weekNumber = Number(note.weekNumber);
+      const content = typeof note.content === 'string' ? note.content : '';
+
+      if (!Number.isInteger(moduleNumber) || !Number.isInteger(weekNumber) || !content) {
+        return;
+      }
+
+      // Generic notes cache key.
+      localStorage.setItem(`notes_module${moduleNumber}_week${weekNumber}`, content);
+
+      // Module pages currently use mixed essay key conventions.
+      localStorage.setItem(`module${moduleNumber}_essay${weekNumber}`, content);
+      localStorage.setItem(`m${moduleNumber}_essay${weekNumber}`, content);
+    });
+
     localStorage.setItem(uploadKey, 'true');
     localStorage.setItem(hydrateKey, 'true');
     console.log('✓ Synced Firebase progress into local device cache');
@@ -179,9 +200,9 @@ export function logout() {
 
 // Check Auth State
 export function onAuthChange(callback) {
-  return onAuthStateChanged(auth, (user) => {
+  return onAuthStateChanged(auth, async (user) => {
     if (user) {
-      autoSyncLocalDataOnce(user).catch((error) => {
+      await autoSyncLocalDataOnce(user).catch((error) => {
         console.warn('Auth-state local sync issue:', error?.message || error);
       });
     }
