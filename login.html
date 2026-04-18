@@ -110,21 +110,6 @@
             display: block;
         }
 
-        .reset-link {
-            display: inline-block;
-            margin-top: 0.75rem;
-            color: #c41e3a;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .reset-link:hover {
-            color: #a01729;
-        }
-
         .submit-button {
             width: 100%;
             padding: 1rem;
@@ -173,35 +158,6 @@
             display: none;
             text-align: center;
             color: #c41e3a;
-        }
-
-        .debug-panel {
-            margin-top: 1rem;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background: #fafafa;
-            overflow: hidden;
-        }
-
-        .debug-panel summary {
-            padding: 0.75rem 1rem;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #444;
-            user-select: none;
-        }
-
-        .debug-log {
-            border-top: 1px solid #e0e0e0;
-            padding: 0.75rem 1rem;
-            font-size: 0.75rem;
-            line-height: 1.4;
-            color: #333;
-            white-space: pre-wrap;
-            max-height: 180px;
-            overflow: auto;
-            font-family: Consolas, Monaco, monospace;
         }
 
         .reset-link {
@@ -262,11 +218,6 @@
         <div class="auth-link">
             Don't have an account? <a href="register.html">Sign up here</a>
         </div>
-
-        <details class="debug-panel">
-            <summary>Reset Debug Log</summary>
-            <div id="resetDebugLog" class="debug-log">No debug events yet.</div>
-        </details>
     </div>
 
     <script type="module">
@@ -277,16 +228,6 @@
         const loading = document.getElementById('loading');
         const resetMessage = document.getElementById('resetMessage');
         const forgotPassword = document.getElementById('forgotPassword');
-        const resetDebugLog = document.getElementById('resetDebugLog');
-
-        function addResetDebug(message) {
-            const timestamp = new Date().toISOString();
-            const line = `[${timestamp}] ${message}`;
-            const existing = resetDebugLog.textContent === 'No debug events yet.' ? '' : resetDebugLog.textContent + '\n';
-            resetDebugLog.textContent = existing + line;
-            resetDebugLog.scrollTop = resetDebugLog.scrollHeight;
-            console.log('[reset-debug]', message);
-        }
 
         function getFriendlyAuthError(error) {
             const code = error?.code || '';
@@ -330,30 +271,25 @@
         forgotPassword.addEventListener('click', async (event) => {
             event.preventDefault();
             const emailInput = document.getElementById('email').value.trim();
-            addResetDebug(`Forgot password clicked. email="${emailInput}"`);
             resetMessage.classList.remove('show');
             errorMessage.classList.remove('show');
 
             if (!emailInput) {
                 resetMessage.textContent = 'Please enter your email above first.';
                 resetMessage.classList.add('show');
-                addResetDebug('Blocked: email input is empty.');
                 return;
             }
 
             resetMessage.textContent = 'Sending reset email...';
             resetMessage.classList.add('show');
-            addResetDebug('Calling Firebase sendPasswordResetEmail...');
 
             try {
                 await resetPassword(emailInput);
                 resetMessage.textContent = 'Reset link sent. Check your inbox.';
                 resetMessage.classList.add('show');
-                addResetDebug('Firebase accepted reset request.');
             } catch (error) {
                 resetMessage.textContent = getFriendlyAuthError(error);
                 resetMessage.classList.add('show');
-                addResetDebug(`Firebase reset failed. code=${error?.code || 'unknown'} message=${error?.message || 'n/a'}`);
             }
         });
     </script>
