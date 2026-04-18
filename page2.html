@@ -812,7 +812,7 @@
             }
         }
 
-        function submitQuiz() {
+        async function submitQuiz() {
             let score = 0;
 
             for (let i = 1; i <= totalQuestions; i++) {
@@ -846,9 +846,6 @@
             document.getElementById('quizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
-            // Mark quiz as complete in localStorage
-            localStorage.setItem('quiz_2_1_completed', 'true');
-
             // Collect quiz answers for Firebase
             const answers = [];
             for (let i = 1; i <= totalQuestions; i++) {
@@ -860,16 +857,20 @@
                 });
             }
 
-            // Save to Firebase
-            if (window.saveQuizResponseToFirebase) {
-                window.saveQuizResponseToFirebase(2, 1, answers, score, totalQuestions).catch(err => {
-                    console.error('Error saving quiz to Firebase:', err);
-                });
-            }
-
-            // Mark quiz as complete
-            if (window.markQuizComplete) {
-                window.markQuizComplete(2, 1).catch(err => console.error('Error marking quiz complete:', err));
+            try {
+                const saveTasks = [];
+                if (window.saveQuizResponseToFirebase) {
+                    saveTasks.push(window.saveQuizResponseToFirebase(2, 1, answers, score, totalQuestions));
+                }
+                if (window.markQuizComplete) {
+                    saveTasks.push(window.markQuizComplete(2, 1));
+                }
+                await Promise.all(saveTasks);
+                localStorage.setItem('quiz_2_1_completed', 'true');
+            } catch (error) {
+                console.error('Error saving quiz completion to Firebase:', error);
+                feedback.textContent = 'Your score was calculated, but saving to Firebase failed. Please try again while signed in.';
+                return;
             }
 
             // Replace quiz with completed status after showing results
@@ -962,7 +963,7 @@
             }
         }
 
-        function l2SubmitQuiz() {
+        async function l2SubmitQuiz() {
             let score = 0;
 
             for (let i = 1; i <= l2TotalQuestions; i++) {
@@ -994,9 +995,6 @@
             document.getElementById('lesson2QuizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
-            // Mark quiz as complete in localStorage
-            localStorage.setItem('quiz_2_2_completed', 'true');
-
             // Collect quiz answers for Firebase
             const answers = [];
             for (let i = 1; i <= l2TotalQuestions; i++) {
@@ -1008,16 +1006,20 @@
                 });
             }
 
-            // Save to Firebase
-            if (window.saveQuizResponseToFirebase) {
-                window.saveQuizResponseToFirebase(2, 2, answers, score, l2TotalQuestions).catch(err => {
-                    console.error('Error saving quiz to Firebase:', err);
-                });
-            }
-
-            // Mark quiz as complete
-            if (window.markQuizComplete) {
-                window.markQuizComplete(2, 2).catch(err => console.error('Error marking quiz complete:', err));
+            try {
+                const saveTasks = [];
+                if (window.saveQuizResponseToFirebase) {
+                    saveTasks.push(window.saveQuizResponseToFirebase(2, 2, answers, score, l2TotalQuestions));
+                }
+                if (window.markQuizComplete) {
+                    saveTasks.push(window.markQuizComplete(2, 2));
+                }
+                await Promise.all(saveTasks);
+                localStorage.setItem('quiz_2_2_completed', 'true');
+            } catch (error) {
+                console.error('Error saving quiz completion to Firebase:', error);
+                feedback.textContent = 'Your score was calculated, but saving to Firebase failed. Please try again while signed in.';
+                return;
             }
 
             // Replace quiz with completed status after showing results
@@ -1097,7 +1099,7 @@
             }
         }
 
-        function l3SubmitQuiz() {
+        async function l3SubmitQuiz() {
             let score = 0;
 
             for (let i = 1; i <= l3TotalQuestions; i++) {
@@ -1131,12 +1133,17 @@
             document.getElementById('lesson3QuizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
-            // Mark quiz as complete in localStorage
-            localStorage.setItem('quiz_2_3_completed', 'true');
-
-            // Mark quiz as complete
-            if (window.markQuizComplete) {
-                window.markQuizComplete(2, 3).catch(err => console.error('Error marking quiz complete:', err));
+            try {
+                const saveTasks = [];
+                if (window.markQuizComplete) {
+                    saveTasks.push(window.markQuizComplete(2, 3));
+                }
+                await Promise.all(saveTasks);
+                localStorage.setItem('quiz_2_3_completed', 'true');
+            } catch (error) {
+                console.error('Error saving quiz completion to Firebase:', error);
+                feedback.textContent = 'Your score was calculated, but saving to Firebase failed. Please try again while signed in.';
+                return;
             }
 
             // Replace quiz with completed status after showing results

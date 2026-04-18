@@ -225,6 +225,27 @@
         const resetMessage = document.getElementById('resetMessage');
         const forgotPassword = document.getElementById('forgotPassword');
 
+        function getFriendlyAuthError(error) {
+            const code = error?.code || '';
+
+            switch (code) {
+                case 'auth/invalid-credential':
+                    return 'Invalid email or password. If your account was on the previous Firebase project, create a new account on this site.';
+                case 'auth/user-not-found':
+                    return 'No account found for this email in the current database. Please sign up first.';
+                case 'auth/wrong-password':
+                    return 'Incorrect password. Please try again or use Forgot password.';
+                case 'auth/too-many-requests':
+                    return 'Too many attempts. Please wait a moment, then try again.';
+                case 'auth/network-request-failed':
+                    return 'Network error. Check your internet connection and try again.';
+                case 'auth/operation-not-allowed':
+                    return 'Email/password login is not enabled in Firebase Authentication.';
+                default:
+                    return error?.message || 'Login failed. Please try again.';
+            }
+        }
+
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
@@ -237,7 +258,7 @@
                 await signIn(email, password);
                 window.location.href = 'courses.html';
             } catch (error) {
-                errorMessage.textContent = error.message;
+                errorMessage.textContent = getFriendlyAuthError(error);
                 errorMessage.classList.add('show');
                 loading.style.display = 'none';
             }

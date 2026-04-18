@@ -723,7 +723,7 @@
             }
         }
 
-        function m6l1SubmitQuiz() {
+        async function m6l1SubmitQuiz() {
             let score = 0;
 
             for (let i = 1; i <= m6l1TotalQuestions; i++) {
@@ -753,8 +753,6 @@
             document.getElementById('m6l1QuizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
-            localStorage.setItem('quiz_6_1_completed', 'true');
-
             const answers = [];
             for (let i = 1; i <= m6l1TotalQuestions; i++) {
                 answers.push({
@@ -764,14 +762,20 @@
                 });
             }
 
-            if (window.saveQuizResponseToFirebase) {
-                window.saveQuizResponseToFirebase(1, answers, score, m6l1TotalQuestions).catch(err => {
-                    console.error('Error saving quiz to Firebase:', err);
-                });
-            }
-
-            if (window.markQuizComplete) {
-                window.markQuizComplete(6, 1).catch(err => console.error('Error marking quiz complete:', err));
+            try {
+                const saveTasks = [];
+                if (window.saveQuizResponseToFirebase) {
+                    saveTasks.push(window.saveQuizResponseToFirebase(1, answers, score, m6l1TotalQuestions));
+                }
+                if (window.markQuizComplete) {
+                    saveTasks.push(window.markQuizComplete(6, 1));
+                }
+                await Promise.all(saveTasks);
+                localStorage.setItem('quiz_6_1_completed', 'true');
+            } catch (error) {
+                console.error('Error saving quiz completion to Firebase:', error);
+                feedback.textContent = 'Your score was calculated, but saving to Firebase failed. Please try again while signed in.';
+                return;
             }
 
             setTimeout(() => {
@@ -839,7 +843,7 @@
             }
         }
 
-        function m6l2SubmitQuiz() {
+        async function m6l2SubmitQuiz() {
             let score = 0;
 
             for (let i = 1; i <= m6l2TotalQuestions; i++) {
@@ -869,8 +873,6 @@
             document.getElementById('m6l2QuizForm').style.display = 'none';
             resultsDiv.classList.add('show');
 
-            localStorage.setItem('quiz_6_2_completed', 'true');
-
             const answers = [];
             for (let i = 1; i <= m6l2TotalQuestions; i++) {
                 answers.push({
@@ -880,14 +882,20 @@
                 });
             }
 
-            if (window.saveQuizResponseToFirebase) {
-                window.saveQuizResponseToFirebase(2, answers, score, m6l2TotalQuestions).catch(err => {
-                    console.error('Error saving quiz to Firebase:', err);
-                });
-            }
-
-            if (window.markQuizComplete) {
-                window.markQuizComplete(6, 2).catch(err => console.error('Error marking quiz complete:', err));
+            try {
+                const saveTasks = [];
+                if (window.saveQuizResponseToFirebase) {
+                    saveTasks.push(window.saveQuizResponseToFirebase(2, answers, score, m6l2TotalQuestions));
+                }
+                if (window.markQuizComplete) {
+                    saveTasks.push(window.markQuizComplete(6, 2));
+                }
+                await Promise.all(saveTasks);
+                localStorage.setItem('quiz_6_2_completed', 'true');
+            } catch (error) {
+                console.error('Error saving quiz completion to Firebase:', error);
+                feedback.textContent = 'Your score was calculated, but saving to Firebase failed. Please try again while signed in.';
+                return;
             }
 
             setTimeout(() => {

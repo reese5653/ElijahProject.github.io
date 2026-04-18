@@ -99,6 +99,7 @@ export async function initializeModuleFirebase(config) {
             console.log(`✓ Quiz ${moduleNumber}.${weekNumber} saved to Firebase`);
         } catch (error) {
             console.error('Error saving quiz response:', error);
+            throw error;
         }
     }
 

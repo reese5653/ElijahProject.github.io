@@ -41,6 +41,7 @@ function hasPendingLocalData() {
       if (
         /^module_\d+_progress$/.test(key) ||
         /^quiz_module\d+_week\d+$/.test(key) ||
+        /^quiz_\d+_\d+_completed$/.test(key) ||
         /^notes_module\d+_week\d+$/.test(key)
       ) {
         return true;
@@ -496,6 +497,7 @@ export async function markQuizComplete(moduleNumber, lessonNumber) {
     }, { merge: true });
   } catch (error) {
     console.error("Error marking quiz complete:", error);
+    throw error;
   }
 }
 

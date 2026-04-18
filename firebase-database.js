@@ -589,6 +589,8 @@ export async function syncLocalDataToFirebase() {
   if (!user) return;
 
   try {
+    const userRef = doc(db, "users", user.uid);
+
     // Sync module progress
     for (let i = 1; i <= 19; i++) {
       const cached = localStorage.getItem(`module_${i}_progress`);
@@ -607,6 +609,26 @@ export async function syncLocalDataToFirebase() {
           localStorage.removeItem(`quiz_module${i}_week${w}`);
         }
       }
+    }
+
+    // Sync quiz completion flags stored directly by the quiz pages.
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i) || "";
+      const match = key.match(/^quiz_(\d+)_(\d+)_completed$/);
+      if (!match) continue;
+
+      if (localStorage.getItem(key) === 'true') {
+        const moduleNumber = Number(match[1]);
+        const lessonNumber = Number(match[2]);
+        const quizKey = `module_${moduleNumber}_lesson_${lessonNumber}_quiz`;
+
+        await setDoc(userRef, {
+          [quizKey]: true,
+          [`${quizKey}_date`]: new Date().toISOString()
+        }, { merge: true });
+      }
+
+      localStorage.removeItem(key);
     }
 
     // Sync notes
