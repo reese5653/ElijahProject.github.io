@@ -195,7 +195,11 @@ export async function signIn(email, password) {
 
 // Forgot password
 export function resetPassword(email) {
-  return sendPasswordResetEmail(auth, email);
+  const actionCodeSettings = {
+    url: "https://elijahprojectschoolofministries.com/login.html?reset=1",
+    handleCodeInApp: false
+  };
+  return sendPasswordResetEmail(auth, email, actionCodeSettings);
 }
 
 // Sign Out

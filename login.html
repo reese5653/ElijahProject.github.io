@@ -234,7 +234,7 @@
 
             switch (code) {
                 case 'auth/invalid-credential':
-                    return 'Invalid email or password. If your account was on the previous Firebase project, create a new account on this site.';
+                    return 'Invalid email or password. Your existing account should still work, so please try Forgot password to reset it.';
                 case 'auth/user-not-found':
                     return 'No account found for this email in the current database. Please sign up first.';
                 case 'auth/wrong-password':
@@ -250,9 +250,13 @@
             }
         }
 
+        function normalizeEmail(value) {
+            return String(value || '').trim().toLowerCase();
+        }
+
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
+            const email = normalizeEmail(document.getElementById('email').value);
             const password = document.getElementById('password').value;
 
             loading.style.display = 'block';
@@ -270,7 +274,7 @@
 
         forgotPassword.addEventListener('click', async (event) => {
             event.preventDefault();
-            const emailInput = document.getElementById('email').value.trim();
+            const emailInput = normalizeEmail(document.getElementById('email').value);
             resetMessage.classList.remove('show');
             errorMessage.classList.remove('show');
 
