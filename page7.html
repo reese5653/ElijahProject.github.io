@@ -630,6 +630,23 @@
             }
         }
 
+        function k2CheckQuizCompletion() {
+            const quizCompleted = localStorage.getItem('quiz_7_2_completed') === 'true';
+
+            if (quizCompleted) {
+                const quizContainer = document.querySelector('#lesson2-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
         const lessonSelect = document.getElementById('lessonSelect');
         const lessonGo = document.getElementById('lessonGo');
         const nextLessonBtn = document.getElementById('nextLessonBtn');
@@ -721,6 +738,7 @@
                 }
                 if (document.getElementById('kingdomLesson2QuizForm')) {
                     k2ShowQuestion(0);
+                    k2CheckQuizCompletion();
                 }
             });
         } else {
@@ -729,6 +747,7 @@
             }
             if (document.getElementById('kingdomLesson2QuizForm')) {
                 k2ShowQuestion(0);
+                k2CheckQuizCompletion();
             }
         }
     </script>
@@ -808,11 +827,13 @@
         onAuthChange((user) => {
             if (user) {
                 setTimeout(checkQuizCompletion, 100);
+                setTimeout(k2CheckQuizCompletion, 100);
             }
         });
 
         window.addEventListener('elijah:sync-complete', () => {
             setTimeout(checkQuizCompletion, 100);
+            setTimeout(k2CheckQuizCompletion, 100);
         });
 
         window.markQuizComplete = markQuizComplete;
