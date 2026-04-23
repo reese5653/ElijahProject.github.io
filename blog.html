@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Elijah Project</title>
+    <link rel="icon" href="2026.png">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --elijah-red: #c41e3a;
+            --elijah-black: #111111;
+            --elijah-ink: #202124;
+            --elijah-muted: #5f6368;
+            --elijah-surface: #ffffff;
+            --elijah-bg: linear-gradient(180deg, #f8fafc 0%, #eef3fb 100%);
+        }
+
+        body {
+            background: var(--elijah-bg);
+        }
+
+        .blog-shell {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .blog-hero {
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.96), rgba(17, 17, 17, 0.96));
+            color: white;
+            border-radius: 28px;
+            padding: 3rem;
+            box-shadow: 0 24px 50px rgba(32, 33, 36, 0.16);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-hero::before {
+            content: '';
+            position: absolute;
+            inset: auto -80px -100px auto;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .blog-hero::after {
+            content: '';
+            position: absolute;
+            inset: -90px auto auto -60px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .blog-kicker {
+            margin: 0 0 0.75rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        .blog-hero h1 {
+            margin: 0 0 1rem;
+            font-size: clamp(2.2rem, 4vw, 4rem);
+            line-height: 1.05;
+        }
+
+        .blog-hero p {
+            margin: 0;
+            max-width: 720px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            opacity: 0.96;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .blog-card,
+        .blog-list-card,
+        .blog-about {
+            background: var(--elijah-surface);
+            border-radius: 22px;
+            box-shadow: 0 12px 28px rgba(32, 33, 36, 0.08);
+            border: 1px solid rgba(32, 33, 36, 0.08);
+            overflow: hidden;
+        }
+
+        .blog-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: #e9eef7;
+        }
+
+        .blog-card-body,
+        .blog-list-body,
+        .blog-about-body {
+            padding: 1.4rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+            color: var(--elijah-muted);
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        .blog-tag {
+            display: inline-block;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--elijah-red);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .blog-card h2,
+        .blog-list-card h3,
+        .blog-about h3 {
+            margin: 0 0 0.75rem;
+            color: var(--elijah-ink);
+        }
+
+        .blog-card p,
+        .blog-list-card p,
+        .blog-about p {
+            color: var(--elijah-muted);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .read-button {
+            display: inline-block;
+            margin-top: 1.2rem;
+            padding: 0.9rem 1.25rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--elijah-red), var(--elijah-black));
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 12px 24px rgba(196, 30, 58, 0.22);
+        }
+
+        .blog-side {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .blog-list-card {
+            border-left: 4px solid var(--elijah-red);
+        }
+
+        .blog-list-card small {
+            display: block;
+            margin-bottom: 0.55rem;
+            color: var(--elijah-red);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .blog-about {
+            border-left: 4px solid var(--elijah-black);
+        }
+
+        .blog-footer-cta {
+            margin-top: 1.5rem;
+            padding: 1.4rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.08), rgba(17, 17, 17, 0.08));
+            color: var(--elijah-ink);
+            border: 1px solid rgba(32, 33, 36, 0.08);
+        }
+
+        .blog-footer-cta strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 900px) {
+            .blog-shell {
+                padding: 1rem;
+            }
+
+            .blog-hero {
+                padding: 2rem;
+                border-radius: 22px;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            <div class="logo"><img src="2026.png" alt="Elijah Project"></div>
+            <div class="nav-links">
+                <a href="courses.html">Courses</a>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="admin.html" id="adminLink" style="display: none;">Admin</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="#help">Help</a>
+                <a href="social.html">Social Media</a>
+            </div>
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userEmail"></span>
+                <button id="logoutBtn" style="padding: 0.5rem 1rem; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="blog-shell">
+            <section class="blog-hero">
+                <p class="blog-kicker">Public Blog</p>
+                <h1>Stories, study notes, and ministry updates</h1>
+                <p>Read short reflections, module highlights, and announcements from Elijah Project School of Ministry. This page is public, so visitors can browse without signing in.</p>
+            </section>
+
+            <section class="blog-grid" aria-label="Blog content">
+                <article class="blog-card">
+                    <img src="2026.png" alt="Elijah Project blog feature image">
+                    <div class="blog-card-body">
+                        <div class="blog-meta">
+                            <span class="blog-tag">Featured</span>
+                            <span>April 2026</span>
+                            <span>Ministry</span>
+                        </div>
+                        <h2>Why consistent study changes how you read Scripture</h2>
+                        <p>Small, repeated study sessions build confidence and clarity. The goal of this blog is to support the lessons with practical follow-up thoughts you can revisit any time.</p>
+                        <a class="read-button" href="courses.html">Explore Courses</a>
+                    </div>
+                </article>
+
+                <div class="blog-side">
+                    <article class="blog-list-card">
+                        <div class="blog-list-body">
+                            <small>Study Note</small>
+                            <h3>How to use the module pages</h3>
+                            <p>Each module can include lesson material, PDFs, and quizzes. The blog will be used for public updates and short teaching posts that support those lessons.</p>
+                        </div>
+                    </article>
+
+                    <article class="blog-list-card">
+                        <div class="blog-list-body">
+                            <small>Announcement</small>
+                            <h3>New lessons and resources</h3>
+                            <p>As new content is added, this page can highlight what changed, what to study next, and any new PDFs or video lessons that were released.</p>
+                        </div>
+                    </article>
+
+                    <article class="blog-about">
+                        <div class="blog-about-body">
+                            <h3>About this blog</h3>
+                            <p>This is a simple public-facing blog page built to match the existing Elijah Project colors and layout style. It can later be expanded with more posts, categories, or a Firestore-backed post list.</p>
+                            <div class="blog-footer-cta">
+                                <strong>Want the latest updates?</strong>
+                                Check the courses page after reading the blog for related lessons.
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>Copyrights ©2025. All Rights Reserved.</p>
+        <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="blog.html">Blog</a>
+            <a href="#donate">Donate</a>
+            <a href="#tos">Terms of Service</a>
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#help">Help</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/profile.php?id=100077733824893" target="_blank" rel="noopener">Facebook</a>
+            <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.youtube.com/@pastorronaldgreen2766" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://tiktok.com/@YOUR_HANDLE" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/YOUR_HANDLE" target="_blank" rel="noopener">X (Twitter)</a>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { onAuthChange, logout, isAdmin, getUserUsername } from './auth.js';
+
+        const userInfo = document.getElementById('userInfo');
+        const userEmail = document.getElementById('userEmail');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const adminLink = document.getElementById('adminLink');
+
+        onAuthChange(async (user) => {
+            if (user) {
+                const username = await getUserUsername();
+                userEmail.textContent = username || user.email;
+                userInfo.style.display = 'flex';
+
+                const adminStatus = await isAdmin();
+                if (adminStatus) {
+                    adminLink.style.display = 'inline';
+                }
+            } else {
+                userInfo.style.display = 'none';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            logout().then(() => {
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>
