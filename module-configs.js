@@ -88,10 +88,11 @@ export const MODULE_CONFIGS = {
         moduleNumber: 7,
         title: "Module 7: The Kingdom of God",
         essayFields: [],
-        totalLessons: 2,
+        totalLessons: 3,
         quizzes: {
             1: { totalQuestions: 12 },
-            2: { totalQuestions: 8 }
+            2: { totalQuestions: 8 },
+            3: { totalQuestions: 9 }
         }
     },
     8: {
