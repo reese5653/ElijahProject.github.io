@@ -92,7 +92,8 @@ export const MODULE_CONFIGS = {
         quizzes: {
             1: { totalQuestions: 12 },
             2: { totalQuestions: 8 },
-            3: { totalQuestions: 9 }
+            3: { totalQuestions: 9 },
+            4: { totalQuestions: 10 }
         }
     },
     8: {
