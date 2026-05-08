@@ -693,7 +693,7 @@
     </footer>
 
     <script>
-        function saveModule7Essays() {
+        async function saveModule7Essays() {
             const essay1 = document.getElementById('m7essay1')?.value || '';
             const essay2 = document.getElementById('m7essay2')?.value || '';
             const essay3 = document.getElementById('m7essay3')?.value || '';
@@ -709,13 +709,34 @@
             btn.disabled = true;
 
             try {
+                const saveTasks = [];
+                
+                // Save to localStorage
                 if (essay1) localStorage.setItem('module_7_week_1', essay1);
                 if (essay2) localStorage.setItem('module_7_week_2', essay2);
                 if (essay3) localStorage.setItem('module_7_week_4', essay3);
+                
+                // Save to Firebase if available
+                if (window.saveNotes) {
+                    if (essay1) saveTasks.push(window.saveNotes(7, 1, essay1));
+                    if (essay2) saveTasks.push(window.saveNotes(7, 2, essay2));
+                    if (essay3) saveTasks.push(window.saveNotes(7, 4, essay3));
+                }
+                
+                // Mark essay completion
+                if (window.markQuizComplete) {
+                    saveTasks.push(window.markQuizComplete(7, 5));
+                }
+                
+                if (saveTasks.length > 0) {
+                    await Promise.all(saveTasks);
+                }
+                
+                localStorage.setItem('quiz_7_5_completed', 'true');
                 alert('Essays saved successfully!');
             } catch (error) {
                 console.error('Error saving essays:', error);
-                alert('Error saving essays. Please try again.');
+                alert('Essays saved locally. Firebase sync failed - please check your connection and try again.');
             } finally {
                 btn.textContent = originalText;
                 btn.disabled = false;
