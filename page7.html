@@ -632,6 +632,33 @@
                     </div>
                 </div>
 
+                <div class="lesson-content" id="lesson5-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; display: none;">
+                    <h3 id="lesson5" style="margin-bottom: 1rem; color: #202124;">Lesson 5: Essay Assignment</h3>
+                    <div style="background: white; padding: 2rem; border-radius: 8px; border-left: 4px solid #c41e3a; max-width: 100%;">
+                        <h4 style="color: #202124; margin-bottom: 1.5rem;">Essay Questions:</h4>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <p style="color: #202124; font-weight: 600; margin-bottom: 0.5rem;">Question 1: What is the Kingdom of God? Why did Jesus preach it?</p>
+                            <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 0.75rem;">Please write a thoughtful response in 3-5 sentences.</p>
+                            <textarea id="m7essay1" style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
+                        </div>
+
+                        <div style="margin-bottom: 2rem;">
+                            <p style="color: #202124; font-weight: 600; margin-bottom: 0.5rem;">Question 2: What does it mean that the Kingdom of God is here but not fully realized?</p>
+                            <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 0.75rem;">Please write a thoughtful response in 3-5 sentences.</p>
+                            <textarea id="m7essay2" style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
+                        </div>
+
+                        <div style="margin-bottom: 2rem;">
+                            <p style="color: #202124; font-weight: 600; margin-bottom: 0.5rem;">Question 3: What does it mean for us to be a Kingdom Ambassador?</p>
+                            <p style="color: #5f6368; line-height: 1.8; font-size: 1.05rem; margin-bottom: 0.75rem;">Please write a thoughtful response in 3-5 sentences.</p>
+                            <textarea id="m7essay3" style="width: 100%; min-height: 150px; padding: 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; text-align: left;" placeholder="Type your answer here..."></textarea>
+                        </div>
+
+                        <button id="m7essaySaveBtn" onclick="saveModule7Essays()" style="margin-top: 1rem; padding: 0.75rem 2rem; background-color: #c41e3a; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#a01729'" onmouseout="this.style.backgroundColor='#c41e3a'">Save Answers</button>
+                    </div>
+                </div>
+
                 <a href="#" class="back-button" id="nextLessonBtn" style="background-color: #c41e3a; margin-bottom: 1rem; margin-right: 0.5rem; display: none;">Next Lesson →</a>
                 <a href="page9.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 7)">
                     <span id="btnText">Complete and Continue →</span>
@@ -647,6 +674,7 @@
                     <option value="#lesson2">Lesson 2: The Already but not Fully Realized Kingdom of God</option>
                     <option value="#lesson3">Lesson 3: Marks of the Kingdom of God</option>
                     <option value="#lesson4">Lesson 4: Image Bearers and Kingdom Ambassadors</option>
+                    <option value="#lesson5">Lesson 5: Essay Assignment</option>
                 </select>
                 <button class="lesson-go" id="lessonGo">Go</button>
                 <ul class="lesson-list">
@@ -654,6 +682,7 @@
                     <li>Lesson 2 explains the already/not yet tension of the Kingdom.</li>
                     <li>Lesson 3 shows the marks of God's Kingdom in Christ.</li>
                     <li>Lesson 4 explores our identity and mission as image bearers and ambassadors.</li>
+                    <li>Lesson 5 is an essay assignment to reflect on the Kingdom concepts.</li>
                 </ul>
             </aside>
         </div>
@@ -664,6 +693,35 @@
     </footer>
 
     <script>
+        function saveModule7Essays() {
+            const essay1 = document.getElementById('m7essay1')?.value || '';
+            const essay2 = document.getElementById('m7essay2')?.value || '';
+            const essay3 = document.getElementById('m7essay3')?.value || '';
+
+            if (!essay1 && !essay2 && !essay3) {
+                alert('Please write at least one essay answer before saving.');
+                return;
+            }
+
+            const btn = document.getElementById('m7essaySaveBtn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Saving...';
+            btn.disabled = true;
+
+            try {
+                if (essay1) localStorage.setItem('module_7_week_1', essay1);
+                if (essay2) localStorage.setItem('module_7_week_2', essay2);
+                if (essay3) localStorage.setItem('module_7_week_4', essay3);
+                alert('Essays saved successfully!');
+            } catch (error) {
+                console.error('Error saving essays:', error);
+                alert('Error saving essays. Please try again.');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        }
+
         let kCurrentQuestion = 0;
         const kTotalQuestions = 12;
         const kCorrectAnswers = {
