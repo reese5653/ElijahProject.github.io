@@ -743,6 +743,55 @@
             }
         }
 
+        async function loadModule7Essays() {
+            const essayFields = [
+                { id: 'm7essay1', week: 1 },
+                { id: 'm7essay2', week: 2 },
+                { id: 'm7essay3', week: 4 }
+            ];
+            
+            for (const field of essayFields) {
+                const textarea = document.getElementById(field.id);
+                if (textarea) {
+                    const saved = localStorage.getItem('module_7_week_' + field.week);
+                    if (saved) textarea.value = saved;
+                }
+            }
+        }
+
+        function setupModule7EssayAutoSave() {
+            const essayFields = [
+                { id: 'm7essay1', week: 1 },
+                { id: 'm7essay2', week: 2 },
+                { id: 'm7essay3', week: 4 }
+            ];
+            
+            let saveTimeout;
+            
+            essayFields.forEach(field => {
+                const textarea = document.getElementById(field.id);
+                if (textarea) {
+                    textarea.addEventListener('input', () => {
+                        clearTimeout(saveTimeout);
+                        saveTimeout = setTimeout(() => {
+                            const content = textarea.value;
+                            if (content.trim()) {
+                                // Save to localStorage
+                                localStorage.setItem('module_7_week_' + field.week, content);
+                                
+                                // Save to Firebase if available
+                                if (window.saveNotes) {
+                                    window.saveNotes(7, field.week, content).catch(error => {
+                                        console.error('Error auto-saving essay to Firebase:', error);
+                                    });
+                                }
+                            }
+                        }, 2000);
+                    });
+                }
+            });
+        }
+
         let kCurrentQuestion = 0;
         const kTotalQuestions = 12;
         const kCorrectAnswers = {
@@ -1237,6 +1286,8 @@
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
+                loadModule7Essays();
+                setupModule7EssayAutoSave();
                 if (document.getElementById('kingdomQuizForm')) {
                     kShowQuestion(0);
                 }
@@ -1251,6 +1302,8 @@
                 }
             });
         } else {
+            loadModule7Essays();
+            setupModule7EssayAutoSave();
             if (document.getElementById('kingdomQuizForm')) {
                 kShowQuestion(0);
             }
