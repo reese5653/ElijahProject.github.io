@@ -1435,16 +1435,43 @@
             }
         }
 
+        async function checkLesson4QuizCompletion() {
+            const lesson4LocalStorage = localStorage.getItem('quiz_7_4_completed') === 'true';
+            let lesson4QuizCompleted = lesson4LocalStorage;
+
+            try {
+                lesson4QuizCompleted = await isQuizCompleted(7, 4);
+            } catch (e) {
+                console.log('Not authenticated yet');
+            }
+
+            if (lesson4QuizCompleted) {
+                localStorage.setItem('quiz_7_4_completed', 'true');
+                const quizContainer = document.querySelector('#lesson4-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => {
                 checkQuizCompletion();
                 checkLesson2QuizCompletion();
                 checkLesson3QuizCompletion();
+                checkLesson4QuizCompletion();
             });
         } else {
             checkQuizCompletion();
             checkLesson2QuizCompletion();
             checkLesson3QuizCompletion();
+            checkLesson4QuizCompletion();
         }
 
         onAuthChange((user) => {
@@ -1452,6 +1479,7 @@
                 setTimeout(checkQuizCompletion, 100);
                 setTimeout(checkLesson2QuizCompletion, 100);
                 setTimeout(checkLesson3QuizCompletion, 100);
+                setTimeout(checkLesson4QuizCompletion, 100);
             }
         });
 
@@ -1459,6 +1487,7 @@
             setTimeout(checkQuizCompletion, 100);
             setTimeout(checkLesson2QuizCompletion, 100);
             setTimeout(checkLesson3QuizCompletion, 100);
+            setTimeout(checkLesson4QuizCompletion, 100);
         });
 
         window.markQuizComplete = markQuizComplete;
