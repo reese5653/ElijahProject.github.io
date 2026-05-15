@@ -6,6 +6,117 @@
     <title>Module 8 - Elijah Project</title>
     <link rel="icon" href="2026.png">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .quiz-container {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-header {
+            margin-bottom: 1.5rem;
+            color: #5f6368;
+            font-size: 0.95rem;
+        }
+
+        .quiz-progress {
+            background: #e0e0e0;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .quiz-progress-bar {
+            background: #c41e3a;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-question {
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-question h4 {
+            color: #202124;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .quiz-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .quiz-option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+
+        .quiz-button {
+            padding: 0.75rem 2rem;
+            background-color: #c41e3a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        .quiz-button:hover {
+            background-color: #a01729;
+        }
+
+        .quiz-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .quiz-nav {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .results {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+            background-color: #fff5f5;
+            border-left: 4px solid #c41e3a;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #202124;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -56,6 +167,121 @@
                                 <div style="color: #e5e7eb; font-weight: 600;">The Foundation of the Holy Spirit</div>
                                 <a href="The Foundation of the Holy Spirit.pdf" target="_blank" style="color: #1a73e8; font-weight: 600; text-decoration: none;">Open in new tab ↗</a>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <h3>Lesson 1 Quiz: Foundation of the Holy Spirit</h3>
+                        <div class="quiz-header" id="m8progressText">Question 1 of 12</div>
+                        <div class="quiz-progress">
+                            <div class="quiz-progress-bar" id="m8progressBar" style="width: 8.33%;"></div>
+                        </div>
+                        <form id="m8QuizForm">
+                            <div class="quiz-question">
+                                <h4>Question 1: “Omni” originates in Latin and means:</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q1" value="a" id="m8q1a"><label for="m8q1a">A. All</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q1" value="b" id="m8q1b"><label for="m8q1b">B. Holy</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q1" value="c" id="m8q1c"><label for="m8q1c">C. Spirit</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q1" value="d" id="m8q1d"><label for="m8q1d">D. Breath</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 2: Which attribute characterizes the Spirit’s nature and operates on a fundamentally different level than created beings?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q2" value="a" id="m8q2a"><label for="m8q2a">A. Omnibenevolence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q2" value="b" id="m8q2b"><label for="m8q2b">B. Holiness</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q2" value="c" id="m8q2c"><label for="m8q2c">C. Omnipotence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q2" value="d" id="m8q2d"><label for="m8q2d">D. Truth</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 3: Which attribute means complete knowledge of all things?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q3" value="a" id="m8q3a"><label for="m8q3a">A. Omnipresence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q3" value="b" id="m8q3b"><label for="m8q3b">B. Eternality</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q3" value="c" id="m8q3c"><label for="m8q3c">C. Omniscience</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q3" value="d" id="m8q3d"><label for="m8q3d">D. Holiness</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 4: Which attribute means the Spirit is outside of time but also acts within time?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q4" value="a" id="m8q4a"><label for="m8q4a">A. Omnipotence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q4" value="b" id="m8q4b"><label for="m8q4b">B. Eternality</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q4" value="c" id="m8q4c"><label for="m8q4c">C. Truth</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q4" value="d" id="m8q4d"><label for="m8q4d">D. Omnibenevolence</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 5: Which attribute means the Spirit exists everywhere at the same time?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q5" value="a" id="m8q5a"><label for="m8q5a">A. Truth</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q5" value="b" id="m8q5b"><label for="m8q5b">B. Holiness</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q5" value="c" id="m8q5c"><label for="m8q5c">C. Omniscience</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q5" value="d" id="m8q5d"><label for="m8q5d">D. Omnipresence</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 6: Which attribute means the Spirit dwells in believers permanently and teaches all things?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q6" value="a" id="m8q6a"><label for="m8q6a">A. Truth</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q6" value="b" id="m8q6b"><label for="m8q6b">B. Omnipotence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q6" value="c" id="m8q6c"><label for="m8q6c">C. Omnibenevolence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q6" value="d" id="m8q6d"><label for="m8q6d">D. Eternality</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 7: Which attribute means God is in total control of Himself and His creation with unlimited power?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q7" value="a" id="m8q7a"><label for="m8q7a">A. Eternality</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q7" value="b" id="m8q7b"><label for="m8q7b">B. Omniscience</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q7" value="c" id="m8q7c"><label for="m8q7c">C. Omnipotence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q7" value="d" id="m8q7d"><label for="m8q7d">D. Omnipresence</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 8: Which attribute means perfectly just, all-loving, and fully merciful?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q8" value="a" id="m8q8a"><label for="m8q8a">A. Holiness</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q8" value="b" id="m8q8b"><label for="m8q8b">B. Truth</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q8" value="c" id="m8q8c"><label for="m8q8c">C. Omnibenevolence</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q8" value="d" id="m8q8d"><label for="m8q8d">D. Omnipotence</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 9: Which symbol represents life and divine power?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q9" value="a" id="m8q9a"><label for="m8q9a">A. Water</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q9" value="b" id="m8q9b"><label for="m8q9b">B. Dove</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q9" value="c" id="m8q9c"><label for="m8q9c">C. Wind/Breath</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q9" value="d" id="m8q9d"><label for="m8q9d">D. Fire</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 10: Which symbol represents peace and purity, the Holy Spirit in bodily form?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q10" value="a" id="m8q10a"><label for="m8q10a">A. Wind/Breath</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q10" value="b" id="m8q10b"><label for="m8q10b">B. Dove</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q10" value="c" id="m8q10c"><label for="m8q10c">C. Fire</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q10" value="d" id="m8q10d"><label for="m8q10d">D. Water</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 11: Which symbol represents refreshing and spiritual life?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q11" value="a" id="m8q11a"><label for="m8q11a">A. Dove</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q11" value="b" id="m8q11b"><label for="m8q11b">B. Water</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q11" value="c" id="m8q11c"><label for="m8q11c">C. Fire</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q11" value="d" id="m8q11d"><label for="m8q11d">D. Wind/Breath</label></div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <h4>Question 12: Which symbol represents purification and passion?</h4>
+                                <div class="quiz-option"><input type="radio" name="m8q12" value="a" id="m8q12a"><label for="m8q12a">A. Water</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q12" value="b" id="m8q12b"><label for="m8q12b">B. Dove</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q12" value="c" id="m8q12c"><label for="m8q12c">C. Wind/Breath</label></div>
+                                <div class="quiz-option"><input type="radio" name="m8q12" value="d" id="m8q12d"><label for="m8q12d">D. Fire</label></div>
+                            </div>
+
+                            <div class="quiz-nav">
+                                <button type="button" class="quiz-button" id="m8prevBtn" onclick="m8PreviousQuestion()" style="background-color: #888;">← Previous</button>
+                                <button type="button" class="quiz-button" id="m8nextBtn" onclick="m8NextQuestion()">Next →</button>
+                            </div>
+                        </form>
+
+                        <div id="m8results" class="results">
+                            <div class="score" id="m8scoreText"></div>
+                            <p id="m8feedback" style="margin-top: 1rem; color: #5f6368;"></p>
                         </div>
                     </div>
                 </div>
@@ -110,13 +336,169 @@
 
         lessonGo.addEventListener('click', jumpToLesson);
         lessonSelect.addEventListener('change', jumpToLesson);
+
+        let m8CurrentQuestion = 0;
+        const m8TotalQuestions = 12;
+        const m8CorrectAnswers = {
+            m8q1: 'a',
+            m8q2: 'b',
+            m8q3: 'c',
+            m8q4: 'b',
+            m8q5: 'd',
+            m8q6: 'a',
+            m8q7: 'c',
+            m8q8: 'c',
+            m8q9: 'c',
+            m8q10: 'b',
+            m8q11: 'b',
+            m8q12: 'd'
+        };
+
+        function m8ShowQuestion(index) {
+            const form = document.getElementById('m8QuizForm');
+            if (!form) return;
+
+            const questions = form.querySelectorAll('.quiz-question');
+            questions.forEach((q, i) => {
+                q.classList.toggle('active', i === index);
+            });
+
+            const progressPercent = ((index + 1) / m8TotalQuestions) * 100;
+            document.getElementById('m8progressBar').style.width = progressPercent + '%';
+            document.getElementById('m8progressText').textContent = 'Question ' + (index + 1) + ' of ' + m8TotalQuestions;
+            document.getElementById('m8prevBtn').disabled = index === 0;
+            document.getElementById('m8nextBtn').textContent = index === m8TotalQuestions - 1 ? 'Submit Quiz' : 'Next →';
+        }
+
+        function m8NextQuestion() {
+            if (m8CurrentQuestion < m8TotalQuestions - 1) {
+                m8CurrentQuestion++;
+                m8ShowQuestion(m8CurrentQuestion);
+            } else {
+                m8SubmitQuiz();
+            }
+        }
+
+        function m8PreviousQuestion() {
+            if (m8CurrentQuestion > 0) {
+                m8CurrentQuestion--;
+                m8ShowQuestion(m8CurrentQuestion);
+            }
+        }
+
+        async function m8SubmitQuiz() {
+            let score = 0;
+
+            for (let i = 1; i <= m8TotalQuestions; i++) {
+                const answer = document.querySelector('input[name="m8q' + i + '"]:checked')?.value;
+                if (answer === m8CorrectAnswers['m8q' + i]) {
+                    score++;
+                }
+            }
+
+            const resultsDiv = document.getElementById('m8results');
+            const scoreText = document.getElementById('m8scoreText');
+            const feedback = document.getElementById('m8feedback');
+            const percentage = Math.round((score / m8TotalQuestions) * 100);
+
+            scoreText.textContent = 'Your Score: ' + score + ' / ' + m8TotalQuestions + ' (' + percentage + '%)';
+
+            if (percentage === 100) {
+                feedback.textContent = 'Perfect score. Excellent work.';
+            } else if (percentage >= 80) {
+                feedback.textContent = 'Great job. You understand the Holy Spirit well.';
+            } else if (percentage >= 60) {
+                feedback.textContent = 'Good progress. Review the lesson materials and try again for mastery.';
+            } else {
+                feedback.textContent = 'Review the lesson materials and retake the quiz to strengthen understanding.';
+            }
+
+            document.getElementById('m8QuizForm').style.display = 'none';
+            resultsDiv.classList.add('show');
+
+            const answers = [];
+            for (let i = 1; i <= m8TotalQuestions; i++) {
+                answers.push({
+                    questionId: i,
+                    selectedAnswer: document.querySelector('input[name="m8q' + i + '"]:checked')?.value || '',
+                    correctAnswer: m8CorrectAnswers['m8q' + i]
+                });
+            }
+
+            try {
+                const saveTasks = [];
+                if (window.saveQuizResponseToFirebase) {
+                    saveTasks.push(window.saveQuizResponseToFirebase(1, answers, score, m8TotalQuestions));
+                }
+                if (window.markQuizComplete) {
+                    saveTasks.push(window.markQuizComplete(11, 1));
+                }
+                await Promise.all(saveTasks);
+                localStorage.setItem('quiz_11_1_completed', 'true');
+            } catch (error) {
+                console.error('Error saving quiz completion to Firebase:', error);
+                feedback.textContent = 'Your score was calculated, but saving to Firebase failed. Please try again while signed in.';
+                return;
+            }
+
+            setTimeout(() => {
+                const quizContainer = document.querySelector('#lesson1-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }, 3000);
+        }
     </script>
 
     <script type="module">
-        import { completeModule, recordStudySession } from './firebase-database.js';
-        import { markModuleComplete } from './auth.js';
+        import { completeModule, recordStudySession, saveQuizResponse } from './firebase-database.js';
+        import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
 
         let sessionStartTime = Date.now();
+
+        window.saveQuizResponseToFirebase = async (weekNumber, answers, score, totalQuestions) => {
+            await saveQuizResponse(11, weekNumber, {
+                answers,
+                score,
+                totalQuestions,
+                passingScore: 70,
+                passed: score >= 70,
+                completed: true
+            });
+        };
+
+        window.markQuizComplete = markQuizComplete;
+        window.isQuizCompleted = isQuizCompleted;
+
+        async function checkQuizCompletion() {
+            const lesson1LocalStorage = localStorage.getItem('quiz_11_1_completed') === 'true';
+            let lesson1QuizCompleted = lesson1LocalStorage;
+
+            try {
+                lesson1QuizCompleted = await isQuizCompleted(11, 1);
+            } catch (e) {
+                console.log('Not authenticated yet');
+            }
+
+            if (lesson1QuizCompleted) {
+                const quizContainer = document.querySelector('#lesson1-content .quiz-container');
+                if (quizContainer) {
+                    quizContainer.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; background: #c41e3a; border-radius: 12px; color: white;">
+                            <div style="font-size: 3rem; margin-bottom: 0.5rem;">✓</div>
+                            <h3 style="color: white; margin-bottom: 0.5rem;">Quiz Completed!</h3>
+                            <p style="color: white; font-weight: bold; margin: 0;">You have successfully completed this quiz.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
@@ -139,6 +521,30 @@
 
             setTimeout(() => window.location.href = target, 500);
         };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                checkQuizCompletion();
+                if (document.getElementById('m8QuizForm')) {
+                    window.m8ShowQuestion(0);
+                }
+            });
+        } else {
+            checkQuizCompletion();
+            if (document.getElementById('m8QuizForm')) {
+                window.m8ShowQuestion(0);
+            }
+        }
+
+        onAuthChange((user) => {
+            if (user) {
+                setTimeout(checkQuizCompletion, 100);
+            }
+        });
+
+        window.addEventListener('elijah:sync-complete', () => {
+            setTimeout(checkQuizCompletion, 100);
+        });
     </script>
 </body>
 </html>
