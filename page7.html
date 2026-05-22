@@ -1320,7 +1320,7 @@
     </script>
 
     <script type="module">
-        import { saveQuizResponse, completeModule, recordStudySession } from './firebase-database.js';
+        import { saveQuizResponse, completeModule, recordStudySession, saveNotes } from './firebase-database.js';
         import { markModuleComplete, markQuizComplete, isQuizCompleted, onAuthChange } from './auth.js';
 
         const MODULE_NUMBER = 7;
@@ -1336,6 +1336,8 @@
                 completed: true
             });
         };
+
+        window.saveNotes = saveNotes;
 
         window.handleModuleComplete = function(event, moduleNumber) {
             event.preventDefault();
