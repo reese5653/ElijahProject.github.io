@@ -449,10 +449,12 @@
         function showLesson(lessonId) {
             document.querySelectorAll('.lesson-content').forEach(lesson => {
                 lesson.classList.remove('active');
+                lesson.style.display = 'none';
             });
             const selectedLesson = document.getElementById(lessonId + '-content');
             if (selectedLesson) {
                 selectedLesson.classList.add('active');
+                selectedLesson.style.display = 'block';
                 selectedLesson.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
