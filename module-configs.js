@@ -109,7 +109,7 @@ export const MODULE_CONFIGS = {
     },
     9: {
         moduleNumber: 9,
-        title: "Module 9",
+        title: "Module 9: Spiritual Authority",
         essayFields: [],
         totalLessons: 1,
         quizzes: {}
