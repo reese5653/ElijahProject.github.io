@@ -33,7 +33,7 @@
 
                 <div class="lesson-content active" id="lesson1-content" style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
                     <h3 id="lesson1" style="margin-bottom: 1rem; color: #202124;">Lesson 1: Course Content</h3>
-                    <p>Content for this module is below. Study the video, review the handout, and complete the study check.</p>
+                    <p>Content for this module is below. Study the video, review the handout, and complete the quiz.</p>
 
                     <div style="margin: 2rem auto; max-width: 1200px;">
                         <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; box-shadow: 0 14px 36px rgba(0,0,0,0.18); background: #000;">
@@ -51,7 +51,13 @@
                         </div>
                     </div>
 
-                    <div style="margin: 2rem auto; max-width: 1200px; background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                <a href="page10.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 9)">
+                    <span id="btnText">Complete and Continue →</span>
+                    <span id="btnLoading" style="display: none;">Saving... ⏳</span>
+                </a>
+                <a href="courses.html" class="back-button">← Back to Courses</a>
+
+                    <div style="margin: 2rem auto 0; max-width: 1200px; background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
                         <div style="background: #ffffff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 10px 24px rgba(0,0,0,0.08); border: 1px solid #e5e7eb;">
                             <h3 style="margin-top: 0; color: #202124;">Module 9 Quiz</h3>
                             <p style="color: #5f6368; margin-bottom: 1.5rem;">Complete the quiz below. Click <strong>Submit</strong> to grade; use <strong>Retry</strong> to try again.</p>
@@ -145,12 +151,6 @@
                             </form>
                         </div>
                     </div>
-
-                <a href="page10.html" class="back-button" id="continueBtn" style="background-color: #c41e3a; margin-bottom: 1rem; position: relative;" onclick="handleModuleComplete(event, 9)">
-                    <span id="btnText">Complete and Continue →</span>
-                    <span id="btnLoading" style="display: none;">Saving... ⏳</span>
-                </a>
-                <a href="courses.html" class="back-button">← Back to Courses</a>
             </div>
 
             <aside class="lesson-sidebar">
