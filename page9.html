@@ -53,59 +53,96 @@
 
                     <div style="margin: 2rem auto; max-width: 1200px; background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
                         <div style="background: #ffffff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 10px 24px rgba(0,0,0,0.08); border: 1px solid #e5e7eb;">
-                            <h3 style="margin-top: 0; color: #202124;">Module 9 Study Check</h3>
-                            <p style="color: #5f6368; margin-bottom: 1.5rem;">Review the questions below and compare your answers with the key provided.</p>
+                            <h3 style="margin-top: 0; color: #202124;">Module 9 Quiz</h3>
+                            <p style="color: #5f6368; margin-bottom: 1.5rem;">Complete the quiz below. Click <strong>Submit</strong> to grade; use <strong>Retry</strong> to try again.</p>
 
-                            <div style="display: grid; gap: 1rem;">
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">1. According to Romans 13:1-7, why should believers submit to governing authorities?</p>
-                                    <p style="margin: 0;">A. Because authorities are always perfect<br>B. Because authority exists only through God and is ordained by Him<br>C. Because submission guarantees wealth and success<br>D. Because believers have no choice in any circumstance</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: B. Because authority exists only through God and is ordained by Him</p>
-                                </div>
+                            <form id="module9-quiz" style="display: grid; gap: 1rem;">
+                                <!-- Question 1 -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;" data-q="1">
+                                    <legend style="font-weight: 600; color: #202124;">1. According to Romans 13:1-7, why should believers submit to governing authorities?</legend>
+                                    <label><input type="radio" name="q1" value="A"> A. Because authorities are always perfect</label><br>
+                                    <label><input type="radio" name="q1" value="B"> B. Because authority exists only through God and is ordained by Him</label><br>
+                                    <label><input type="radio" name="q1" value="C"> C. Because submission guarantees wealth and success</label><br>
+                                    <label><input type="radio" name="q1" value="D"> D. Because believers have no choice in any circumstance</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
 
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">2. What was the primary sin that led to Satan’s fall according to Isaiah 14 and Ezekiel 28?</p>
-                                    <p style="margin: 0;">A. Ignorance of God’s commands<br>B. Lack of worship<br>C. Rebellion against God’s authority and desire for self-exaltation<br>D. Failure to serve the angels</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: C. Rebellion against God’s authority and desire for self-exaltation</p>
-                                </div>
+                                <!-- Question 2 -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;" data-q="2">
+                                    <legend style="font-weight: 600; color: #202124;">2. What was the primary sin that led to Satan’s fall according to Isaiah 14 and Ezekiel 28?</legend>
+                                    <label><input type="radio" name="q2" value="A"> A. Ignorance of God’s commands</label><br>
+                                    <label><input type="radio" name="q2" value="B"> B. Lack of worship</label><br>
+                                    <label><input type="radio" name="q2" value="C"> C. Rebellion against God’s authority and desire for self-exaltation</label><br>
+                                    <label><input type="radio" name="q2" value="D"> D. Failure to serve the angels</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
 
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">3. According to the lesson, what is the greatest demand found throughout Scripture?</p>
-                                    <p style="margin: 0;">A. Sacrifice and religious activity<br>B. Spiritual gifts and miracles<br>C. Obedience to God’s will and authority<br>D. Financial generosity</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: C. Obedience to God’s will and authority</p>
-                                </div>
+                                <!-- Question 3 -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;" data-q="3">
+                                    <legend style="font-weight: 600; color: #202124;">3. According to the lesson, what is the greatest demand found throughout Scripture?</legend>
+                                    <label><input type="radio" name="q3" value="A"> A. Sacrifice and religious activity</label><br>
+                                    <label><input type="radio" name="q3" value="B"> B. Spiritual gifts and miracles</label><br>
+                                    <label><input type="radio" name="q3" value="C"> C. Obedience to God’s will and authority</label><br>
+                                    <label><input type="radio" name="q3" value="D"> D. Financial generosity</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
 
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">4. What lesson does Paul’s conversion on the Damascus Road teach about authority?</p>
-                                    <p style="margin: 0;">A. Education is the key to spiritual growth.<br>B. God only uses highly respected leaders.<br>C. True submission to God includes submission to His delegated authority.<br>D. Personal independence is necessary for ministry.</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: C. True submission to God includes submission to His delegated authority.</p>
-                                </div>
+                                <!-- Question 4 -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;" data-q="4">
+                                    <legend style="font-weight: 600; color: #202124;">4. What lesson does Paul’s conversion on the Damascus Road teach about authority?</legend>
+                                    <label><input type="radio" name="q4" value="A"> A. Education is the key to spiritual growth.</label><br>
+                                    <label><input type="radio" name="q4" value="B"> B. God only uses highly respected leaders.</label><br>
+                                    <label><input type="radio" name="q4" value="C"> C. True submission to God includes submission to His delegated authority.</label><br>
+                                    <label><input type="radio" name="q4" value="D"> D. Personal independence is necessary for ministry.</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
 
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">5. What mistake did King Saul make in 1 Samuel 15?</p>
-                                    <p style="margin: 0;">A. He refused to fight the Amalekites.<br>B. He obeyed God completely.<br>C. He replaced obedience with his own idea of sacrifice.<br>D. He failed to offer any sacrifice at all.</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: C. He replaced obedience with his own idea of sacrifice.</p>
-                                </div>
+                                <!-- Question 5 -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;" data-q="5">
+                                    <legend style="font-weight: 600; color: #202124;">5. What mistake did King Saul make in 1 Samuel 15?</legend>
+                                    <label><input type="radio" name="q5" value="A"> A. He refused to fight the Amalekites.</label><br>
+                                    <label><input type="radio" name="q5" value="B"> B. He obeyed God completely.</label><br>
+                                    <label><input type="radio" name="q5" value="C"> C. He replaced obedience with his own idea of sacrifice.</label><br>
+                                    <label><input type="radio" name="q5" value="D"> D. He failed to offer any sacrifice at all.</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
 
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">6. According to the notes, which of the following is NOT a characteristic of rebellion?</p>
-                                    <p style="margin: 0;">A. Self-will<br>B. Independence from God’s authority<br>C. Humble teachability<br>D. Disobedience</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: C. Humble teachability</p>
-                                </div>
+                                <!-- Question 6 -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;" data-q="6">
+                                    <legend style="font-weight: 600; color: #202124;">6. According to the notes, which of the following is NOT a characteristic of rebellion?</legend>
+                                    <label><input type="radio" name="q6" value="A"> A. Self-will</label><br>
+                                    <label><input type="radio" name="q6" value="B"> B. Independence from God’s authority</label><br>
+                                    <label><input type="radio" name="q6" value="C"> C. Humble teachability</label><br>
+                                    <label><input type="radio" name="q6" value="D"> D. Disobedience</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
 
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">7. What was the primary error of Nadab and Abihu when they offered “strange fire” before the Lord?</p>
-                                    <p style="margin: 0;">A. They used the wrong altar.<br>B. They acted independently without submission to God’s established authority.<br>C. They forgot the prescribed sacrifices.<br>D. They were not members of Aaron’s family.</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: B. They acted independently without submission to God’s established authority.</p>
-                                </div>
+                                <!-- Question 7 -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #c41e3a;" data-q="7">
+                                    <legend style="font-weight: 600; color: #202124;">7. What was the primary error of Nadab and Abihu when they offered “strange fire” before the Lord?</legend>
+                                    <label><input type="radio" name="q7" value="A"> A. They used the wrong altar.</label><br>
+                                    <label><input type="radio" name="q7" value="B"> B. They acted independently without submission to God’s established authority.</label><br>
+                                    <label><input type="radio" name="q7" value="C"> C. They forgot the prescribed sacrifices.</label><br>
+                                    <label><input type="radio" name="q7" value="D"> D. They were not members of Aaron’s family.</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
 
-                                <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #1a73e8;">
-                                    <p style="margin: 0 0 0.5rem; font-weight: 600; color: #202124;">Bonus Critical Thinking Question</p>
-                                    <p style="margin: 0 0 0.75rem;">How do the examples of Satan, Saul, Nadab and Abihu, and Paul demonstrate the difference between serving God through obedience and serving through self-will?</p>
-                                    <p style="margin: 0;">A. They show that results matter more than motives.<br>B. They demonstrate that God values obedience to His authority above personal ambition, sacrifice, or religious activity.<br>C. They prove that leadership positions guarantee God’s approval.<br>D. They teach that independence is necessary for spiritual maturity.</p>
-                                    <p style="margin: 0.75rem 0 0; color: #0f5132; font-weight: 600;">Answer: B. They demonstrate that God values obedience to His authority above personal ambition, sacrifice, or religious activity.</p>
+                                <!-- Bonus (optional) -->
+                                <fieldset style="background: #f8f9fa; padding: 1rem; border-radius: 8px; border-left: 4px solid #1a73e8;" data-q="bonus">
+                                    <legend style="font-weight: 600; color: #202124;">Bonus: How do the examples demonstrate the difference between obedience and self-will?</legend>
+                                    <label><input type="radio" name="qbonus" value="A"> A. They show that results matter more than motives.</label><br>
+                                    <label><input type="radio" name="qbonus" value="B"> B. They demonstrate that God values obedience to His authority above personal ambition, sacrifice, or religious activity.</label><br>
+                                    <label><input type="radio" name="qbonus" value="C"> C. They prove that leadership positions guarantee God’s approval.</label><br>
+                                    <label><input type="radio" name="qbonus" value="D"> D. They teach that independence is necessary for spiritual maturity.</label>
+                                    <div class="q-feedback" style="margin-top:0.5rem; font-weight:600; display:none;"></div>
+                                </fieldset>
+
+                                <div style="display:flex; gap:1rem; align-items:center; margin-top:0.5rem;">
+                                    <button type="button" id="quizSubmit" class="back-button" style="background-color:#c41e3a;">Submit</button>
+                                    <button type="button" id="quizRetry" class="back-button" style="display:none;">Retry</button>
+                                    <div id="quizResult" style="margin-left:1rem; font-weight:600;"></div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -159,6 +196,79 @@
 
         lessonGo.addEventListener('click', jumpToLesson);
         lessonSelect.addEventListener('change', jumpToLesson);
+    </script>
+
+    <script>
+        // Module 9 quiz grading
+        (function() {
+            const answers = {1: 'B', 2: 'C', 3: 'C', 4: 'C', 5: 'C', 6: 'C', 7: 'B'};
+            const bonusAnswer = 'B';
+
+            function grade() {
+                let score = 0;
+                let total = Object.keys(answers).length;
+
+                for (let q = 1; q <= total; q++) {
+                    const field = document.querySelector('fieldset[data-q="' + q + '"]');
+                    const selected = (document.querySelector('input[name="q' + q + '"]:checked') || {}).value;
+                    const feedback = field.querySelector('.q-feedback');
+                    if (selected === answers[q]) {
+                        score++;
+                        field.style.borderLeft = '8px solid #0f5132';
+                        feedback.textContent = 'Correct';
+                        feedback.style.color = '#0f5132';
+                    } else {
+                        field.style.borderLeft = '8px solid #b91c1c';
+                        feedback.textContent = 'Answer: ' + answers[q];
+                        feedback.style.color = '#b91c1c';
+                    }
+                    feedback.style.display = 'block';
+                }
+
+                // Bonus
+                const bonusField = document.querySelector('fieldset[data-q="bonus"]');
+                const selectedBonus = (document.querySelector('input[name="qbonus"]:checked') || {}).value;
+                // Note: bonus is optional and not counted in score but we'll show correct answer
+                if (bonusField) {
+                    const bfeedback = bonusField.querySelector('.q-feedback');
+                    const sel = (document.querySelector('input[name="qbonus"]:checked') || {}).value;
+                    if (sel === bonusAnswer) {
+                        bfeedback.textContent = 'Correct (bonus)';
+                        bfeedback.style.color = '#0f5132';
+                    } else {
+                        bfeedback.textContent = 'Answer: ' + bonusAnswer;
+                        bfeedback.style.color = '#b91c1c';
+                    }
+                    bfeedback.style.display = 'block';
+                }
+
+                const result = document.getElementById('quizResult');
+                result.textContent = `Score: ${score} / ${total}`;
+
+                document.getElementById('quizSubmit').style.display = 'none';
+                document.getElementById('quizRetry').style.display = 'inline-block';
+            }
+
+            function retry() {
+                // reset visuals and inputs
+                document.querySelectorAll('fieldset[data-q]').forEach(f => {
+                    f.style.borderLeft = '';
+                    const fb = f.querySelector('.q-feedback');
+                    if (fb) { fb.style.display = 'none'; fb.textContent = ''; }
+                    f.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+                });
+                document.getElementById('quizResult').textContent = '';
+                document.getElementById('quizSubmit').style.display = 'inline-block';
+                document.getElementById('quizRetry').style.display = 'none';
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const submit = document.getElementById('quizSubmit');
+                const retryBtn = document.getElementById('quizRetry');
+                if (submit) submit.addEventListener('click', grade);
+                if (retryBtn) retryBtn.addEventListener('click', retry);
+            });
+        })();
     </script>
 
     <script type="module">
